@@ -294,6 +294,7 @@
     */
 
     function newEmail($email, $firstname, $lastname, $subjectHeader, $bodyMessage){
+        // CONTACT FORM
         if(isset($_POST["submitContact"])){
             $to = $email;
             $subject = "CONVO Portal - Automatic Response: " . $subjectHeader;
@@ -327,6 +328,7 @@
             $headers2 .= "CC: jja4740@rit.edu, pxy9548@rit.edu\r\n"; 
             @mail($to2, $subject2, $message2, $headers2);
         }
+        // ONBOARDING
         else if(isset($_POST["submitNewHire"])){
             
             $to = $email;
@@ -353,9 +355,19 @@
             $headers .= "Content-Type: text/html;\r\n";
             
             //$filename = "<a href='HR\401K\EmployeeFAQ.pdf'>Background Check Form</a>";
+            
+            if($_ENV["HOSTNAME"] = "TESTING"){
+                $to = 'pxy9548@rit.edu';
+                $subject = $subjectHeader . ' - TESTING'; 
+            }
+            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+                $to = 'jja4740@rit.edu';
+                $subject = $subjectHeader . ' - DEVELOPING'; 
+            }
         
             mail($to, $subject, $message, $headers); 
         }
+        // FMLA REQUEST
         else if(isset($_POST["submitRequest"])){
             $to = $email;
             $subject = $subjectHeader;
