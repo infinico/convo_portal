@@ -1,0 +1,554 @@
+/* ------------------------------- General CSS ------------------------------- */
+hr {
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+    background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+    background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+    background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));  
+}
+/* Resets */
+ul {
+    padding: 0;
+    margin: 0 0 20px 0;
+    list-style: none;
+}
+
+ul li {
+    padding: 5px 0;
+}
+/* Reset ends */
+
+.clear {
+    clear: both;
+}
+
+body {
+    font-family: Arial;
+    font-size: 0.8em;
+    background:#e5e5e5 url(https://s3.amazonaws.com/convoweb/images/bg-body.gif) repeat-x;
+    color:#000; 
+}
+
+.headerPages{
+    margin-top: 80px;
+}
+
+h1 {
+    font-size: 1.8em;
+}
+
+h2 {
+    font-size: 1.4em;
+}
+
+h1, h2 {
+    padding: 0;
+    margin: 0 0 20px 0;
+    font-weight: bold;
+}
+
+span {
+    font-weight: bold;   
+}
+
+.error {
+    color: red;   
+}
+
+
+#example th{
+    text-align: center;   
+}
+
+p {
+    padding: 0;
+    margin: 0 0 20px 0;
+    font-size: 13pt;
+}
+
+a {
+    font-weight: bold;
+    color: #71AB3A;
+}
+
+a:hover {
+    color: black;   
+}
+
+.table-sortable tbody tr {
+    cursor: move;
+}
+
+input {
+    width: 140px;   
+}
+
+#colLeft, #colRight{
+    display: inline-block;
+    width: 500px;
+}
+
+#colRight{
+    position: absolute;   
+}
+
+/* Aside */
+aside {
+    width: 260px;
+    float: right;
+    padding-left: 15px;
+    margin-right: 85px; 
+}
+
+/* Hire, Register, Termination Form */
+.note {
+    margin-top: 0;
+    margin-left: 180px;   
+}
+
+/* The text gives the space */
+.spanHeader, .dashboard {
+    display: inline-block;
+    width: 160px;
+    font-weight: bold;
+}
+
+/* The text gives the space for FMLA form */
+.fmlaHeader{
+    display: inline-block;
+    width: 250px;
+    font-weight: bold;
+}
+
+.fmlaInputRight{
+    margin-left: 254px;   
+}
+/* ------------------------------- General CSS //------------------------------- */
+
+/*----------------------------------Dashboard.php------------------------------*/
+.dashboard{
+    width: 200px;   
+}
+
+/* ------------------------------- Header ------------------------------- */
+/*.infini-logo {
+    z-index: 2;
+    position: relative;
+}*/
+
+header {
+    width: 940px;
+    padding: 10px;
+    margin: 0 auto 10px auto;
+}
+
+.logo {
+    font: 2em Arial;
+    margin: 0 0 10px 0;
+    padding: 0;
+    width: 200px;
+    color: #fff;
+}
+/* Header ends */
+
+/* Infini Logo */
+#infinilogo{
+    float: left;
+    margin-left: -57px;
+    margin-bottom: 45px;
+    
+}
+/* ------------------------------- Header // ------------------------------- */
+
+/* ------------------------ Navigation Bar---------------------------------*/
+nav ul li a {
+    font-weight: normal !important;
+    font-style: normal;    
+}
+
+nav ul li a:last {
+    border-right: 0;
+}
+
+/* primary navigation */
+#primaryNav {
+    z-index: 1;
+	width: 100%;
+	display: block;
+    margin-top: -28px;
+    margin-left: -20px;
+}
+
+/* Move navigation to the right side */
+#primaryNav ul {
+	list-style: none;
+	position: absolute;
+    display: inline-block;
+    margin-left: -5px;  /* Move navigation to the right side */
+    margin-top: 198px;
+    font-weight: normal !important;
+
+}
+
+/* Appearance of the primary nav's a */
+#primaryNav ul a {
+	display: block;
+	text-decoration: none;
+	font-size: 13pt;
+	padding: 0 25px;
+    color: #0f5390;
+}
+
+/* Appearance - Main li of the primary nav */
+#primaryNav ul li {
+	position: relative;
+	float: left;
+	margin-top: 10px;
+	padding: 0;
+    color: #0f5390; 
+    
+}
+
+/* Hover to change the background for primary nav and submenu */
+#primaryNav ul li:hover {
+    
+}
+
+#primaryNav ul li a:hover {
+    color: black;
+}
+
+/* Appearance of the submenu */
+#primaryNav ul ul {
+	display: none;
+    z-index: 1;
+	position: absolute;
+	top: 100%;
+    padding: 0 6px 6px 6px;
+    margin-left: 15px;     /* Move the submenu box  to the left or right*/
+    margin-top: 0px;
+    background-color: white;
+    box-shadow: .5px .5px .5px 2.5px #888888;
+}
+
+/* Give the width of the submenu */
+#primaryNav ul ul li {
+	float: none;
+	width: 100%;
+    text-align: left; 
+}
+
+#primaryNav ul ul li:hover {
+    background: #71AB3A;
+}
+
+#primaryNav ul ul li a:hover {
+    color: white;  
+}
+
+/* Give the space between the submenu */
+#primaryNav ul ul a {
+	padding: 4px 7px;
+    width: 140px;   /* Give the width of the white background */
+    font-size: 13pt;
+}
+
+/* It ACTUALLY shows the submenu.  Without display, the submenu doesn't appear */
+#primaryNav ul li:hover > ul {
+	display: inline-block;
+}
+
+/* Move sub-submenu to the left or right*/
+/* Appearance */
+#primaryNav ul ul ul {
+    margin-left: 150px;
+    margin-top: -38px;
+    box-shadow: .5px .5px .5px 2.5px #888888;
+}
+/* ~~~~~~~~~~~ submenu ~~~~~~~~~ */
+
+/* ------------------------ Primary Navigation Ends ---------------------------------*/
+    
+/* ------------------------------- Footer ------------------------------- */
+footer {
+    color: #999;
+}
+
+.owned{
+    margin-left: 115px;
+    font-weight: normal;
+}
+
+.copyRight{
+    margin-left: -20px;  
+    font-weight: normal;
+}
+
+.emailContact{
+    margin-left: 220px;
+    font-weight: normal;
+}
+
+#copyright {
+    float: left;
+    font-weight: normal;
+}
+
+#policyFooter {
+    float: right;
+    margin-right: -20px;   
+}
+
+/* ------------------------------- Footer // ------------------------------- */
+
+/* ------------------------------- LOGIN and REGISTER ------------------------------- */
+ul li input[type="text"], ul li input[type="password"] {
+    width: 200px;
+}
+
+#account{
+    float: left; 
+    margin-left: 14px;
+}
+
+/* Login */
+#login li.link {
+    margin-top: 5px;
+}
+
+#loginBox a{
+    float: right;
+}
+/* ------------------------------- LOGIN and REGISTER // ------------------------------- */
+
+/* ------------------------------- Container ------------------------------- */
+#container, footer {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#container {
+    background: #fff;
+    border-radius: 5px 5px 0 0;
+    border-style: solid;
+    border-width: 1px;
+    overflow: auto;
+}
+
+/* ------------------------------- Container //------------------------------- */
+
+/* ------------------------------- Widget ------------------------------- */
+.widget {
+    z-index: 2;
+    position: relative;
+}
+
+.widget h2 {
+    margin: 0 0 10px 0;
+    padding: 0 5px;
+    font-weight: normal;
+    border-bottom 1px solid #ddd;
+}
+
+.widget .inner {
+    margin: 0 10px;
+}
+
+/* Hello name with Show/Hide, Change password, Change settings, Log out */
+#hello{
+    margin-left: 5px;   
+}
+
+#showHide{
+    color: #71AB3A; 
+}
+
+#statusBox{
+    font-size: 16px;
+}
+
+#statusList{
+    float: right;
+    display: none;
+    font-size: 16px;
+    margin-top: -150px;
+    margin-right: -180px;
+    width: 250px;
+}
+
+#status_logout a{
+    text-decoration: none;
+}
+/* ENDS */
+
+.forgotten{
+    position: relative;
+    margin-left: 30px;
+    font-size: 10pt;
+}
+
+#rememberBox{
+    margin-top: 59px; 
+    margin-left: -67px;
+    float: left;
+}
+/* ------------------------------- Widget //------------------------------- */
+
+/* ------------------------------- HR ------------------------------- */
+/*Resources*/
+.resources{
+    font-size: 12pt;   
+}
+
+/* ------------------------------- HR // ------------------------------- */
+
+/* ------------------------------- Admin ------------------------------- */
+#termination_box {
+    display: none;   
+}
+
+#termination_checkbox {
+    float: left;
+    display: inline-block;
+    margin-left: 145px;
+    margin-top: -21px;
+}
+
+/* File Upload Page */
+.file_upload {
+    margin-left: 20px;
+}
+
+/* ------------------------------- Admin // ------------------------------- */
+
+/* ------------------------------- census ------------------------------- */
+.censusInfo{
+    margin-left: 20px;   
+}
+
+.censusReview {
+    display: inline-block;
+    width: 130px;
+    font-weight: normal;
+}
+/* ------------------------------- census //------------------------------- */
+
+/* ------------------------------- Contact ------------------------------- */
+/* CONTACT PAGE */
+.contact, .contact_info {
+    margin-left: 0px;
+    display: inline-block;
+}
+
+.contact_info {
+    position: absolute;
+    margin-left: -200px;
+    font-size: 13pt;    
+}
+
+/* ------------------------------- Contact // ------------------------------- */
+
+/* ------------------------------- onboarding -------------------------------- */
+
+.background_check_consent {
+    font-size: 12pt;
+    list-style-type: square;
+    margin-left: 50px;
+}
+
+.background_span {
+    font-size: 11pt;
+    padding-top: 5pt;
+    margin-top: -35px;
+}
+
+#submit_button_disabled {
+    display: inline-block;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    /*cursor: pointer;*/
+    width: 106px;
+    height: 33px;
+    color: #ffffff;
+    border: 1px solid #a8a8a8;
+    font: bold 17px/35px Avenir, "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+    background-color: #a8a8a8;
+    background-image: -moz-linear-gradient(90deg, #a8a8a8, #a8a8a8);
+    background-image: -ms-linear-gradient(90deg, #a8a8a8, #a8a8a8);
+    background-image: -webkit-linear-gradient(90deg,#a8a8a8, #a8a8a8);
+    background-image: -o-linear-gradient(90deg, #a8a8a8, #a8a8a8);
+    background-image: linear-gradient(90deg,#a8a8a8, #a8a8a8);
+    -webkit-font-smoothing: antialiased;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-top: 6px;
+    padding: 0;
+    -webkit-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #a8a8a8;
+    -moz-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #a8a8a8;
+    box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #a8a8a8;
+    top: 55px;
+    right: 16px;
+    text-align: center;   
+}
+
+#submit_button_enabled {
+    display: inline-block;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 106px;
+    height: 33px;
+    color: #ffffff;
+    border: 1px solid #8AE151;
+    font: bold 17px/35px Avenir, "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+    background-color: #8AE151;
+    background-image: -moz-linear-gradient(90deg, #71AB3A, #71AB3A);
+    background-image: -ms-linear-gradient(90deg, #71AB3A, #71AB3A);
+    background-image: -webkit-linear-gradient(90deg,#71AB3A, #71AB3A);
+    background-image: -o-linear-gradient(90deg, #71AB3A, #71AB3A);
+    background-image: linear-gradient(90deg,#71AB3A, #71AB3A);
+    -webkit-font-smoothing: antialiased;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-top: 6px;
+    padding: 0;
+    -webkit-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;
+    -moz-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;
+    box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;
+    top: 55px;
+    right: 16px;
+    text-align: center;
+}
+/* ------------------------------- onboarding // -------------------------------- */
+
+/* ------------------------------- FMLA ------------------------------------------ */
+.fmla_header {
+    margin: 0;   
+}
+
+.fmla_list_order {
+    font-size: 13pt;
+    margin-left: 50px;
+    margin-top: -20px;
+}
+
+.fmla_list {
+    margin-top: -20px;
+    font-size: 13pt;
+    list-style-type: square;
+    margin-left: 50px;
+}
+
+/* ----------------------- FMLA // -------------------------------------------- */

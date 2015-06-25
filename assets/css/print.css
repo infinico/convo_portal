@@ -1,0 +1,7 @@
+header, footer{
+    display: none;   
+}
+
+#container{
+    border-style: none;   
+}

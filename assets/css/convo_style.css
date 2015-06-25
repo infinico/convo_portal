@@ -1,0 +1,178 @@
+#loginBox{
+	width: 250px;
+	height: 180px;
+  
+	/* display: inline-block; */
+  background: -moz-linear-gradient(90deg, #e3e4e3 0%, #f7f8f7 100%) #e8e9e8;
+	background: -webkit-gradient(linear, left bottom, left top, from(#e3e4e3), to(#f7f8f7)) #e8e9e8;
+  -moz-box-shadow: 0 1px 0 #fffffe;
+	-webkit-box-shadow: 0 1px 0 #fffffe;
+	box-shadow: 0 1px 0 #fffffe;
+	border: 1px solid #c9cac9;
+	border-radius: 8px;
+	position: relative;
+	top: 8px;
+    margin: 0;
+    margin-left: 132px;
+	
+}
+
+#remBox{
+    margin-top: -1px;   
+}
+
+#changePassBox{
+    width: 345px;
+	height: 145px;
+  
+	/* display: inline-block; */
+    background: -moz-linear-gradient(90deg, #e3e4e3 0%, #f7f8f7 100%) #e8e9e8;
+	background: -webkit-gradient(linear, left bottom, left top, from(#e3e4e3), to(#f7f8f7)) #e8e9e8;
+  -moz-box-shadow: 0 1px 0 #fffffe;
+	-webkit-box-shadow: 0 1px 0 #fffffe;
+	box-shadow: 0 1px 0 #fffffe;
+	border: 1px solid #c9cac9;
+	border-radius: 8px;
+	position: relative;
+	top: 26px;
+	margin: 0;
+    
+}
+
+#loginBox INPUT[type=text],
+#loginBox INPUT[type=password],
+#changePassBox INPUT[type=password]{
+  font: bold 14px Avenir, "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+  width: 127px;
+  height: 30px;
+  position: relative;
+  -webkit-appearance: none;
+  outline: 0 none;
+  border: 1px solid #cccdcc;
+  padding: 3px 56px 0 7px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  background-color: #fff;
+  -moz-box-shadow: 0 1px 0 rgb(246, 247, 246), inset 0 3px 3px #eeeeee;
+  -webkit-box-shadow: 0 1px 0 rgb(246, 247, 246), inset 0 3px 3px #eeeeee;
+  box-shadow: 0 1px 0 rgb(246, 247, 246), inset 0 3px 3px #eeeeee;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-bottom: 8px;
+  margin-left: 8px;
+  margin-right: 0;
+  top: 12px;
+  left: 5px;
+  float: left;
+}
+
+#logIn, #linkToReg, #completeReg, #recoverButton, #changePassButton, #updateButton, .hireOrTerm, #addButton, #verify {
+  display: inline-block;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 106px;
+  height: 33px;
+  color: #ffffff;
+  border: 1px solid #8AE151;
+  font: bold 17px/35px Avenir, "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+  background-color: #8AE151;
+  background-image: -moz-linear-gradient(90deg, #71AB3A, #71AB3A);
+  background-image: -ms-linear-gradient(90deg, #71AB3A, #71AB3A);
+  background-image: -webkit-linear-gradient(90deg,#71AB3A, #71AB3A);
+  background-image: -o-linear-gradient(90deg, #71AB3A, #71AB3A);
+  background-image: linear-gradient(90deg,#71AB3A, #71AB3A);
+  -webkit-font-smoothing: antialiased;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-top: 6px;
+  padding: 0;
+  -webkit-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;
+  -moz-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;
+  box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;
+  top: 55px;
+  right: 16px;
+  text-align: center;
+}
+
+#changePassButton, #updateButton, .hireOrTerm{
+    text-decoration: none;
+    background-color: green;
+    background-image: -moz-linear-gradient(90deg, #71AB3A, #71AB3A);
+    background-image: -ms-linear-gradient(90deg, #71AB3A, #71AB3A);
+    background-image: -webkit-linear-gradient(90deg, #71AB3A, #71AB3A);
+    background-image: -o-linear-gradient(90deg, #71AB3A, #71AB3A);
+    background-image: linear-gradient(90deg, #71AB3A, #71AB3A);   
+}
+.hireOrTerm{
+    margin-left: 10px;   
+}
+
+#hireOrTerm{
+    margin-bottom: 10px;   
+}
+
+#changePassButton{
+    width: 180px;   
+}
+
+#payrollButton, #attendanceButton, #supportButton, #handbookButton{
+    width: 205px; 
+}
+
+#supportButton{
+    width: 260px;   
+}
+
+#FMLAButton{
+    width: 280px;
+}
+
+
+#linkToReg{
+    margin-top: -37px;
+    text-decoration: none;
+    float: right;
+}
+
+#logIn{
+    margin-top: 58px;
+    margin-left: -187px;
+    float: left;
+}
+
+/*
+#logIn{
+    float: right; 
+#logIn, #linkToReg{
+    position: absolute;   
+}
+}*/
+
+.logo-org {
+overflow: hidden;
+background: url(https://s3.amazonaws.com/convoweb/images/logo.svg) no-repeat;
+width: 230px;
+height: 48px;
+text-indent: -9999px;
+float: left;
+margin: 0;
+}
+
+.logo-org:hover {
+background-position: 0 -48px;
+}
+
+.logo-org a{
+	display: block;
+	height: 100%;
+	border-bottom-width: 0;
+	border-bottom-style: hidden;  
+}
