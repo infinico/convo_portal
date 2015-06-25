@@ -114,15 +114,14 @@ aside {
     font-weight: bold;
 }
 
-/* The text gives the space for FMLA form */
-.fmlaHeader{
-    display: inline-block;
-    width: 250px;
+.eligible{
+    color: green;
     font-weight: bold;
 }
 
-.fmlaInputRight{
-    margin-left: 254px;   
+.not_eligible{
+    color: red;  
+    font-weight: bold;
 }
 /* ------------------------------- General CSS //------------------------------- */
 
@@ -195,7 +194,7 @@ nav ul li a:last {
 #primaryNav ul a {
 	display: block;
 	text-decoration: none;
-	font-size: 13pt;
+	font-size: 11pt;
 	padding: 0 25px;
     color: #0f5390;
 }
@@ -251,7 +250,7 @@ nav ul li a:last {
 #primaryNav ul ul a {
 	padding: 4px 7px;
     width: 140px;   /* Give the width of the white background */
-    font-size: 13pt;
+    font-size: 11pt;
 }
 
 /* It ACTUALLY shows the submenu.  Without display, the submenu doesn't appear */
@@ -265,6 +264,14 @@ nav ul li a:last {
     margin-left: 150px;
     margin-top: -38px;
     box-shadow: .5px .5px .5px 2.5px #888888;
+}
+
+.subMenu li a{
+    width: 180px !important;   
+}
+
+.subMenu{
+    width: 180px;   
 }
 /* ~~~~~~~~~~~ submenu ~~~~~~~~~ */
 
@@ -549,6 +556,18 @@ ul li input[type="text"], ul li input[type="password"] {
     font-size: 13pt;
     list-style-type: square;
     margin-left: 50px;
+}
+
+/* The text gives the space for FMLA form */
+.fmlaHeader{
+    display: inline-block;
+    width: 250px;
+    font-weight: bold;
+}
+
+.fmlaInputRight{
+    margin-left: 254px;   
+}
 }
 
 /* ----------------------- FMLA // -------------------------------------------- */
