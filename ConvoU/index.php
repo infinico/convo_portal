@@ -4,7 +4,7 @@
     //protect_page();
     include("../assets/inc/header.inc.php");
 
-    $query_log = "CALL insert_log('$session_user_id', CURRENT_TIMESTAMP)";
+    $query_log = "CALL insert_log('$session_user_id', 'Convo U Homepage', CURRENT_TIMESTAMP)";
     mysqli_query($link, $query_log);
 ?>
 
