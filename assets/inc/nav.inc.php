@@ -61,7 +61,8 @@
                         <a href="#">Convo University</a>
                         <ul class="convo_university">
                             <li><a href="<?php echo $linkToALL;?>/ConvoU/index.php">Home</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/ConvoU/log.php">Log</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/ConvoU/module.php">Module 1</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/ConvoU/log.php">Employee Log</a></li>
                         </ul>
                     </li>
                     
