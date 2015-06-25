@@ -57,7 +57,7 @@
             }
             $fmla_info .= "<strong>Leave is being requested for:</strong> " . $leaveReason . "<br/>";
             
-            newEmail($email, $user_data["firstname"], $user_data["lastname"], 'Family Medical Leave Request - TESTING', $fmla_info);
+            newEmail($email, $user_data["firstname"], $user_data["lastname"], 'Family Medical Leave Request', $fmla_info);
             
             echo "<h2 class='headerPages'>Thank you for submitting the form!</h2>";
             die();
