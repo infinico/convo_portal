@@ -7,8 +7,8 @@ Copyright 2015
 <!DOCTYPE HTML>
 <html>
     <?php 
-        $linkToALL = "https://test.theinfini.com/convo";  
-        $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+       // $linkToALL = "https://test.theinfini.com/convo";  
+        //$root = realpath($_SERVER["DOCUMENT_ROOT"]);
     ?>
     <head>  <!-- Head Starts -->
         <meta charset="UTF-8">
