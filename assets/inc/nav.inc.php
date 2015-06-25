@@ -10,9 +10,14 @@
                             <li><a href="<?php echo $linkToALL;?>/HR/resources.php">Resources</a></li>
                             <li><a href="<?php echo $linkToALL;?>/HR/fmla.php">FMLA</a></li>
                             <li><a href="<?php echo $linkToALL;?>/HR/employment_data.php">Employment Data</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/HR/401k.php">401(k)</a></li>                          
 <?php
-    }
+    // Only full-time and part-time employees can see 401(k)
+    //if($user_data["payroll_status"] != "GBS"){
+
+?>
+                             <li><a href="<?php echo $linkToALL;?>/HR/401k.php">401(k)</a></li>                          
+<?php
+    //}
     // Only full-time employees can see Open Enrollment
     // Exception is Monique Clark (emplid 229) who is considering full time and wants to check benefits before deciding
     // Tabitha Poplin (emplid 274)
@@ -26,15 +31,15 @@
 ?>
                         </ul>      
                     </li>
-                    <li>
+                    <li >
                         <a href="#">Experts</a>
-                        <ul>
+                        <ul class="subMenu">
                             <li><a href="#">Home</a></li>
                             <li><a href="#">Heart of Convo Expert</a></li>
                             <li><a href="#">Milestones</a></li>
                             <li>
                                 <a href="#">Toolbox</a>
-                                <ul>
+                                <ul class="subMenu">
                                     <li><a href="#">Expert Tools</a></li>
                                     <li><a href="#">Color Your Home</a></li>
                                     <li><a href="#">Procedures &amp; Features</a></li>
