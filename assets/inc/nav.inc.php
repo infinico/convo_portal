@@ -37,7 +37,7 @@
                             <li><a href="#">Home</a></li>
                             <li><a href="#">Heart of Convo Expert</a></li>
                             <li><a href="#">Milestones</a></li>
-                            <li>
+                            <li class="children">
                                 <a href="#">Toolbox</a>
                                 <ul class="subMenu">
                                     <li><a href="#">Expert Tools</a></li>
@@ -45,7 +45,7 @@
                                     <li><a href="#">Procedures &amp; Features</a></li>
                                 </ul>
                             </li>
-                            <li>
+                            <li class="children">
                                 <a href="#">Badge System</a>
                                 <ul>
                                     <li><a href="#">Convo Expert</a></li>
