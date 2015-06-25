@@ -71,18 +71,20 @@
             newEmail($email, $firstname, $lastname, 'New Employee Onboarding', $hire_emp_info);
             
             //echo "CALL insert_expert_employee('$firstname', '$lastname', '$street_address', '$city', '$state', '$zipcode', '$date_of_birth', '$email', '$emergencyName', '$emergencyNumber', CURRENT_TIMESTAMP);";
-            
-            echo "<h2 class='headerPages'>We look forward to working with you!</h2>";
-            die(); 
-        }
-    }
-?>
-
+            ?>
             <script>
                 $("#primaryNav").hide();
                 $("aside").hide(); 
                 $("#convoLogo a").removeAttr("href");
             </script>
+<?php
+            echo "<h2 class='headerPages'>Thank you, please check your email for further instructions.</h2>";
+            die(); 
+        }
+    }
+?>
+
+            
 
             <h2 class="headerPages">Welcome to Convo! Please fill out all the fields below.  Upon completion, you will receive an email with further instructions regarding your background check.</h2>
 
