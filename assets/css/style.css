@@ -548,8 +548,8 @@ ul li input[type="text"], ul li input[type="password"] {
 }
 /* ------------------------------- onboarding // -------------------------------- */
 
-/* ------------------------------- FMLA ------------------------------------------ */
-.fmla_header {
+/* ------------------------------- FMLA / Health Benefits------------------------------------------ */
+.fmla_header, .hb_header {
     margin: 0;   
 }
 
@@ -576,6 +576,13 @@ ul li input[type="text"], ul li input[type="password"] {
 .fmlaInputRight{
     margin-left: 254px;   
 }
+
+.hb_header {
+    margin-top: 10px;   
+}
+
+.hb_a_list {
+    font-size: 13pt;   
 }
 
 /* ----------------------- FMLA // -------------------------------------------- */
