@@ -71,3 +71,15 @@ Copyright 2015
                     <a href="<?php echo $linkToALL;?>/index.php"></a>
                 </strong>
             </div>  <!-- Convo Logo // -->
+            
+            
+            <?php
+            /*$crumbs = explode("/",$_SERVER["REQUEST_URI"]);
+            $url = $_SERVER["REQUEST_URI"];
+            foreach($crumbs as $crumb){
+                echo "<a href='$url'>" . ucfirst(str_replace(array(".php","_"),array(""," "),$crumb) . ' ') . "</a>";
+            }*/
+
+            echo breadcrumbs($page_title);
+
+            ?>

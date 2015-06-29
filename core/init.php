@@ -1,6 +1,6 @@
 <?php
-    $_ENV["HOSTNAME"] = "TESTING";
-    $linkToALL = "https://test.theinfini.com/convo";  
+    $_ENV["HOSTNAME"] = "PRODUCTION";
+    $linkToALL = "https://www.theinfini.com/convo";  
     $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 
     session_start();

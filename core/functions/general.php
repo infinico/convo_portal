@@ -7,7 +7,7 @@
     // Redirect the Page
     function logged_in_redirect() {
         if(logged_in() === true) {
-            header("Location: index.php");  
+            header("Location: $linkToALL/convo/index.php");  
             exit();
         }
     }

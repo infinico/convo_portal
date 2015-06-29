@@ -1,5 +1,5 @@
 <?php 
-    //echo $linkToALL . "/edit.php";
+    $page_title = "Employees";
     $title = "Convo Portal | Employees";
     include("core/init.php");
     manager_protect();
@@ -48,7 +48,7 @@ SELECT e.employee_id, e.firstname, e.lastname, e.supervisor_id, p.position_name 
                     echo "<td></td>";
                 }
                 else{
-                   echo "<td>" . date("n/j/Y", strtotime($row["reviewDate"])) . "</td>";
+                   echo "<td>" . $row["reviewDate"] . "</td>";
                 }
                 
                 echo "<td>" .  $row["payroll_status"]. "</td>";

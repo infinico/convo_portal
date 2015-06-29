@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Edit DB Values";
     error_reporting(0);
     $title = "Convo Portal | Edit Database";
     include("../core/init.php");

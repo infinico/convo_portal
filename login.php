@@ -64,6 +64,7 @@
 
     if(empty($errors) === false) {
         ?>
+        <br/><br/><br/>
         <h2 class="headerPages">Incorrect Login</h2>
         <?php echo output_errors($errors);
     }

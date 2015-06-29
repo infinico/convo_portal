@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Announcements";
     $title = "Convo Portal | Announcements";
 
     include("../core/init.php");

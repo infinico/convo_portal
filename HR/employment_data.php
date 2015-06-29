@@ -1,4 +1,5 @@
 <?php
+    $page_title = "Employment Data";
     $title = "Convo Portal | Employment Data";
     include("../core/init.php");
     protect_page();

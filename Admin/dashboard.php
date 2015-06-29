@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Dashboard";
     $title = "Convo Portal | Dashboard";
 
     include("../core/init.php");
@@ -23,10 +24,10 @@
     $resultMobile = mysqli_query($link, "SELECT COUNT('employee_id') FROM convo_employee_vw WHERE location_code = 'AL01' AND (employment_status = 'Active' OR employment_status = 'Leave')");
     $countMobile = mysqli_fetch_array($resultMobile);
     
-    $resultRoseville = mysqli_query($link, "SELECT COUNT('employee_id') FROM convo_employee_vw WHERE location_code = 'CA02' AND (employment_status = 'Active' OR employment_status = 'Leave')");
+    $resultRoseville = mysqli_query($link, "SELECT COUNT('employee_id') FROM convo_employee_vw WHERE location_code = 'CA03' AND (employment_status = 'Active' OR employment_status = 'Leave')");
     $countRoseville = mysqli_fetch_array($resultRoseville);
 
-    $resultPleasanton = mysqli_query($link, "SELECT COUNT('employee_id') FROM convo_employee_vw WHERE location_code = 'CA01' AND (employment_status = 'Active' OR employment_status = 'Leave')");
+    $resultPleasanton = mysqli_query($link, "SELECT COUNT('employee_id') FROM convo_employee_vw WHERE location_code = 'CA02' AND (employment_status = 'Active' OR employment_status = 'Leave')");
     $countPleasanton = mysqli_fetch_array($resultPleasanton);
 
     $resultFortWayne = mysqli_query($link, "SELECT COUNT('employee_id') FROM convo_employee_vw WHERE location_code = 'IN01' AND (employment_status = 'Active' OR employment_status = 'Leave')");

@@ -84,8 +84,13 @@
     }
 ?>
 
-            
-
+   
+            <script>
+                $("#primaryNav").hide();
+                $("aside").hide(); 
+                $("#convoLogo a").removeAttr("href");
+            </script>
+            <br/><br/><br/>
             <h2 class="headerPages">Welcome to Convo! Please fill out all the fields below.  Upon completion, you will receive an email with further instructions regarding your background check.</h2>
 
             <form method="post">

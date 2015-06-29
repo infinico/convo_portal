@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Add DB Values";
     error_reporting(0);
     $title = "Convo Portal | Add Database ";
     include("../core/init.php");

@@ -1,4 +1,5 @@
 <?php
+    $page_title = "Resources";
     $title = "Convo Portal | Forms & Resources";
     include("../core/init.php");
     protect_page();

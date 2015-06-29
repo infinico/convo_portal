@@ -1,4 +1,5 @@
 <?php
+    $page_title = "Files Uploaded";
     $title = "Convo Portal | File Uploaded";
     include("../core/init.php");
     admin_protect();

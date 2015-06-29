@@ -384,6 +384,15 @@
             // Convert text into HTML
             $headers .= "MIME-Version: 1.0\r\n";
             $headers .= "Content-Type: text/html;\r\n";
+            
+            if($_ENV["HOSTNAME"] = "TESTING"){
+                $to = 'pxy9548@rit.edu';
+                $subject = $subjectHeader . ' - TESTING'; 
+            }
+            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+                $to = 'jja4740@rit.edu';
+                $subject = $subjectHeader . ' - DEVELOPING'; 
+            }
             mail($to, $subject, $message, $headers); 
         }
     }
@@ -443,4 +452,34 @@
 
     }
 */
+
+
+    function breadcrumbs($page_title){
+        if(logged_in() == true) {
+            $startAtCrumb = 2;
+            $url = '/convo/';
+            
+            $bread = explode('/', $_SERVER['PHP_SELF']);
+            if($_SERVER["PHP_SELF"] !== "/convo/index.php") {
+             $returnString = "<br/><br/><br/><span class='bc0'><a href='$url'>Convo Portal</a> &raquo; </span>";   
+            }
+            for($i=$startAtCrumb;$i<count($bread)-1;$i++){
+                $url.=$bread[$i].'/';
+                $returnString .= "<span class='bc$i'><a href='$url'>"
+                .prettify($bread[$i])."</a>";
+            }
+            if($_SERVER["PHP_SELF"] == "/convo/employee.php" ) {
+                echo $returnString . "<strong>" . $page_title . "</strong></span>";
+            } 
+            else if($_SERVER["PHP_SELF"] !== "/convo/index.php" ) {
+                echo $returnString. " &raquo; " . $page_title . "</span>";
+            }           
+        }
+    }
+
+    function prettify($dirName){
+        $dirName = str_replace('_', ' ', $dirName);
+        $dirName = str_replace('%20', ' ', $dirName);
+        return $dirName;
+    }    
 ?>

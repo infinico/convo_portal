@@ -16,7 +16,7 @@
                                 </li>
                                 <br/><br/><br/><br/><br/><br/>
                                 <li>
-                                    <div id="account"><a href="register.php" >Don't have an account? Register</a></div>
+                                    <div id="account"><a href="<?php echo $linkToALL; ?>/register.php" >Don't have an account? Register</a></div>
                                 </li>
                             </ul>
                         </form>

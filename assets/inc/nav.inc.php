@@ -8,12 +8,15 @@
                         <a href="#">HR</a>
                         <ul class="HR">
                             <li><a href="<?php echo $linkToALL;?>/HR/resources.php">Resources</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/HR/fmla.php">FMLA</a></li>
+                           <!-- <li><a href="<?php echo $linkToALL;?>/HR/fmla.php">FMLA</a></li> -->
                             <li><a href="<?php echo $linkToALL;?>/HR/employment_data.php">Employment Data</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/HR/401k.php">401(k)</a></li> 
-                            <li><a href="<?php echo $linkToALL;?>/HR/HealthBenefits.php">Health Benefits</a></li> 
 <?php
-    //}
+     if($user_data["payroll_status"] !== "GBS") {
+?>
+                            <li><a href="<?php echo $linkToALL;?>/HR/401k.php">401(k)</a></li> 
+                          <!--  <li><a href="<?php echo $linkToALL;?>/HR/HealthBenefits.php">Health Benefits</a></li> -->
+<?php
+    }
     // Only full-time employees can see Open Enrollment
     // Exception is Monique Clark (emplid 229) who is considering full time and wants to check benefits before deciding
     // Tabitha Poplin (emplid 274)
@@ -21,12 +24,13 @@
     if($user_data["payroll_status"] == "FT" || $session_user_id == '229' ||  $session_user_id == '274' || $session_user_id == '327' ){
 
 ?>
-                             <!--<li><a href="<?php echo $linkToALL;?>/HR/OpenEnrollment.php">Open Enrollment</a></li>-->   
+                             <li><a href="<?php echo $linkToALL;?>/HR/OpenEnrollment.php">Open Enrollment</a></li>  
 <?php
     }
 ?>
                         </ul>      
                     </li>
+                    <!--
                     <li >
                         <a href="#">Experts</a>
                         <ul class="subMenu">
@@ -56,11 +60,12 @@
                     <li>
                         <a href="#">Convo University</a>
                         <ul class="convo_university">
-                            <li><a href="<?php echo $linkToALL;?>/ConvoU/index.php">Home</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/ConvoU/module.php">Module 1</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/ConvoU/log.php">Employee Log</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Convo University/index.php">Home</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Convo University/module.php">Module 1</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Convo University/log.php">Employee Log</a></li>
                         </ul>
                     </li>
+                    -->
                     
 
 <?php

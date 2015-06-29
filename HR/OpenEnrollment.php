@@ -1,4 +1,5 @@
 <?php
+    $page_title = "Open Enrollment";
     $title = "Convo Portal | Open Enrollment";
     include("../core/init.php");
     protect_page();

@@ -44,7 +44,7 @@
         }
     }
 ?>
-
+            <br/><br/><br/>
             <h1 class="headerPages">Employee Registration</h1>
 
 <?php 
@@ -65,7 +65,7 @@
             register_user($register_data, $ssn, $date_of_birth);
             // Redirect
             //header("Location: verify.php?success");
-            echo "<p class='headerPages'>You have been registered successfully! Please login using the form at upper-right corner of the screen.</p>";
+            echo "<br/><br/><br/><p class='headerPages'>You have been registered successfully! Please login using the form at upper-right corner of the screen.</p>";
             // Exit
             exit();
         }

@@ -7,5 +7,5 @@
     setcookie("password", $password, time() - 7200);
 
     //Redirect to home page after logout
-    header("Location: index.php");
+    header("Location: $linkToALL/convo/index.php");
 ?>
