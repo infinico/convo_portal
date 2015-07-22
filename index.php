@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Convo Portal";
     $title = "Convo Portal";
     include("core/init.php");
     include("assets/inc/header.inc.php");
@@ -6,8 +7,7 @@
     $today = date('Y-m-d H:i:s');
 
 ?>
-
-            <br/><br/><br/><br/>
+<br/><br/><br/><br/>
 
 <?php
     $queryView = "SELECT * FROM announcement_vw WHERE NOW() >= effective_date ORDER BY effective_date DESC";

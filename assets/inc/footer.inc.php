@@ -9,6 +9,7 @@
         </footer>   <!-- Footer // -->
 
         <script src="<?php echo $linkToALL;?>/assets/js/scriptFooter.js"></script>
-
+        <script type="text/javascript" src="<?php echo $linkToALL;?>/assets/plugins/WOWSlider/engine1/wowslider.js"></script>
+        <script type="text/javascript" src="<?php echo $linkToALL;?>/assets/plugins/WOWSlider/engine1/script.js"></script>
     </body> <!-- Body // -->
 </html>

@@ -10,7 +10,7 @@
 
     //  $resultemployee = mysql_query("SELECT * FROM employee ORDER by lastname, firstname ASC");
 
-    $resultemployee = mysql_query("SELECT * FROM employee_info_vw");
+    $resultemployee = mysqli_query($link, "SELECT * FROM employee_info_vw");
 
     $errorName = $errorPosition = $errorEmpStatus = $errorPayroll = $errorLocation = $errorTerm = "";
 
@@ -59,7 +59,7 @@
             $terminationDate = $terminationDateInput[2] . "-" . $terminationDateInput[0] . "-" . $terminationDateInput[1];
             
                 //echo "UPDATE employee SET termination_date = '$terminationDate', termination_reason = '$termination_reason', employment_status = 'Terminated' WHERE employeeID = '$employeeID'";
-                mysql_query("CALL terminate_employee_info('$terminationDate', '$termination_reason', 'Terminated', '0', '$employeeID')");
+                mysqli_query($link, "CALL terminate_employee_info('$terminationDate', '$termination_reason', 'Terminated', '0', '$employeeID')");
             
                 echo "<h2 class='headerPages'>The employee was terminated successfully!</h2>";
                 die();
@@ -69,7 +69,7 @@
                 $errorName = "<span class='error'>Please select the employee name</span>";  
             }
             else{
-            mysql_query("CALL update_employee_info('$jobTitle', '$location',  '$payrollStatus', '$hourlyRate', '$employmentStatus', '$supervisor', CURRENT_TIMESTAMP, '$firstname', '$lastname', '$street_address', '$city', '$res_state', '$zipcode', '$employeeID')");
+            mysqli_query($link, "CALL update_employee_info('$jobTitle', '$location',  '$payrollStatus', '$hourlyRate', '$employmentStatus', '$supervisor', CURRENT_TIMESTAMP, '$firstname', '$lastname', '$street_address', '$city', '$res_state', '$zipcode', '$employeeID')");
             
             echo "<h2 class='headerPages'>The employee's information was updated successfully!</h2>";
             die();
@@ -87,7 +87,7 @@
                 <span class="spanHeader">Employee: </span>
                 <?php
                     echo "<select id='employeeName' name='employeeName'><option value=''>Select an employee</option>";
-                    while($row = mysql_fetch_assoc($resultemployee)) {
+                    while($row = mysqli_fetch_assoc($resultemployee)) {
                         echo "<option value = '" . $row['employee_id'] . "|" . $row['job_code'] . "|" . $row['position_name'] . "|" . $row['payroll_status'] . "|" . $row["convo_location"] . "|" . $row["employment_status"] . "|" . $row['firstname'] . "|" . $row["lastname"] . "|" . $row["supervisor_id"] . "|" . $row["street_address"] . "|" . $row["city"] . "|" . $row["res_state"] . "|" . $row["zipcode"] . "|" . $row["hourly_rate"] . "|" . $row["location_code"] . "'";
 
                         if($row["employee_id"] == $url_empID){
@@ -102,7 +102,7 @@
                 <span class="spanHeader">Position: </span>
                     <?php
                         echo "<select id='position_name' class='input-xlarge' name='change_position_name'><option value=''>Select a Position</option>";
-                        while($row = mysql_fetch_assoc($resultPosition)) {
+                        while($row = mysqli_fetch_assoc($resultPosition)) {
                             echo "<option value ='" . $row['job_code'] . "'>" . $row['job_code'] . " - " . $row['position_name'] . "</option>";   
                         }
                         echo "</select>";
@@ -123,7 +123,7 @@
                 <span class="spanHeader">Convo Location: </span>
                     <?php
                         echo "<select id='convo_location' name='convo_location'><option value=''>Select a Convo Location</option>";
-                        while($row = mysql_fetch_assoc($resultLocation)) {
+                        while($row = mysqli_fetch_assoc($resultLocation)) {
                             echo "<option value = '" . $row['location_code'] . "'>" . $row['convo_location'] . "</option>";   
                         }
                         echo "</select>";?>
@@ -134,7 +134,7 @@
                     <?php   
                         echo "<select id='supervisor' name='supervisor'>";
                         echo "<option value=''>Select a supervisor</option>";
-                        while($row = mysql_fetch_assoc($resultSupervisor)) {
+                        while($row = mysqli_fetch_assoc($resultSupervisor)) {
                             echo "<option value ='" . $row['employee_id'] . "'";
                             if(isset($_POST["submit"]) && $_POST["supervisor"] == $row['supervisor_id']){
                                 echo "selected='selected'";

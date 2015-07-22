@@ -1,6 +1,6 @@
 #loginBox{
 	width: 250px;
-	height: 180px;
+	height: 200px;
   
 	/* display: inline-block; */
   background: -moz-linear-gradient(90deg, #e3e4e3 0%, #f7f8f7 100%) #e8e9e8;
@@ -11,7 +11,7 @@
 	border: 1px solid #c9cac9;
 	border-radius: 8px;
 	position: relative;
-	top: 8px;
+	top: 0;
     margin: 0;
     margin-left: 132px;
 	
@@ -68,7 +68,7 @@
   float: left;
 }
 
-#logIn, #linkToReg, #completeReg, #recoverButton, #changePassButton, #updateButton, .hireOrTerm, #addButton, #verify {
+#logIn, #linkToReg, #completeReg, #recoverButton, #changePassButton, #updateButton, .hireOrTerm, #addButton, #verify, #editEventButton, #addevent, #deleteEventButton {
   display: inline-block;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -110,6 +110,20 @@
     background-image: -webkit-linear-gradient(90deg, #71AB3A, #71AB3A);
     background-image: -o-linear-gradient(90deg, #71AB3A, #71AB3A);
     background-image: linear-gradient(90deg, #71AB3A, #71AB3A);   
+}
+
+#editEventButton{
+    width: 80px;
+}
+
+#deleteEventButton{
+    width: 100px;
+    background-color: #8AE151;
+    background-image: -moz-linear-gradient(90deg, #71AB3A, #71AB3A);
+    background-image: -ms-linear-gradient(90deg, #71AB3A, #71AB3A);
+    background-image: -webkit-linear-gradient(90deg,#71AB3A, #71AB3A);
+    background-image: -o-linear-gradient(90deg, #71AB3A, #71AB3A);
+    background-image: linear-gradient(90deg,#71AB3A, #71AB3A);
 }
 .hireOrTerm{
     margin-left: 10px;   

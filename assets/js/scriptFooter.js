@@ -1,3 +1,4 @@
+
 /*
 * ON BOARDING PAGE 
 */
@@ -156,4 +157,29 @@ $("#convoLocation").change(function() {
     
     $("input[name='zipCode']").val(zipCode);
     $("input[name='current_zipCode']").val(zipCode);
+});
+
+/*ADD EMPLOYEE(hire.php)*/
+$("#new_hire").change(function() {
+    var firstname = $(this).val().split("|")[0];
+    var lastname = $(this).val().split("|")[1];
+    var street_address = $(this).val().split("|")[2];
+    var city = $(this).val().split("|")[3];
+    var state = $(this).val().split("|")[4];
+    var zipCode = $(this).val().split("|")[5];
+    var dob = $(this).val().split("|")[6];
+    var emailAddress = $(this).val().split("|")[7];
+    var newHireID = $(this).val().split("|")[8];
+    
+    var dateSplit = dob.split("-")[1] + "/" + dob.split("-")[2] + "/" + dob.split("-")[0];
+    
+    $("input[name='firstname']").val(firstname);
+    $("input[name='lastname']").val(lastname);
+    $("input[name='street_address']").val(street_address);
+    $("input[name='city']").val(city);
+    $("select[name='res_state']").val(state);
+    $("input[name='zipcode']").val(zipCode);
+    $("input[name='dob']").val(dateSplit);
+    $("input[name='email_address']").val(emailAddress);
+    $("input[name='hide_employee_id']").val(newHireID);
 });

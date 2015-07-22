@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Employee Registration";
     $title = "Convo Portal | Register";
     include("core/init.php");
     //admin_protect();

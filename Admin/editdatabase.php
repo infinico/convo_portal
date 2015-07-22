@@ -11,8 +11,8 @@
 $flagPosition = $flagLocation = $flagDepartment = 0;
 
     $errorName = $errorPosition = $errorDepartment = $errorEmpStatus = $errorPayroll = $errorLocation = $errorTerm = "";
-   $resultPositionDB = mysql_query("SELECT * FROM position_db_vw");
-    $resultDepartmentName = mysql_query("SELECT * FROM department_vw");
+    $resultPositionDB = mysqli_query($link, "SELECT * FROM position_db_vw");
+    $resultDepartmentName = mysqli_query($link, "SELECT * FROM department_vw");
 
     if(isset($_POST["submit"])) {       
         if(!(empty($_POST["positionName"]))){
@@ -37,14 +37,14 @@ $flagPosition = $flagLocation = $flagDepartment = 0;
                 $manager_privileges = "0";
             }
 
-            mysql_query("CALL update_position_type('$jobTitle', '$dept_code',  '$manager_privileges', '$admin_privileges', '$jobCode')");
+            mysqli_query($link, "CALL update_position_type('$jobTitle', '$dept_code',  '$manager_privileges', '$admin_privileges', '$jobCode')");
             
             $flagPosition = 1;
         }
         if(!(empty($_POST["departmentName"]))){
             $deptCode = sanitize($_POST["dept_code"]);
             $department = sanitize($_POST["change_department_name"]);
-            mysql_query("CALL update_department('$deptCode', '$department')"); 
+            mysqli_query($link, "CALL update_department('$deptCode', '$department')"); 
             $flagDepartment = 1;
         }
         
@@ -56,7 +56,7 @@ $flagPosition = $flagLocation = $flagDepartment = 0;
             $state = sanitize($_POST["state"]);
             $zipcode = sanitize($_POST["zipCode"]);
             
-            mysql_query("CALL update_location('$locationCode', '$location', '$address','$city', '$state', '$zipcode')"); 
+            mysqli_query($link, "CALL update_location('$locationCode', '$location', '$address','$city', '$state', '$zipcode')"); 
             
             $flagLocation = 1;
         }
@@ -103,7 +103,7 @@ $flagPosition = $flagLocation = $flagDepartment = 0;
             <span class="spanHeader">Position Name: </span>
             <?php
                 echo "<select id='positionName' class='input-xlarge' name='positionName'><option value=''>Select a position name</option>";
-                while($row = mysql_fetch_assoc($resultPositionDB)) {
+                while($row = mysqli_fetch_assoc($resultPositionDB)) {
                     echo "<option value = '" . $row["position_name"] . "|" . $row["job_code"] . "|" . $row["dept_code"] . "|" . $row["manager_privilege"] . "|" . $row["admin_privilege"] . "|" . $row["department_name"] . "'>" . $row["job_code"] . " - " . $row["position_name"] . "</option>";   
                 }
                 echo "</select>";?>
@@ -118,7 +118,7 @@ $flagPosition = $flagLocation = $flagDepartment = 0;
             <span class="spanHeader">Department Change: </span>
             <?php
                 echo "<select id='dept_name_for_position' class='input-xlarge' name='dept_name_for_position'><option value=''>Select a department name</option>";
-                while($row = mysql_fetch_assoc($resultDepartmentName)) {
+                while($row = mysqli_fetch_assoc($resultDepartmentName)) {
                     echo "<option value = '" . $row["dept_code"] . "'>" . $row["dept_code"] . " - " . $row["department_name"] . "</option>";   
                 }
                 echo "</select>";?>
@@ -146,7 +146,7 @@ $flagPosition = $flagLocation = $flagDepartment = 0;
             <span class="spanHeader">Department: </span>
             <?php
                 echo "<select id='departmentName' name='departmentName'><option value=''>Select a Department</option>";
-                while($row = mysql_fetch_assoc($resultDepartment)) {
+                while($row = mysqli_fetch_assoc($resultDepartment)) {
                     echo "<option value = '" . $row['department_name'] . "|" . $row["dept_code"] . "'>" . $row["dept_code"] . " - " . $row['department_name'] . "</option>";   
                 }
                 echo "</select>";?>
@@ -163,7 +163,7 @@ $flagPosition = $flagLocation = $flagDepartment = 0;
             <span class="spanHeader">Convo Location: </span>
             <?php
                 echo "<select id='convoLocation' class='input-xlarge' name='convoLocation'><option value=''>Select a Convo Location</option>";
-                while($row = mysql_fetch_assoc($resultLocation)) {
+                while($row = mysqli_fetch_assoc($resultLocation)) {
                     echo "<option value = '" . $row['convo_location'] . "|" . $row['address'] . "|" . $row["city"] . "|" . $row["state"] . "|" . $row["zip_code"] . "|". $row["location_code"] . "'>" . $row["location_code"] . " - " . $row['convo_location'] . "</option>";   
                 }
                 echo "</select>";?>

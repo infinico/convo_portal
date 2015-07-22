@@ -1,11 +1,13 @@
 <?php 
+    $page_title = "Select Employee";
     ob_start();
     $title = "Convo Portal";
     include("core/init.php");
     include("assets/inc/header.inc.php");
     include("includes/includes_functions.php");
     //include("includes/widgets/login.php"); 
-    $resultemployee = mysql_query("SELECT * FROM employee_info_vw");
+    global $link;
+    $resultemployee = mysqli_query($link, "SELECT * FROM employee_info_vw");
 
 
     if(isset($_POST["submit"])){
@@ -42,7 +44,7 @@
         <span class="spanHeader">Employee: </span>
         <?php
             echo "<select id='employeeName' name='employeeName'><option value=''>Select an employee</option>";
-            while($row = mysql_fetch_assoc($resultemployee)) {
+            while($row = mysqli_fetch_assoc($resultemployee)) {
                 echo "<option value = '" . $row['employee_id'] . "'";
                 
                 echo ">" . $row['lastname'] . ", " . $row["firstname"] . "</option>";   
@@ -56,5 +58,5 @@
 
 
 <?php
-    include("includes/overall/footer.php"); 
+    include("assets/inc/footer.inc.php"); 
 ?>

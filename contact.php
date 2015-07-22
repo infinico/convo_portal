@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Contact Us";
     $title = "Convo Portal";
     include("core/init.php");
     include("assets/inc/header.inc.php");

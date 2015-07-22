@@ -7,21 +7,25 @@
     admin_protect();
 
     if(isset($_POST["submit"])) {
-        $content = mysql_real_escape_string($_POST["content"]); 
-        $effectiveDate = sanitize($_POST["effective_date"]);
-        $announcementTime = sanitize($_POST["announcement_time"]);
-
         
-        // Convert from MM/DD/YYYY to YYYY-DD-MM
-        $effectiveDateInput = multiexplode(array("-", "/"), $effectiveDate);
-        $effective_date = $effectiveDateInput[2] . "-" . $effectiveDateInput[0] . "-" . $effectiveDateInput[1];
-
-        $effective_dateTime = $effective_date . " " . date("H:i", strtotime($announcementTime));
         
-        //echo $effective_date;
-        //echo "CALL update_announcement(1, '$content', '$effective_dateTime')";
-        //echo "CALL update_announcement(2, '$content', '$effective_dateTime')";
-        mysql_query("CALL insert_announcement('$content', '$effective_dateTime')");
+        if(!empty($_POST["content"]) && !empty($_POST["effective_date"]) && !empty($_POST["announcement_time"])){
+            $content = mysqli_real_escape_string($link, $_POST["content"]); 
+            $effectiveDate = sanitize($_POST["effective_date"]);
+            $announcementTime = sanitize($_POST["announcement_time"]);
+
+
+            // Convert from MM/DD/YYYY to YYYY-DD-MM
+            $effectiveDateInput = multiexplode(array("-", "/"), $effectiveDate);
+            $effective_date = $effectiveDateInput[2] . "-" . $effectiveDateInput[0] . "-" . $effectiveDateInput[1];
+
+            $effective_dateTime = $effective_date . " " . date("H:i", strtotime($announcementTime));
+
+            //echo $effective_date;
+            //echo "CALL update_announcement(1, '$content', '$effective_dateTime')";
+            //echo "CALL update_announcement(2, '$content', '$effective_dateTime')";
+            mysqli_query($link, "CALL insert_announcement('$content', '$effective_dateTime')");
+        }
     }
 
 /*
@@ -84,13 +88,13 @@ END
 
 
             <form method="post" action="announcements.php">
-                <textarea name="content" style="width:100%"><?php echo $future_announcement; ?></textarea><br/>
+                <textarea name="content" style="width:100%"><?php if(!empty($future_announcement)){ echo $future_announcement;} ?></textarea><br/>
 
                     <span>Effective Date:</span>
-                    <input type="text" placeholder="MM/DD/YYYY" class="datepicker" name="effective_date" value="<?php echo $future_date;?>">
+                    <input type="text" placeholder="MM/DD/YYYY" class="datepicker" name="effective_date" value="<?php if(!empty($future_date)){echo $future_date;}?>">
 
                     <span>Time (CST):</span>
-                    <input type="text" class="input-small" name="announcement_time" value="<?php echo $future_time;?>"><br/>
+                    <input type="text" class="input-small" name="announcement_time" value="<?php if(!empty($future_time)){echo $future_time;}?>"><br/>
 
                 <input type="submit" name="submit" value="Submit">
             </form>

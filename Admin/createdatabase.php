@@ -48,7 +48,7 @@
                 else{
                     $manager_privileges = "0";
                 }
-               mysql_query("CALL insert_position('$positionName', '$jobCode', '$dept_code', '$manager_privileges', '$admin_privileges')");
+               mysqli_query($link, "CALL insert_position('$positionName', '$jobCode', '$dept_code', '$manager_privileges', '$admin_privileges')");
                 $flagPosition = 1; 
             }
         }
@@ -69,7 +69,7 @@
             if($errorDepartment == "" && $errorDeptCode == ""){
                 $departmentName = sanitize($_POST["department_name"]);
                 $deptCode = sanitize($_POST["dept_code"]);
-                mysql_query("CALL insert_department('$departmentName', '$deptCode')"); 
+                mysqli_query($link, "CALL insert_department('$departmentName', '$deptCode')"); 
                 $flagDepartment = 1;
             }
         }
@@ -110,7 +110,7 @@
                 $zipCode = sanitize($_POST["zipCode"]);
                 $locationCode = sanitize($_POST["location_code"]);
                 
-                mysql_query("CALL insert_location('$locationCode', '$convoLocation', '$address', '$city', '$state', '$zipCode')");
+                mysqli_query($link, "CALL insert_location('$locationCode', '$convoLocation', '$address', '$city', '$state', '$zipCode')");
                 $flagLocation = 1;                
             }
         }
@@ -160,7 +160,7 @@
                 <span class="spanHeader">Department Change: </span>
                 <?php
                     echo "<select id='dept_name_for_position' name='dept_name_for_position'><option value=''>Select a department name</option>";
-                    while($row = mysql_fetch_assoc($resultDepartment)) {
+                    while($row = mysqli_fetch_assoc($resultDepartment)) {
                         echo "<option value = '" . $row["dept_code"] . "'>" . $row["dept_code"] . " - " . $row["department_name"] . "</option>";   
                     }
                     echo "</select>";?>

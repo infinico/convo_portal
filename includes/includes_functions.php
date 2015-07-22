@@ -1,8 +1,9 @@
 <?php
-    $resultPosition = mysql_query("SELECT * FROM position_vw");
-    $resultDepartment = mysql_query("SELECT * FROM department_vw");
-    $resultLocation = mysql_query("SELECT * FROM location_vw");
-    $resultSupervisor = mysql_query("SELECT * FROM employee_supervisor_vw");
+    $resultPosition = mysqli_query($link, "SELECT * FROM position_vw");
+    $resultDepartment = mysqli_query($link, "SELECT * FROM department_vw");
+    $resultLocation = mysqli_query($link, "SELECT * FROM location_vw");
+    $resultSupervisor = mysqli_query($link, "SELECT * FROM employee_supervisor_vw");
+    $resultNewHire = mysqli_query($link, "SELECT * FROM new_hire_vw");
 
     // State Creation
 $states = array(

@@ -5,11 +5,6 @@
     $( ".datepicker" ).datepicker({ dateFormat: 'mm-dd-yy', constrainInput: false });
   });
 
-/*
-* Logged in Widget
-*/
-var flag = false;
-
 function onLoad(){
     filterme();
     
@@ -59,23 +54,6 @@ function onLoad(){
     $("input[name='zipCode']").val(zipCode);
 }
 
-function clicked(){  
-    if(!flag){
-        document.getElementById("statusList").style.display = "inline";
-        //document.getElementById("status").style.float = "right";
-        document.getElementById("showHide").innerHTML = "Hide";
-        //document.getElementById("status2").style.margin = "100px";
-
-        flag = true;
-    }
-    else{
-        document.getElementById("statusList").style.display = "none";
-        document.getElementById("showHide").innerHTML = "Show";
-        //document.getElementById("status2").style.margin = "-100px";
-        flag = false;
-    }
-}
-
 /*
 * CENSUS PAGE
 */
@@ -83,14 +61,11 @@ function goBack() {
    window.history.back();
 }
 
-/*
-* TERMINATION PAGE
-*/ 
-
 $(document).ready(function() {
     $('input[name="announcement_time"]').timepicker();
     $('#active_leave_checkbox input:checkbox').prop('checked', 'checked');
 
+    // Employee Table
     $("#example").dataTable().fnDestroy();
     $('#example').dataTable( {
         "language": {
@@ -118,23 +93,25 @@ $(document).ready(function() {
         ]
     });
     
-   $("#termination").change(function() {
+    // Termination
+    $("#termination").change(function() {
         if($(this).prop("checked")) {
             document.getElementById("termination_box").style.display = "block";
         }
-       else {  document.getElementById("termination_box").style.display = "none";
+       else { 
+           document.getElementById("termination_box").style.display = "none";
        }
    });
 });
     
-    function textCounter( field, countfield, maxlimit ) {
-        if ( field.value.length > maxlimit ) {
-            field.value = field.value.substring( 0, maxlimit );
-            field.blur();
-            field.focus();
-            return false;
-        } 
-        else {
-            countfield.value = maxlimit - field.value.length;
-        }
+function textCounter( field, countfield, maxlimit ) {
+    if ( field.value.length > maxlimit ) {
+        field.value = field.value.substring( 0, maxlimit );
+        field.blur();
+        field.focus();
+        return false;
+    } 
+    else {
+        countfield.value = maxlimit - field.value.length;
     }
+}

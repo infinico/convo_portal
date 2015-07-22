@@ -24,6 +24,11 @@ Copyright 2015
         <link rel="stylesheet" type="text/css" href="<?php echo $linkToALL;?>/assets/css/jquery.timepicker.css" /> 
         <link rel="stylesheet" type="text/css" href="<?php echo $linkToALL;?>/assets/css/bootstrap-datepicker.css" />
         
+        <!-- Start WOWSlider.com HEAD section -->
+        <link rel="stylesheet" type="text/css" href="<?php echo $linkToALL;?>/assets/plugins/WOWSlider/engine1/style.css" />
+        <script type="text/javascript" src="<?php echo $linkToALL;?>/assets/plugins/WOWSlider/engine1/jquery.js"></script>
+        <!-- End WOWSlider.com HEAD section -->
+        
         <link rel="stylesheet" type="text/css" media="print" href="<?php echo $linkToALL;?>/assets/css/print.css">
         <link rel="stylesheet" type="text/css" href="<?php echo $linkToALL;?>/assets/css/convo_style.css">
         <link rel="stylesheet" type="text/css" href="<?php echo $linkToALL;?>/assets/css/style.css">
@@ -40,6 +45,10 @@ Copyright 2015
         <script type="text/javascript" src="<?php echo $linkToALL;?>/assets/js/bootstrap-datepicker.js"></script>
         
         <script type="text/javascript" src="<?php echo $linkToALL;?>/assets/js/script.js"></script>
+        
+        
+        
+        
     
     </head> <!-- Head ends -->
     <body onload="onLoad()">    <!-- Body -->
@@ -79,7 +88,8 @@ Copyright 2015
             foreach($crumbs as $crumb){
                 echo "<a href='$url'>" . ucfirst(str_replace(array(".php","_"),array(""," "),$crumb) . ' ') . "</a>";
             }*/
-
-            echo breadcrumbs($page_title);
+            if($_SERVER["PHP_SELF"] !== "/convo/onboarding.php" ) {
+                echo breadcrumbs($page_title);
+            }
 
             ?>

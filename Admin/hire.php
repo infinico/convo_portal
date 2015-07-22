@@ -1,11 +1,12 @@
 <?php 
+    $page_title = "Add Employee";
     $title = "Convo Portal | Hire";
     include("../core/init.php");
     admin_protect();
     include("../assets/inc/header.inc.php");
     include("../includes/includes_functions.php");
 
-    $errorId = $errorFirst = $errorLast = $errorPosition = $errorLocation = $errorStreet = $errorCity = $errorZip = $errorState = $errorStreetAddress = $errorCity = $errorZipCode = $errorPayroll = $errorDate = $errorLocation = $errorDOB = $errorSSN = $errorGender = "";
+    $errorId = $errorFirst = $errorLast = $errorPosition = $errorLocation = $errorStreet = $errorCity = $errorZip = $errorState = $errorStreetAddress = $errorCity = $errorZipCode = $errorEmailAddress = $errorPayroll = $errorDate = $errorLocation = $errorDOB = $errorSSN = $errorGender = "";
 
     if(isset($_POST["submit"])) {
         if(empty($_POST["employee_id"])) {
@@ -49,6 +50,9 @@
         else if(is_numeric($_POST["zipcode"]) == false){
             $errorZipCode = "<span class='error'>Please enter in number only</span>";
         }
+        if(empty($_POST["email_address"])){
+            $errorEmailAddress = "<span class='error'>Please enter an email address</span>";   
+        }
         if(empty($_POST["payroll_status"])) {
             $errorPayroll = "<span class='error'>Please pick Payroll Status</span>";  
         } 
@@ -77,6 +81,7 @@
             $street_address = sanitize($_POST["street_address"]);
             $city = sanitize($_POST["city"]);
             $zipcode = sanitize($_POST["zipcode"]);
+            $emailAddress = sanitize($_POST["email_address"]);
             $payrollStatus = sanitize($_POST["payroll_status"]);
             // $supervisor = explode(" ", sanitize($_POST["supervisor"]))[0];
             $supervisor = sanitize($_POST["supervisor"]);
@@ -85,6 +90,9 @@
             $ssn = sanitize($_POST["ssn"]);
             $gender = sanitize($_POST["gender"]);
             $hourlyRate = sanitize($_POST["hourly_rate"]);
+            $new_hire_id = sanitize($_POST["hide_employee_id"]);
+            
+            echo $new_hire_id . "ID HERE";
             
             // Convert from MM-DD-YYYY to YYYY-MM-DD to follow the MySQL Date Format
             $hireDateInput = multiexplode(array("-", "/"), $hire_date);
@@ -122,8 +130,11 @@
             die();
             */
         
-           
-            mysql_query("CALL insert_employee_hire('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$date_of_birth', '$ssn', '$gender');");
+            
+            
+            mysqli_query($link, "CALL insert_employee_hire('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$emailAddress','$date_of_birth', '$ssn', '$gender');");
+            
+            mysqli_query($link, "CALL update_new_hire('$new_hire_id', 'Accepted')");
             
             echo "<h2 class='headerPages'>The employee's information was added to database successfully!</h2>";
             die();      
@@ -138,10 +149,25 @@
 
                 <!-- Personal Information -->
                 <h2>Personal Information</h2>
+                
+                <span class="spanHeader">Employee:</span>
+                <?php   
+                        echo "<select id='new_hire' name='new_hire'>";
+                        echo "<option value=''>Select an employee</option>";
+                        while($row = mysqli_fetch_assoc($resultNewHire)) {
+                            if($row["status"] == "Pending"){
+                                echo "<option value ='" . $row['firstname'] . "|" . $row['lastname'] . "|" . $row['street_address'] . "|" . $row['city'] . "|" . $row['res_state'] . "|" . $row['zip_code'] . "|" . $row['date_of_birth'] . "|" . $row['email_address'] . "|" . $row["employee_id"] . "'";
+                        
+                                echo ">" . $row['lastname'] . ", " . $row["firstname"] . "</option>";   
+                            }
+                        }
+                        echo "</select>";
+                ?><input type="hidden" name="hide_employee_id" value="<?php if(isset($_POST["submit"])){echo $_POST["hide_employee_id"];} ?>"><br/><br/>
 
                 <!-- EmployeeID -->
                 <span class="spanHeader">Employee ID: </span>
                 <input type="text" id="employee_id" name="employee_id" placeholder="Employee ID" maxlength="4" value=<?php if(isset($_POST["submit"])){echo $_POST['employee_id'];} ?>><?php echo $errorId; ?><br/><br/>
+                
 
                <!-- First Name -->
                 <span class="spanHeader">First Name: </span>
@@ -186,6 +212,9 @@
                 <!-- Zip Code -->
                 <span class="spanHeader">Zip Code: </span>
                 <input type="text" id="zipcode" name="zipcode" placeholder="Zip Code" maxlength="5" value=<?php if(isset($_POST["submit"])){echo $_POST['zipcode'];} ?>><?php echo $errorZipCode; ?><br/><br/>
+                
+                <span class="spanHeader">Email Address: </span>
+                <input type="text" id="email_address" class="input-large" name="email_address" placeholder="example@gmail.com" value=<?php if(isset($_POST["submit"])){echo $_POST['email_address'];} ?>><?php echo $errorEmailAddress; ?><br/><br/>
 
 
                 <!-- EMPLOYEE INFORMATION -->
@@ -193,26 +222,26 @@
 
                 <!-- Position -->
                 <span class="spanHeader">Position: </span>
-                    <?php
-                        echo "<select id='position_name' class='input-xlarge' name='change_position_name'><option value=''>Select a Position</option>";
-                        while($row = mysql_fetch_assoc($resultPosition)) {
-                            echo "<option value = '" . $row['job_code'] . "'";
+                <?php
+                    echo "<select id='position_name' class='input-xlarge' name='change_position_name'><option value=''>Select a Position</option>";
+                    while($row = mysqli_fetch_assoc($resultPosition)) {
+                        echo "<option value = '" . $row['job_code'] . "'";
 
-                            if(isset($_POST["submit"]) && $_POST["change_position_name"] == $row['position_name']){
-                                echo "selected='selected'";
-                            }       
-                            echo ">" . $row['job_code'] . " - " . $row['position_name'] . "</option>";   
-                        }
-                        echo "</select>";
-                        echo $errorPosition; 
-                    ?>
+                        if(isset($_POST["submit"]) && $_POST["change_position_name"] == $row['position_name']){
+                            echo "selected='selected'";
+                        }       
+                        echo ">" . $row['job_code'] . " - " . $row['position_name'] . "</option>";   
+                    }
+                    echo "</select>";
+                    echo $errorPosition; 
+                ?>
                 <br/><br/>
 
                 <!-- Convo Location -->
                 <span class="spanHeader">Convo Location: </span>
                     <?php
                         echo "<select id='convo_location' class='input-xlarge' name='convo_location'><option value=''>Select a Convo Location</option>";
-                        while($row = mysql_fetch_assoc($resultLocation)) {
+                        while($row = mysqli_fetch_assoc($resultLocation)) {
                             echo "<option value = '" . $row['location_code'] . "'";
                             if(isset($_POST["submit"]) && $_POST["convo_location"] == $row['location_code']){
                                 echo "selected='selected'";
@@ -242,7 +271,7 @@
                     <?php   
                         echo "<select id='supervisor' name='supervisor'>";
                         echo "<option value=''>Select a supervisor</option>";
-                        while($row = mysql_fetch_assoc($resultSupervisor)) {
+                        while($row = mysqli_fetch_assoc($resultSupervisor)) {
                         echo "<option value ='" . $row['employee_id'] . "'";
                         if(isset($_POST["submit"]) && $_POST["supervisor"] == $row['employee_id']){
                             echo "selected='selected'";

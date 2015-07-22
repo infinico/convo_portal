@@ -1,4 +1,5 @@
 <?php
+    $page_title = "FMLA";
     $title = "Convo Portal | FMLA";
     include("../core/init.php");
     protect_page();

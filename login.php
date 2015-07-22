@@ -1,4 +1,5 @@
 <?php
+    $page_title = "Incorrect Login";
     include("core/init.php");
 
 

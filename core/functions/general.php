@@ -1,7 +1,6 @@
 <?php
-    // Email Function
     function email($to, $subject, $body) {
-        mail($to, $subject, $body, "From: infini@gmail.com");
+        mail($to, $subject, $body, "From: pxy9548@rit.edu");
     }
 
     // Redirect the Page
@@ -15,7 +14,7 @@
     // Protect Page
     function protect_page() {
         if(logged_in() === false) {
-            header("Location: protected.php");
+            header("Location: $linkToALL/convo/protected.php");
             exit();
         }
     }
@@ -24,7 +23,7 @@
     function admin_protect() {
         global $user_data;
         if(has_access($user_data["job_code"]) === false) {
-            header("Location: index.php");
+            header("Location: $linkToALL/convo/index.php");
             exit();
         }
     }
@@ -33,7 +32,7 @@
     function manager_protect(){
         global $user_data;
         if(has_access_manager($user_data["job_code"]) === false){
-            header("Location: index.php");
+            header("Location: $linkToALL/convo/index.php");
             exit();
         }
     }
@@ -42,17 +41,18 @@
     function census_protect(){
         global $user_data;
         if(has_access_census($user_data["job_code"]) === false){
-            header("Location: index.php");
+            header("Location: $linkToALL/convo/index.php");
             exit();
         }
     }
 
     function array_sanitize(&$item) {
-        $item = strip_tags(mysql_real_escape_string($item));
+        $item = strip_tags(mysqli_real_escape_string($link, $item));
     }
 
     function sanitize($data) {
-        return htmlentities(strip_tags(mysql_real_escape_string($data)));    
+        global $link;
+        return htmlentities(strip_tags(mysqli_real_escape_string($link, $data)));    
     }
 
     function output_errors($errors) {
