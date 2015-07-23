@@ -422,37 +422,84 @@
     function newEmail($email, $firstname, $lastname, $subjectHeader, $bodyMessage){
         // CONTACT FORM
         if(isset($_POST["submitContact"])){
-            $to = $email;
-            $subject = "CONVO Portal - Automatic Response: " . $subjectHeader;
-            $message .= "Hello " . $firstname . ", \n\n";
-            $message .= "Thank you for e-mailing CONVO Human Resources.  We will try to do our best to respond to your e-mail as soon as possible.  You can expect a response within two business days.\n\n";
-            $message .= "Your message was sent to Human Resources:\n\n";
-            $message .= "\"" . $bodyMessage . "\"\n\n";
-            $message .= "If you have any questions, please contact CONVO Human Resources at HR@convorelay.com.\n\n";
-            $message .= "CONVO Human Resources\n";
-            $message .= "Email:  HR@convorelay.com";
-            $headers .= "From: CONVO Portal<pxy9548@rit.edu>\r\n";
+            
+            $mail = new PHPMailer;
+        
+            $mail->SMTPAuth = true;
 
-            @mail($to, $subject, $message, $headers);
-            //$emailStatus = "Mail sent"; 
+            $mail->Host = 'stmp.gmail.com';
+            $mail->Username = 'convoportal@gmail.com';
+            $mail->Password = 'ConvoPortal#1!';
+            $mail->STMPSecure = 'ssl';
+            $mail->Port = 465;
 
-
+            $mail->From = 'jja4740@rit.edu';
+            $mail->FromName = 'Convo Portal';
+            $mail->AddAddress = $email;
+            $mail->AddCC('jja4740@rit.edu', 'Joshua Aziz');
+            $mail->AddCC('pxy9548@rit.edu', 'Peter Yeung');
+            $mail->AddCC('chris@theinfini.com', 'Chris Campbell');
+            
+            $message = "Hello " . $firstname . ", \n\n";
+            $message .= "<p>Thank you for e-mailing CONVO Human Resources.  We will try to do our best to respond to your e-mail as soon as possible.  You can expect a response within two business days.</p>";
+            $message .= "<p>Your message was sent to Human Resources:</p>";
+            $message .= "<p>\"" . $bodyMessage . "\"</p>";
+            $message .= "<p>If you have any questions, please contact CONVO Human Resources at HR@convorelay.com.</p>";
+            $message .= "<p>CONVO Human Resources</p>";
+            $message .= "<p>Email:  HR@convorelay.com</p>";
+            
             if($_ENV["HOSTNAME"] = "TESTING"){
-                $to2 = 'pxy9548@rit.edu';
+                //$to = 'pxy9548@rit.edu';
+                $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . " - TESTING"; 
+            }
+            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+                //$to = 'jja4740@rit.edu';
+                $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . ' - DEVELOPING'; 
+            }
+
+
+            $mail->Subject = $subject;
+            $mail->Body = $message;
+            $mail->AltBody = $bodyMessage;
+
+            $mail->send();
+            
+            
+            
+            $receiver = new PHPMailer;
+        
+            $receiver->SMTPAuth = true;
+
+            $receiver->Host = 'stmp.gmail.com';
+            $receiver->Username = 'convoportal@gmail.com';
+            $receiver->Password = 'ConvoPortal#1!';
+            $receiver->STMPSecure = 'ssl';
+            $receiver->Port = 465;
+
+            $receiver->From = $email;
+            $receiver->FromName = $firstname . " " . $lastname;
+            $receiver->AddAddress = 'jja4740@rit.edu';
+            $receiver->AddCC('jja4740@rit.edu', 'Joshua Aziz');
+            $receiver->AddCC('pxy9548@rit.edu', 'Peter Yeung');
+            $receiver->AddCC('chris@theinfini.com', 'Chris Campbell');
+            
+            $message2 = "<p>Hello HR,</p>";
+            $message2 .= "<p>" . $bodyMessage . "</p>";
+            $message2 .= "<p>" . $firstname . " " . $lastname . "</p>";
+            
+            if($_ENV["HOSTNAME"] = "TESTING"){
                 $subject2 = 'Convo - ' . $subjectHeader . ' TESTING'; 
             }
             else if($_ENV["HOSTNAME"] = "DEVELOPING"){
-                $to2 = 'jja4740@rit.edu';
                 $subject2 = 'Convo - ' . $subjectHeader . ' DEVELOPING'; 
             }
 
 
-            $message2 .= "Hello HR,\n\n";
-            $message2 .= $bodyMessage . "\n\n";
-            $message2 .= $firstname . " " . $lastname;
-            $headers2 .= "From: " . $firstname . " " . $lastname . "<" . $email . ">\r\n";
-            $headers2 .= "CC: jja4740@rit.edu, pxy9548@rit.edu\r\n"; 
-            @mail($to2, $subject2, $message2, $headers2);
+            $receiver->Subject = $subject2;
+            $receiver->Body = $message2;
+            $receiver->AltBody = $bodyMessage;
+
+            $receiver->send();
         }
         // ONBOARDING
         else if(isset($_POST["submitNewHire"])){
@@ -495,31 +542,82 @@
         }
         // FMLA REQUEST
         else if(isset($_POST["submitRequest"])){
-            $to = $email;
-            $subject = $subjectHeader;
-            $message .= "<p>Dear " . $firstname . ",</p>";
+            
+            $mail = new PHPMailer;
+        
+            $mail->SMTPAuth = true;
+
+            $mail->Host = 'stmp.gmail.com';
+            $mail->Username = 'convoportal@gmail.com';
+            $mail->Password = 'ConvoPortal#1!';
+            $mail->STMPSecure = 'ssl';
+            $mail->Port = 465;
+
+            $mail->From = 'pxy9548@rit.edu';
+            $mail->FromName = 'Convo Portal';
+            $mail->AddAddress = $email;
+            $mail->AddCC('jja4740@rit.edu', 'Joshua Aziz');
+            $mail->AddCC('pxy9548@rit.edu', 'Peter Yeung');
+            $mail->AddCC('chris@theinfini.com', 'Chris Campbell');
+            
+            $message = "<p>Dear " . $firstname . ",</p>";
             $message .= "<p>Thank you for submitting your Family Medical Leave Request Form!  We have the following information: </p>";
             $message .= $bodyMessage . "\n\n";
             $message .= "<p>Test Test Test</p>";
             $message .= "<p>Please contact your manager or HR if you have any questions.</p>";
             $message .= "<p>Sincerely,</p>";
             $message .= "<p>CONVO Team</p>";
-            $headers .= "From: CONVO Portal<pxy9548@rit.edu>\r\n";
-            $headers .= "CC: jja4740@rit.edu, pxy9548@rit.edu, chris@theinfini.com\r\n"; 
-            
-            // Convert text into HTML
-            $headers .= "MIME-Version: 1.0\r\n";
-            $headers .= "Content-Type: text/html;\r\n";
             
             if($_ENV["HOSTNAME"] = "TESTING"){
-                $to = 'pxy9548@rit.edu';
+                //$to = 'pxy9548@rit.edu';
                 $subject = $subjectHeader . ' - TESTING'; 
             }
             else if($_ENV["HOSTNAME"] = "DEVELOPING"){
-                $to = 'jja4740@rit.edu';
+                //$to = 'jja4740@rit.edu';
                 $subject = $subjectHeader . ' - DEVELOPING'; 
             }
-            mail($to, $subject, $message, $headers); 
+
+
+            $mail->Subject = $subject;
+            $mail->Body = $message;
+            $mail->AltBody = $bodyMessage;
+
+            $mail->send(); 
+        }
+        
+        else if(isset($_POST["confirm"]) || isset($_POST["decline"])){
+            $mail = new PHPMailer;
+        
+            $mail->SMTPAuth = true;
+
+            $mail->Host = 'stmp.gmail.com';
+            $mail->Username = 'convoportal@gmail.com';
+            $mail->Password = 'ConvoPortal#1!';
+            $mail->STMPSecure = 'ssl';
+            $mail->Port = 465;
+
+            $mail->From = 'pxy9548@rit.edu';
+            $mail->FromName = 'Peter Yeung';
+            $mail->AddAddress = $email;
+            $mail->AddCC('jja4740@rit.edu', 'Joshua Aziz');
+            $mail->AddCC('pxy9548@rit.edu', 'Peter Yeung');
+            $mail->AddCC('chris@theinfini.com', 'Chris Campbell');
+            
+            if($_ENV["HOSTNAME"] = "TESTING"){
+                //$to = 'pxy9548@rit.edu';
+                $subject = $subjectHeader . ' - TESTING'; 
+            }
+            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+                //$to = 'jja4740@rit.edu';
+                $subject = $subjectHeader . ' - DEVELOPING'; 
+            }
+
+
+            $mail->Subject = $subject;
+            $mail->Body = $bodyMessage . "<br/><br/>If you have any questions or concerns, please email HR@convorelay.com.";
+            $mail->AltBody = $bodyMessage;
+
+            $mail->send();
         }
     }
 
