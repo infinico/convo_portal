@@ -68,7 +68,7 @@
         }
         else if(isset($_POST['decline'])){
             
-            $subjectHeader = "FMLA Request Confirmation";
+            $subjectHeader = "FMLA Request Declined";
             $bodyMessage = sanitize($_POST["hr_comments"]);
             newEmail($email, $firstname, $lastname, $subjectHeader, $bodyMessage);
             
