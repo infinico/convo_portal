@@ -27,7 +27,7 @@
            //$notAllowed="Please upload PDF file.";
             if($file_error == 0){
                 if($file_size < 4200000){
-                    $file_name_new = $user_data["lastname"] . ' ' . $user_data["firstname"]  . '.' . $file_ext;
+                    $file_name_new = $convo_user_data["lastname"] . ' ' . $convo_user_data["firstname"]  . '.' . $file_ext;
                     $file_destination = $root . '/convo/Admin/upload_oe/' . $file_name_new;
                     if(move_uploaded_file($file_tmp, $file_destination)){
                         echo "<h2 class='headerPages'>Thank you for uploading your file. If you need to make a change, you can <a href='OpenEnrollment.php'> upload your file</a> again.</h2>"; 
