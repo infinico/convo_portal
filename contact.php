@@ -1,6 +1,8 @@
 <?php 
     $page_title = "Contact Us";
     $title = "Convo Portal";
+    require_once "includes/phpmailer/vendor/autoload.php";
+    require("includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
     include("core/init.php");
     include("assets/inc/header.inc.php");
 
@@ -8,32 +10,32 @@ $emailStatus = $errorMessage = $errorEmail = $errorFN = $errorLN = $errorSubject
 if(isset($_POST["submitContact"])){
     if(empty($_POST["firstname"])){
         $errorFN = "<span class='error'>Please enter your first name</span>";
-        $counter = 1;
+        
     }
     if(empty($_POST["lastname"])){
         $errorLN = "<span class='error'>Please enter your last name</span>"; 
-        $counter = 1;
+        
     }
     if(empty($_POST["email"])){
         $errorEmail = "<span class='error'> Please enter your email</span>";
-        $counter = 1;
+        
     }
     else if(!preg_match("/^([0-9a-zA-Z]+[-._+&amp;])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$/", $_POST["email"])){
         $errorEmail = "<span class='error'>Please enter email. ex: example@gmail.com</span>";
-        $counter = 1;
+        
     }
     if(empty($_POST["message"])){
         $errorMessage = "<span class='error'>Please enter the message</span>";   
-        $counter = 1;
+        
     }
     
     if(empty($_POST["subject"])){
         $errorSubject = "<span class='error'>Please select a subject</span>";  
-        $counter = 1;
+        
     }
 
     // Send to the employees using automatic email saying Thank you and we will reply you soon as possible
-    if($counter != 1){
+    if($errorFN == "" && $errorLN == "" && $errorEmail == "" && $errorMessage == "" && $errorSubject == ""){
         newEmail($_POST["email"], $_POST["firstname"], $_POST["lastname"], $_POST["subject"], $_POST["message"]);
         
         echo "<h2 class='headerPages'>Your mail was sent successfully.</h2>"; 
