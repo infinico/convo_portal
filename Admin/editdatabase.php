@@ -8,7 +8,7 @@
     include("../includes/includes_functions.php");
     //$url_empID = $_GET["employerID"];
 
-$flagPosition = $flagLocation = $flagDepartment = 0;
+    $flagPosition = $flagLocation = $flagDepartment = 0;
 
     $errorName = $errorPosition = $errorDepartment = $errorEmpStatus = $errorPayroll = $errorLocation = $errorTerm = "";
     $resultPositionDB = mysqli_query($link, "SELECT * FROM position_db_vw");
@@ -89,10 +89,6 @@ $flagPosition = $flagLocation = $flagDepartment = 0;
             echo "<h2 class='headerPages'>Location was updated to database successfully!</h2>";   
             die();
         }
-        
-        
-        
-        //echo "UPDATE department SET department = '$department' WHERE dept_code = '$deptCode'";
     }
 ?>
 
