@@ -3,6 +3,13 @@
     * LOGIN FUNCTIONS
     */
 
+
+    
+
+
+
+
+
     // employee ID from the username will apply to the Login Function below
     function user_id_from_username($username) {
         global $link;
@@ -420,6 +427,8 @@
     */
 
     function newEmail($email, $firstname, $lastname, $subjectHeader, $bodyMessage){
+        
+        global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
         // CONTACT FORM
         if(isset($_POST["submitContact"])){
             
@@ -436,9 +445,9 @@
             $mail->From = 'jja4740@rit.edu';
             $mail->FromName = 'Convo Portal';
             $mail->AddAddress = $email;
-            $mail->AddCC('jja4740@rit.edu', 'Joshua Aziz');
-            $mail->AddCC('pxy9548@rit.edu', 'Peter Yeung');
-            $mail->AddCC('chris@theinfini.com', 'Chris Campbell');
+            $mail->AddCC($COOP1Email, $COOP1Name);
+            $mail->AddCC($COOP2Email, $COOP2Name);
+            $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message = "Hello " . $firstname . ", \n\n";
             $message .= "<p>Thank you for e-mailing CONVO Human Resources.  We will try to do our best to respond to your e-mail as soon as possible.  You can expect a response within two business days.</p>";
@@ -479,9 +488,9 @@
             $receiver->From = $email;
             $receiver->FromName = $firstname . " " . $lastname;
             $receiver->AddAddress = 'jja4740@rit.edu';
-            $receiver->AddCC('jja4740@rit.edu', 'Joshua Aziz');
-            $receiver->AddCC('pxy9548@rit.edu', 'Peter Yeung');
-            $receiver->AddCC('chris@theinfini.com', 'Chris Campbell');
+            $receiver->AddCC($COOP1Email, $COOP1Name);
+            $receiver->AddCC($COOP2Email, $COOP2Name);
+            $receiver->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message2 = "<p>Hello HR,</p>";
             $message2 .= "<p>" . $bodyMessage . "</p>";
@@ -556,9 +565,9 @@
             $mail->From = 'pxy9548@rit.edu';
             $mail->FromName = 'Convo Portal';
             $mail->AddAddress = $email;
-            $mail->AddCC('jja4740@rit.edu', 'Joshua Aziz');
-            $mail->AddCC('pxy9548@rit.edu', 'Peter Yeung');
-            $mail->AddCC('chris@theinfini.com', 'Chris Campbell');
+            $mail->AddCC($COOP1Email, $COOP1Name);
+            $mail->AddCC($COOP2Email, $COOP2Name);
+            $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message = "<p>Dear " . $firstname . ",</p>";
             $message .= "<p>Thank you for submitting your Family Medical Leave Request Form!  We have the following information: </p>";
@@ -599,9 +608,9 @@
             $mail->From = 'pxy9548@rit.edu';
             $mail->FromName = 'Peter Yeung';
             $mail->AddAddress = $email;
-            $mail->AddCC('jja4740@rit.edu', 'Joshua Aziz');
-            $mail->AddCC('pxy9548@rit.edu', 'Peter Yeung');
-            $mail->AddCC('chris@theinfini.com', 'Chris Campbell');
+            $mail->AddCC($COOP1Email, $COOP1Name);
+            $mail->AddCC($COOP2Email, $COOP2Name);
+            $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             if($_ENV["HOSTNAME"] = "TESTING"){
                 //$to = 'pxy9548@rit.edu';
@@ -623,6 +632,8 @@
 
     function file_attachment($email, $firstname, $lastname, $state, $fileDL, $fileSSN){
         
+        global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+        
         $fileDlAttachment = $fileDL['tmp_name'];
         $fileSSNAttachment = $fileSSN['tmp_name'];
         
@@ -636,11 +647,12 @@
         $mail->STMPSecure = 'ssl';
         $mail->Port = 465;
         
-        $mail->From = 'pxy9548@rit.edu';
-        $mail->FromName = 'Peter Yeung';
-        $mail->AddCC('jja4740@rit.edu', 'Joshua Aziz');
-        $mail->AddCC('pxy9548@rit.edu', 'Peter Yeung');
-        $mail->AddCC('chris@theinfini.com', 'Chris Campbell');
+        $mail->From = 'noreply@theinfini.com';
+        $mail->FromName = 'Convo Portal';
+        $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+        $mail->AddCC($COOP1Email, $COOP1Name);
+        $mail->AddCC($COOP2Email, $COOP2Name);
+        $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
         
         $mail->AddAttachment($fileDlAttachment, $lastname . "_" . $fileDL['name']);
         $mail->AddAttachment($fileSSNAttachment, $lastname . "_" . $fileSSN['name']);
@@ -671,14 +683,52 @@
     }
     
     function recover($mode, $email) {
+        global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+        
+        
+        
         $mode = sanitize($mode);
         $email = sanitize($email);
-
         $user_data = user_data(user_id_from_email($email), "employee_id", "firstname", "username");
+        
+        $mail = new PHPMailer;
+
+        $mail->SMTPAuth = true;
+
+        $mail->Host = 'stmp.gmail.com';
+        $mail->Username = 'convoportal@gmail.com';
+        $mail->Password = 'ConvoPortal#1!';
+        $mail->STMPSecure = 'ssl';
+        $mail->Port = 465;
+
+        $mail->From = 'noreply@theinfini.com';
+        $mail->FromName = 'Convo Portal';
+        $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+        $mail->AddAddress($email);
+        $mail->AddCC($COOP1Email, $COOP1Name);
+        $mail->AddCC($COOP2Email, $COOP2Name);
+        $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+            
 
         if($mode == "username") {
             // Recover username
-            email($email, "Your username", "Hello " . $user_data["firstname"] . "\n\nYour username is: " . $user_data["username"] . "\n\n -CONVO Portal");
+            //email($email, "Your username", "Hello " . $user_data["firstname"] . "\n\nYour username is: " . $user_data["username"] . "\n\n -CONVO Portal");
+            
+            if($_ENV["HOSTNAME"] = "TESTING"){
+                //$to = 'pxy9548@rit.edu';
+                $subject = 'Your username - TESTING'; 
+            }
+            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+                //$to = 'jja4740@rit.edu';
+                $subject = 'Your username - DEVELOPING'; 
+            }
+
+
+            $mail->Subject = $subject;
+            $mail->Body = "Hello " . $user_data["firstname"] . ",<br/><br/>Your username is: " . $user_data["username"] . "<br/> <br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            $mail->AltBody = "Hello " . $user_data["firstname"] . ",<br/><br/>Your username is: " . $user_data["username"] . "<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em> - The Convo Portal Team at Infini Consulting";
+
+            $mail->send(); 
         }
         else if($mode == "password") {
             // Recover password
@@ -688,7 +738,24 @@
 
             update_user($user_data["employee_id"], array("password_recover" => "1"));
 
-            email($email, "Your password recovery", "Hello " . $user_data["firstname"] . "\n\nYour new password is: " . $generated_password . "\n\n -CONVO Portal");
+            //email($email, "Your password recovery", "Hello " . $user_data["firstname"] . "\n\nYour temporary password is: " . $generated_password . "\n\nAfter logging in, you will be prompted to change your password.\n\n -CONVO Portal");
+            
+            
+            
+            if($_ENV["HOSTNAME"] = "TESTING"){
+                //$to = 'pxy9548@rit.edu';
+                $subject = 'Your password recovery - TESTING'; 
+            }
+            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+                //$to = 'jja4740@rit.edu';
+                $subject = 'Your password recovery - DEVELOPING'; 
+            }
+
+            $mail->Subject = $subject;
+            $mail->Body = "Hello " . $user_data["firstname"] . ",<br/><br/>Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            $mail->AltBody = "Hello " . $user_data["firstname"] . ",<br/><br/>Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+
+            $mail->send();
         }
     }
     
