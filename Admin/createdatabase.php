@@ -12,8 +12,7 @@
     $errorJobCode = $errorDeptCode = $errorPosition = $errorDepartment = $errorLocationCode = $errorLocation = $errorAddress = $errorCity = $errorState = $errorZipCode = ""; 
 
 
-    if(isset($_POST["submit"])){
-        
+    if(isset($_POST["submit"])) {
         if(!(empty($_POST["position_name"])) || !(empty($_POST["job_code"]))){
             if(empty($_POST["job_code"])){
                 $errorJobCode = "<span class='error'>Please enter job code.</span>";
