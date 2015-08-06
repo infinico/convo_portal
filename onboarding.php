@@ -7,7 +7,7 @@
     include("assets/inc/header.inc.php");
     include("includes/includes_functions.php");
 
-    $errorFirst = $errorLast = $errorCity = $errorState = $errorStreetAddress = $errorZipCode = $errorDOB = $errorEmail = $errorEmergencyName = $errorEmergencyNumber = "";
+    $errorFirst = $errorLast = $errorCity = $errorState = $errorStreetAddress = $errorZipCode = $errorDOB = $errorEmail = $errorEmergencyName = $errorEmergencyNumber = $errorFiles = "";
 
     $fileDL = $fileSSN = "";
 
@@ -46,7 +46,10 @@
         if(empty($_POST["emergencyNumber"])) {
             $errorEmergencyNumber = "<span class='error'> Please enter contact's phone number</span>"; 
         }
-        if($errorFirst == "" &&  $errorLast == "" && $errorState == "" && $errorStreetAddress == "" && $errorCity == "" && $errorZipCode == "" && $errorDOB == "" && $errorEmail == "" && $errorEmergencyName == "" && $errorEmergencyNumber == "" && isset($_FILES["fileDL"]) && isset($_FILES["fileSSN"])) {
+        if(empty($_FILES["fileDL"]["name"]) && empty($_FILES["fileSSN"]["name"])){
+            $errorFiles = "<span class='error'>Please upload both your driver license and Social Security card.</span>";   
+        }
+        if($errorFirst == "" &&  $errorLast == "" && $errorState == "" && $errorStreetAddress == "" && $errorCity == "" && $errorZipCode == "" && $errorDOB == "" && $errorEmail == "" && $errorEmergencyName == "" && $errorEmergencyNumber == "" && $errorFiles == "") {
                 $firstname = sanitize($_POST["firstname"]);
                 $lastname = sanitize($_POST["lastname"]);
                 $state = sanitize($_POST["res_state"]);
@@ -59,12 +62,7 @@
                 $emergencyNumber = sanitize($_POST["emergencyNumber"]);
                 $fileDL = $_FILES["fileDL"];
                 $fileSSN = $_FILES["fileSSN"];
-                
-            //echo "Hello";
-                //print_r($fileDL);
-                //echo "<br/>";
-                //print_r($fileSSN);
-            
+                            
 
                 $dobInput = multiexplode(array("-", "/"), $dob);
                 $date_of_birth = $dobInput[2] . "-" . $dobInput[0] . "-" . $dobInput[1];
@@ -91,7 +89,7 @@
                     $("#convoLogo a").removeAttr("href");
                 </script>
 <?php
-                echo "<h2 class='headerPages'><br/><br/><br/>Thank you for your submission. We will contact you after your background check is cleared. Contact <a href='mailto:hr@convorelay.com'>hr@convorelay.com</a> with any questions.</h2>";
+                echo "<h2 class='headerPages'><br/><br/><br/>Thank you for your submission. We will contact you after your background check is cleared. Please contact <a href='mailto:hr@convorelay.com'>hr@convorelay.com</a> with any questions.</h2>";
                 die(); 
             }
 
@@ -105,9 +103,9 @@
                 $("#convoLogo a").removeAttr("href");
             </script>
             <br/><br/><br/>
-            <h2 class="headerPages">Welcome to Convo! Please fill out all the fields below.  Upon completion, you will receive an email with further instructions regarding your background check and new hire paperwork.</h2>
+            <h2 class="headerPages">Welcome to Convo! Please fill out all the fields below. We also need copies of your driver license and Social Security card for your background check. Please have these ready to be uploaded.</h2>
 
-            <form method="post" enctype="multipart/form-data">
+            <form id="form" action="<?php $location = $_SERVER['PHP_SELF']; echo ''.$location.'#form';?>" method="post" enctype="multipart/form-data">
                 <h2>Personal Information</h2>
 
                 <!-- First Name -->
@@ -163,9 +161,9 @@
                 <input type="text" name="emergencyNumber" value=<?php if(isset($_POST["submitNewHire"])){echo "'" . $_POST['emergencyNumber'] . "'";} ?>>
                 <?php echo $errorEmergencyNumber; ?><br/><br/>
                 
-                
+                <?php echo $errorFiles; ?>
                 <p>Upload Driver License: <input type="file" id="fileDL" name="fileDL"/> </p>
-                <p>Upload Social Secruity Card: <input type="file" id="fileSSN" name="fileSSN"/> </p>
+                <p>Upload Social Security Card: <input type="file" id="fileSSN" name="fileSSN"/> </p>
 
                 <!-- Background Check Consent -->
                 <h2>Background Check Consent</h2>
