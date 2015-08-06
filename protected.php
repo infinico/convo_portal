@@ -1,4 +1,5 @@
 <?php
+    $page_title = 'Login Error';
     include ("core/init.php");
     include("assets/inc/header.inc.php");
 ?>
