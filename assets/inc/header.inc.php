@@ -54,7 +54,7 @@ Copyright 2015
     <body onload="onLoad()">    <!-- Body -->
         <header>
             <div class="infini-logo">
-            <a href="https://www.theinfini.com" target="_blank"><img id="infinilogo" src="<?php echo $linkToALL;?>/assets/images/infini.svg" alt="Infini" width="250"/></a></div>
+            <a href="https://www.theinfini.com" target="_blank"><img id="infinilogo" src="<?php echo $linkToALL;?>/assets/images/infini.svg" alt="Infini" width="200"/></a></div>
             <aside>              
 <?php      
     if(isset($_POST["login"]) && $_POST["username"] == "tester" && $_POST["password"] == "DBacce$$"){
