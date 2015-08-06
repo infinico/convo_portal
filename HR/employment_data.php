@@ -42,7 +42,7 @@
 
             <h1 class="headerPages">My Employment Data</h1>
 
-            <p>If your home address is incorrect, please fill out <a href="HR/resources/W-4%20form.pdf" target="_blank">W-4 Form</a> and email to <a href="mailto:HR@convorelay.com">HR@convorelay.com</a>.</p>
+            <p>If your home address is incorrect, please fill out <a href="<?php echo $linkToALL; ?>/HR/resources/W-4%20form.pdf" target="_blank">W-4 Form</a> and email to <a href="mailto:HR@convorelay.com">HR@convorelay.com</a>.</p>
 
 <?php
     if($email_address == "") {
