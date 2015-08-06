@@ -37,6 +37,35 @@
         }
     }
 
+    //Benefits Protect Page
+    function benefits_protect(){
+        global $user_data;
+        $test = 0;
+        if(has_access_manager($user_data["job_code"]) == true){
+            $test = 1;
+        }
+        else if(has_access($user_data["job_code"]) == true){
+            $test = 1;
+        }
+        else if($user_data["job_code"] == "INT007" && $user_data["payroll_status"] == "GBS"){
+            $test = 0;
+        }
+        else if($user_data["job_code"] != "INT007"){
+            $test = 0;
+        }
+        else if($user_data["job_code"] == "INT007"){
+            $test = 1;
+        }
+        else if($user_data["payroll_status"] != "GBS"){
+            $test = 1;
+        }
+        
+        if($test == 0){
+            header("Location: $linkToALL/convo/index.php");
+            exit();
+        }
+    }
+
     // Census Protect Page
     function census_protect(){
         global $user_data;
@@ -47,6 +76,7 @@
     }
 
     function array_sanitize(&$item) {
+        global $link;
         $item = strip_tags(mysqli_real_escape_string($link, $item));
     }
 
