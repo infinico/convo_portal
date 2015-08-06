@@ -130,8 +130,6 @@
             die();
             */
         
-            
-            
             mysqli_query($link, "CALL insert_employee_hire('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$emailAddress','$date_of_birth', '$ssn', '$gender');");
             
             mysqli_query($link, "CALL update_new_hire('$new_hire_id', 'Accepted')");
