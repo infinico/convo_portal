@@ -1,13 +1,15 @@
 <?php
     $page_title = "FMLA";
     $title = "Convo Portal | FMLA";
+    require_once "../includes/phpmailer/vendor/autoload.php";
+    require("../includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
     include("../core/init.php");
     protect_page();
     include("../assets/inc/header.inc.php");
 
 
 
-    $errorType = $errorLeave = $errorReturn = $errorUnknownDate = $errorLeaveReason = "";
+    $errorType = $errorLeave = $errorReturn = $errorUnknownDate = $errorLeaveReason = $dayDiffError = "";
 
 
     if(isset($_POST["submitRequest"])){
@@ -44,11 +46,19 @@
             $expectedReturnInput = multiexplode(array("-", "/"), $expectedReturn);
             $expectedReturn = $expectedReturnInput[2] . "-" . $expectedReturnInput[0] . "-" . $expectedReturnInput[1];
             
+            $day_diff= (strtotime($expectedReturn) - strtotime($expectedLeave)) / (60 * 60 * 24);
             
-            mysqli_query($link, "CALL insert_fmla('$session_user_id', CURRENT_TIMESTAMP, '$requestType', '$expectedLeave', '$expectedReturn', '$leaveReason', 'R');");
+            if($day_diff >= 90) {
+                $dayDiffError = "<span class='error'>You cannot be on leave for more than 90 days.</span>";   
+            }
+            else if($day_diff < 0 && !isset($_POST["unknownDate"])) {
+                $dayDiffError = "<span class='error'>Return date cannot be earlier than expected date of leave.</span>";   
+            }
+            else {
+                mysqli_query($link, "CALL insert_fmla('$session_user_id', CURRENT_TIMESTAMP, '$requestType', '$expectedLeave', '$expectedReturn', '$leaveReason', 'R');");
             //echo "CALL insert_fmla('$session_user_id', CURRENT_TIMESTAMP, '$requestType', '$expectedLeave', '$expectedReturn', '$leaveReason', 'R')";
             
-            $fmla_info .= "<strong>Family Medical Leave Request Type:</strong> " . $requestType . "<br/>";
+            $fmla_info = "<strong>Family Medical Leave Request Type:</strong> " . $requestType . "<br/>";
             $fmla_info .= "<strong>Expected Effective Date of Leave:</strong> " . $_POST["expectedLeave"] . "<br/>";
             if(isset($_POST["unknownDate"])) {
                 $fmla_info .= "<strong>Exepcted Date of Return:</strong> Unknown <br/>";
@@ -58,10 +68,11 @@
             }
             $fmla_info .= "<strong>Leave is being requested for:</strong> " . $leaveReason . "<br/>";
             
-            newEmail($email, $user_data["firstname"], $user_data["lastname"], 'Family Medical Leave Request', $fmla_info);
+            newEmail($user_data['email'], $user_data["firstname"], $user_data["lastname"], 'Family Medical Leave Request', $fmla_info);
             
             echo "<h2 class='headerPages'>Thank you for submitting the form!</h2>";
-            die();
+            die();   
+            } 
         }
     }
 ?>
@@ -121,15 +132,15 @@
             <h2 class="fmla_header">Family Medical Leave Request Form</h2><br/>
 
 
-            <form method="post">
+            <form id="form" action="<?php $location = $_SERVER['PHP_SELF']; echo ''.$location.'#form';?>" method="post">
                 <?php if(isset($_POST["submitRequest"])){ echo $errorType; } ?><br/>
                 <span class="fmlaHeader">FML Request Type:</span>
-                <input type="radio" name="requestType" value="Full time off" <?php if(isset($_POST["submitRequest"]) && $_POST['requestType'] == "Full time off"){echo "checked=checked";} ?>>Full time off <br/>
+                <input type="radio" name="requestType" value="Full time off" <?php if(!isset($_POST["requestType"])){} else if(isset($_POST["submitRequest"]) && $_POST['requestType'] == "Full time off"){echo "checked=checked";} ?>>Full time off <br/>
                 <div class="fmlaInputRight">
-                    <input type="radio" name="requestType" class="fmlaRadio" value="Intermittent time off" <?php if(isset($_POST["submitRequest"]) && $_POST['requestType'] == "Intermittent time off"){echo "checked=checked";} ?>>Intermittent time off
+                    <input type="radio" name="requestType" class="fmlaRadio" value="Intermittent time off" <?php  if(!isset($_POST["requestType"])){} else if(isset($_POST["submitRequest"]) && $_POST['requestType'] == "Intermittent time off"){echo "checked=checked";} ?>>Intermittent time off
                 </div><br/><br/>
                 
-                <?php if(isset($_POST["submitRequest"])){ echo $errorLeave; } ?><br/>
+                <?php if(isset($_POST["submitRequest"])){ echo $errorLeave; } ?><?php if(isset($_POST["submitRequest"])){ echo $dayDiffError; } ?><br/>
                 <span class="fmlaHeader">Expected Effective Date of Leave:</span>
                 <input type="text" class="datepicker" name="expectedLeave" placeholder="mm/dd/yyyy" value="<?php if(isset($_POST["submitRequest"])){echo $_POST['expectedLeave'];} ?>"><br/><br/>
                 
@@ -139,13 +150,13 @@
                 
                 <?php if(isset($_POST["submitRequest"])){ echo $errorLeaveReason; } ?><br/>
                 <span class="fmlaHeader">Leave is being requested for one of the following reasons(please select one):</span>
-                <input type="radio" name="leaveReason" value="Adoption or foster care" <?php if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Adoption or foster care"){echo "checked=checked";} ?>>Adoption or foster care<br/>
+                <input type="radio" name="leaveReason" value="Adoption or foster care" <?php if(!isset($_POST["leaveReason"])){} else if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Adoption or foster care"){echo "checked=checked";} ?>>Adoption or foster care<br/>
                 <div class="fmlaInputRight">
-                    <input type="radio" name="leaveReason" value="Health condition of dependent child" <?php if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Health condition of dependent child"){echo "checked=checked";} ?>>Health condition of dependent child<br/>
-                    <input type="radio" name="leaveReason" value="Health condition of employee" <?php if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Health condition of employee"){echo "checked=checked";} ?>>Health condition of employee<br/>
-                    <input type="radio" name="leaveReason" value="Maternity/Paternity" <?php if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Maternity/Paternity"){echo "checked=checked";} ?>>Maternity/Paternity<br/>
-                    <input type="radio" name="leaveReason" value="Health condition of parent" <?php if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Health condition of parent"){echo "checked=checked";} ?>>Health condition of parent <br/>
-                    <input type="radio" name="leaveReason" value="Health condition of spouse" <?php if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Health condition of spouse"){echo "checked=checked";} ?>>Health condition of spouse<br/><br/><br/>
+                    <input type="radio" name="leaveReason" value="Health condition of dependent child" <?php if(!isset($_POST["leaveReason"])){} else if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Health condition of dependent child"){echo "checked=checked";} ?>>Health condition of dependent child<br/>
+                    <input type="radio" name="leaveReason" value="Health condition of employee" <?php if(!isset($_POST["leaveReason"])){} else if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Health condition of employee"){echo "checked=checked";} ?>>Health condition of employee<br/>
+                    <input type="radio" name="leaveReason" value="Maternity/Paternity" <?php if(!isset($_POST["leaveReason"])){} else if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Maternity/Paternity"){echo "checked=checked";} ?>>Maternity/Paternity<br/>
+                    <input type="radio" name="leaveReason" value="Health condition of parent" <?php if(!isset($_POST["leaveReason"])){} else if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Health condition of parent"){echo "checked=checked";} ?>>Health condition of parent <br/>
+                    <input type="radio" name="leaveReason" value="Health condition of spouse" <?php if(!isset($_POST["leaveReason"])){} else if(isset($_POST["submitRequest"]) && $_POST['leaveReason'] == "Health condition of spouse"){echo "checked=checked";} ?>>Health condition of spouse<br/><br/><br/>
                 </div>
 
                 <input type="checkbox" id="background_check_consent_cb" value="bg_check_consent_cb"><span class="background_span">I understand that the submission of this Request does not constitute approval for requested leave of absense. I understand that a failure to return to work at the end of my approved leave period may be treated as resignation.</span><br/><br/>
