@@ -3,6 +3,9 @@
     $title = "Convo Portal | Health Benefits";
     include("../core/init.php");
     protect_page();
+if(logged_in()){
+    benefits_protect();   
+}
     include("../assets/inc/header.inc.php");
 ?>
             <h1 class="headerPages">Health Benefits</h1>
