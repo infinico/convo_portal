@@ -19,7 +19,7 @@
                                     <div id="account"><a href="<?php echo $linkToALL; ?>/register.php" >Don't have an account? Register</a></div>
                                 </li>
                                 
-                                <li><div class="forget">Forget your <a href="recover.php?mode=username">username</a> or  <a href="recover.php?mode=password">password</a>?</div></li>
+                                <li><div class="forget">Forgot your <a href="recover.php?mode=username">username</a> or  <a href="recover.php?mode=password">password</a>?</div></li>
                             </ul>
                         </form>
                     </div>  <!-- Inner // -->
