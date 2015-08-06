@@ -35,7 +35,7 @@
     else {
         if(isset($_GET["force"]) === true && empty($_GET["force"]) === true) {
         ?>
-           <br/><h3 class="force_password" style='color:red;'>You must change your password now that you've requested.</h3>
+           <br/><h3 class="force_password" style='color:red;'>You may change your temporary password to something else.</h3>
         <?php
         }
         if(empty($_POST) === false && empty($errors) === true) {
