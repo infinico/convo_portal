@@ -7,7 +7,7 @@
 
     $result = mysql_query("SELECT * FROM employer");
 
-    //echo $user_data["employerID"];
+    //echo $convo_user_data["employerID"];
 
     if(isset($_POST["submit"])) {
         $ssn = sanitize($_POST["ssn_digits"]);
@@ -15,7 +15,7 @@
         if(empty($_POST["ssn_digits"]) || empty($_POST["dob"])) {
             $errorId = "Please enter your SSN and Date of Birth.";
         }
-        else if(($user_data["ssn"] != $_POST["ssn_digits"]) || ($user_data["date_of_birth"] != $_POST["dob"]) ){
+        else if(($convo_user_data$convo_user_data["ssn"] != $_POST["ssn_digits"]) || ($convo_user_data["date_of_birth"] != $_POST["dob"]) ){
             $errorId = "Wrong SSN or date of birth.  Please try again.";
         }
         else {
