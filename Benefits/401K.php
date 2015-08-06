@@ -3,10 +3,17 @@
     $title = "Convo Portal | 401K";
     include("../core/init.php");
     protect_page();
+if(logged_in()){    
+    benefits_protect();   
+}
     include("../assets/inc/header.inc.php");
 ?>
 
-            <h1 class="headerPages">401(k)</h1>
+            <h1 class="headerPages">401(k) Savings &amp; Investment Plan</h1>
+
+            <h2>Overview</h2>
+
+            <p>Part-time and full-time employees are eligible to participate in the 401(k) Plan as long as they are over 21 years old.</p>
 
             <p>Your 401(k) plan is provided by Kramer Financial Services. You can enroll in the 401(k) plan or make changes to: your salary contribution, fund selections, and transfers, or simply view your account balance via Paychex. If you have not registered for an account with Paychex, go to <a href="http://www.paychex.com/login/" target="_blank">http://www.paychex.com/login/</a> and register for Paychex Flex.</p> 
 
