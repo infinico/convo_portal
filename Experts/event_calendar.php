@@ -4,6 +4,7 @@
     $title = "Event Calendar";
     include("../core/init.php");
     //admin_protect();
+    protect_page();
     include("../assets/inc/header.inc.php"); 
 ?>
 <script>
@@ -40,7 +41,6 @@
             }    
         </script>
 <?php
-
     if(isset($_GET['day'])){
         $day = $_GET['day'];   
     }
@@ -60,7 +60,6 @@
     else{
         $year = date("Y");
     }
-
     $currentTimeStamp = strtotime("$year-$month-$day");
     $monthName = date("F", $currentTimeStamp);
     //echo $monthName;
@@ -68,10 +67,7 @@
     //echo $numDays;
     $counter = 0;
     $title = $startDate = $endDate = $startDate = $startTime = $endTime = $location = $detial = "";
-
     $errorTitle = $errorStartDate = $errorEndDate = $errorStartTime = $errorEndTime = $errorLocation = $errorDetail = "";
-
-
     if(isset($_GET['add'])){
         
         if(empty($_POST['txtTitle'])){
@@ -103,17 +99,12 @@
             $endTime = $_POST['txtEndTime'];
             $location = $_POST['txtLocation'];
             $detail = $_POST['txtDetail'];
-
             $endDateFormat = multiexplode(array("-", "/"), $endDate);
             $end_date = $endDateFormat[2] . "-" . $endDateFormat[0] . "-" . $endDateFormat[1];
-
             $startdate = $year . "-" . $month . "-" . $day;
-
             $result = mysqli_query($link, "INSERT INTO event_calendar(title, detail, start_date, end_date, start_time, end_time, location, date_added) VALUES ('" . $title . "','" . $detail . "','" . $startdate . "','" . $end_date . "','" . $startTime . "','" . $endTime . "','" . $location . "', NOW())");
-
             //echo "INSERT INTO event_calendar(title, detail, event_date, start_date, end_date, start_time, end_time, location, date_added) VALUES ('" . $title . "','" . $detail . "','" . $startdate . "','" . $endDate . "','" . $startTime . "','" . $endTime . "','" . $location . "', NOW())";
             //echo "INSERT INTO event_calendar(title, detail, event_date, date_added) VALUES ('" . $title . "','" . $detail . "','" . $eventdate . "', 'NOW()')";
-
             if($result){
                 echo "<br/><br/><h2>Event was successfully added<h2>";
                 die();
@@ -168,16 +159,11 @@
             $event_id = $_GET["event_id"];
             $endDateFormat = multiexplode(array("-", "/"), $endDate);
             $end_date = $endDateFormat[2] . "-" . $endDateFormat[0] . "-" . $endDateFormat[1];
-
             $startDateFormat = multiexplode(array("-", "/"), $startDate);
             $start_date = $startDateFormat[2] . "-" . $startDateFormat[0] . "-" . $startDateFormat[1];
-
             //$startdate = $year . "-" . $month . "-" . $day;
-
             mysqli_query($link, "CALL update_event('$title', '$detail', '$event_id', '$start_date', '$end_date', '$startTime', '$endTime', '$location')");
-
             //echo "UPDATE event_calendar SET title = '" . $title . "', detail = '" . $detail . "' WHERE event_date = '" . $eventdate . "'"; 
-
             echo "<br/><br/><h2>Event was successfully Edited<h2>";
             die();
         }
@@ -193,9 +179,9 @@
             <td>Sunday</td>
             <td>Monday</td>
             <td>Tuesday</td>
-            <td>Wedensday</td>
+            <td>Wednesday</td>
             <td>Thursday</td>
-            <td width="150px">Friday</td>
+            <td>Friday</td>
             <td>Saturday</td>
         </tr>
         <?php
@@ -239,10 +225,7 @@
                 $eventQuery = "SELECT * FROM event_calendar";
                 $result = mysqli_query($link, $eventQuery);
                 $result2 = mysqli_query($link, $eventQuery);
-                
-                
-                
-                
+            
                 echo "<td";
                 
                 if($todayDate == $dateToCompare){
@@ -303,9 +286,7 @@
                 
                 echo "</td>";
             }
-
             echo "</tr>";
-
         ?>
 
     </table>
@@ -328,54 +309,51 @@
         }
     ?>
 
-<script>
-$(function() {
-    var moveLeft = 0;
-    var moveDown = 0;
-    $('a.popper').hover(function(e) {
-   
-        var target = '#' + ($(this).attr('data-popbox'));
-         
-        $(target).show();
-        moveLeft = $(this).outerWidth();
-        moveDown = ($(target).outerHeight() / 2);
-    }, function() {
-        var target = '#' + ($(this).attr('data-popbox'));
-        $(target).hide();
-    });
- 
-    $('a.popper').mousemove(function(e) {
-        var target = '#' + ($(this).attr('data-popbox'));
-         
-        leftD = e.pageX + parseInt(moveLeft);
-        maxRight = leftD + $(target).outerWidth();
-        windowLeft = $(window).width() - 40;
-        windowRight = 0;
-        maxLeft = e.pageX - (parseInt(moveLeft) + $(target).outerWidth() + 20);
-         
-        if(maxRight > windowLeft && maxLeft > windowRight)
-        {
-            leftD = maxLeft;
-        }
-     
-        topD = e.pageY - parseInt(moveDown);
-        maxBottom = parseInt(e.pageY + parseInt(moveDown) + 20);
-        windowBottom = parseInt(parseInt($(document).scrollTop()) + parseInt($(window).height()));
-        maxTop = topD;
-        windowTop = parseInt($(document).scrollTop());
-        if(maxBottom > windowBottom)
-        {
-            topD = windowBottom - $(target).outerHeight() - 20;
-        } else if(maxTop < windowTop){
-            topD = windowTop + 20;
-        }
-     
-        $(target).css('top', topD).css('left', leftD);
-    });
-});
-    
-    </script>
+    <script>
+        $(function() {
+            var moveLeft = 0;
+            var moveDown = 0;
+            $('a.popper').hover(function(e) {
+                var target = '#' + ($(this).attr('data-popbox'));
 
+                $(target).show();
+                moveLeft = $(this).outerWidth();
+                moveDown = ($(target).outerHeight() / 2);
+            }, function() {
+                var target = '#' + ($(this).attr('data-popbox'));
+                $(target).hide();
+            });
+
+            $('a.popper').mousemove(function(e) {
+                var target = '#' + ($(this).attr('data-popbox'));
+
+                leftD = e.pageX + parseInt(moveLeft);
+                maxRight = leftD + $(target).outerWidth();
+                windowLeft = $(window).width() - 40;
+                windowRight = 0;
+                maxLeft = e.pageX - (parseInt(moveLeft) + $(target).outerWidth() + 20);
+
+                if(maxRight > windowLeft && maxLeft > windowRight)
+                {
+                    leftD = maxLeft;
+                }
+
+                topD = e.pageY - parseInt(moveDown);
+                maxBottom = parseInt(e.pageY + parseInt(moveDown) + 20);
+                windowBottom = parseInt(parseInt($(document).scrollTop()) + parseInt($(window).height()));
+                maxTop = topD;
+                windowTop = parseInt($(document).scrollTop());
+                if(maxBottom > windowBottom)
+                {
+                    topD = windowBottom - $(target).outerHeight() - 20;
+                } else if(maxTop < windowTop){
+                    topD = windowTop + 20;
+                }
+
+                $(target).css('top', topD).css('left', leftD);
+            });
+        });
+    </script>
 
 <?php
     include("../assets/inc/footer.inc.php");
