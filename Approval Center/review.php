@@ -29,9 +29,9 @@
         `f`.`return_date` AS `return_date`,
         `f`.`leave_reason` AS `leave_reason`
     FROM
-        (`convotesting`.`fmla` `f`
-        JOIN `convotesting`.`employee` `e` ON ((`f`.`employee_id` = `e`.`employee_id`))
-        JOIN  `convotesting`.`location` `l` ON ((`l`.`location_code` = `e`.`location_code`))) WHERE `f`.`fmla_id` = '$fmla_id'");
+        (`fmla_vw` `f`
+        JOIN `employee_vw` `e` ON ((`f`.`employee_id` = `e`.`employee_id`))
+        JOIN  `location_vw` `l` ON ((`l`.`location_code` = `e`.`location_code`))) WHERE `f`.`fmla_id` = '$fmla_id'");
     while($row = mysqli_fetch_assoc($query)) {
         $fmla_id = $row["fmla_id"];
         $firstname = $row["firstname"];
@@ -61,7 +61,7 @@
             newEmail($email, $firstname, $lastname, $subjectHeader, $bodyMessage);
             
             
-            mysqli_query($link, "UPDATE fmla SET status = 'C' WHERE fmla_id = '$fmla_id'");
+            mysqli_query($link, "CALL update_fmla('$fmla_id', 'C')");
 
             echo "<h2>CONFIRMED SUCCESSFULLY</h2>";
             die();
@@ -73,7 +73,7 @@
             newEmail($email, $firstname, $lastname, $subjectHeader, $bodyMessage);
             
             
-            mysqli_query($link, "UPDATE fmla SET status = 'D' WHERE fmla_id = '$fmla_id'");
+            mysqli_query($link, "CALL update_fmla('$fmla_id', 'D')");
 
             echo "<h2>DECLINED SUCCESSFULLY</h2>";
             die();
@@ -99,23 +99,23 @@
     <input type="text" name="name" class="input-large" value="<?php echo $firstname . " " . $lastname; ?>" readonly><br/>
     
     <span class="fmlaHeader">Home Address:</span>
-    <input type="text" name="home_address" class="input-xlarge" value="<?php echo $streetAddress . ", " . $city . ", " . $res_state; ?>" readonly><br/>
+    <input style="width: 400px;" type="text" name="home_address" value="<?php echo $streetAddress . ", " . $city . ", " . $res_state; ?>" readonly><br/>
     
     <span class="fmlaHeader">Work Address:</span>
-    <input type="text" name="work_address" class="input-xlarge" value="<?php echo $convoAddress . ", " . $convoCity . ", " . $convoState; ?>" readonly><br/>
+    <input style="width: 400px;" type="text" name="work_address" value="<?php echo $convoAddress . ", " . $convoCity . ", " . $convoState; ?>" readonly><br/>
     
     <span class="fmlaHeader">Date of Hire:</span>
-    <input type="text" name="date_of_hire" value="<?php echo $hireDate; ?>" readonly><br/>
+    <input style="width: 250px;" type="text" name="date_of_hire" value="<?php echo date('l, F d, Y', strtotime($hireDate)); ?>" readonly><br/>
     
     <span class="fmlaHeader">Email:</span>
-    <input type="text" name="date_of_hire" value="<?php echo $email; ?>" readonly><br/><br/>
+    <input type="text" class="input-large" name="date_of_hire" value="<?php echo $email; ?>" readonly><br/><br/>
     
     <h2>Request Information</h2>
     <span class="fmlaHeader">Expected Effective Date of Leave: </span>
-    <input type="text" name="expected_date_leave" value="<?php echo $effectiveDate; ?>" readonly><br/>
+    <input style='width: 250px;' type="text" name="expected_date_leave" value="<?php echo date('l, F d, Y', strtotime($effectiveDate)); ?>" readonly><br/>
     
     <span class="fmlaHeader">Expected Date of Return: </span>
-    <input type="text" name="expected_date_return" value="<?php echo $returnDate; ?>" readonly><br/>
+    <input style='width: 250px;' type="text" name="expected_date_return" value="<?php if($returnDate == '1900-01-01') { echo "Unknown"; } else { echo date('l, F d, Y', strtotime($returnDate)); } ?>" readonly><br/>
     
     <span class="fmlaHeader">Leave is being requested for one of the following reasons(please select one): </span>
     <input type="text" class="input-xlarge" name="leave_reason" value="<?php echo $leaveReason; ?>" readonly><br/>
