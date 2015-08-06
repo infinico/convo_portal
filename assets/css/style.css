@@ -7,6 +7,10 @@ hr {
     background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
     background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));  
 }
+
+.input-width {
+    width: 400px;   
+}
 /* Resets */
 ul {
     padding: 0;
@@ -159,12 +163,16 @@ header {
 #infinilogo{
     float: left;
     margin-left: -57px;
-    margin-bottom: 45px;
+    margin-bottom: 95px;
     
 }
 /* ------------------------------- Header // ------------------------------- */
 
 /* ------------------------ Navigation Bar---------------------------------*/
+nav ul {
+    width: 1200px; 
+}
+
 nav ul li a {
     font-weight: normal !important;
     font-style: normal;    
@@ -187,7 +195,7 @@ nav ul li.children:before {
     z-index: 1;
 	width: 100%;
 	display: block;
-    margin-top: -28px;
+    margin-top: -10px;
     margin-left: -20px;
 }
 
@@ -287,7 +295,11 @@ nav ul li.children:before {
 }
 
 .benefits_menu {
-    width: 125px;   
+    width: 180px;   
+}
+
+.benefits_menu a {
+    width: 180px !important;   
 }
 
 .experts_menu {
@@ -297,6 +309,10 @@ nav ul li.children:before {
 .convo_university_menu, .admin_menu  {
     width: 130px;   
 } 
+
+.HR {
+    width: 130px;
+}
 /* ~~~~~~~~~~~ submenu ~~~~~~~~~ */
 
 /* ------------------------ Primary Navigation Ends ---------------------------------*/
@@ -371,7 +387,7 @@ ul li input[type="text"], ul li input[type="password"] {
 .widget {
     z-index: 2;
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 120px;
 }
 
 .widget h2 {
@@ -699,21 +715,31 @@ ul li input[type="text"], ul li input[type="password"] {
    width: 900px; 
 } 
 
+/*---------------------------------BENEFITS (Under Benefits menu)----------------------------------*/
+#cigna, #aetna{
+    width: 50%; 
+    
+   
+}
+
+#cigna{
+    float: right;
+    margin-top: -330px;
+    
+    
+}
+
 /*--------------------------EVENTS-------------------------------------------*/
 .today{
-    background-color: gray;
+    background-color: #71AB3A;
 }
 .today a{
     color: white;   
 }
 .event{
-    background-color: #00e500;
     font-size: 12pt;
 }
 
-.event a{
-    color: black;
-}
 
 .event a:hover{
     color: #7f7f7f;
@@ -789,3 +815,7 @@ ul li input[type="text"], ul li input[type="password"] {
 }
 
 /*---------------------------Events //------------------------------*/
+
+#wowslider-container1 {
+    z-index: 0 !important;   
+}
