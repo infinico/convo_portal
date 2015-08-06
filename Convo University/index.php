@@ -1,8 +1,8 @@
 <?php
     $page_title = "Home";
-    $title = "Convo Portal | Convo University";
     include("../core/init.php");
-    //protect_page();
+    protect_page();
+    $title = "Convo Portal | Convo University";
     include("../assets/inc/header.inc.php");
 
     $query_log = "CALL insert_log('$session_user_id', 'Convo U Homepage', CURRENT_TIMESTAMP)";
