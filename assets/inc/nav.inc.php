@@ -25,15 +25,24 @@
 ?>
                         </ul>      
                     </li>
+                    
+<?php
+    if(has_access($user_data["job_code"]) == true || has_access_manager($user_data["job_code"]) == true || $user_data["payroll_status"] != "GBS" || $user_data["job_code"] == "INT007"){
+?>
                     <li>
                         <a href="#">Benefits</a>
                         <ul class="benefits_menu">
                             <li><a href="<?php echo $linkToALL;?>/Benefits/401k.php">401(k)</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Benefits/cigna.php">Cigna</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Benefits/ng.php">NG</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Benefits/HealthBenefits.php">Health Benefits</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Benefits/medical.php">Medical</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Benefits/dental_vision.php">Dental/Vision</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Benefits/supplemental_life.php">Supplemental Life</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Benefits/HealthBenefits.php">Health Benefits Example</a></li>
                         </ul>
                     </li>
+                    
+<?php
+    }
+?>
                     <li>
                         <a href="#">Experts</a>
                         <ul class="experts_menu">
@@ -71,10 +80,24 @@
 ?>
                     <li><a href="<?php echo $linkToALL;?>/employee.php">Employees</a></li>
 <?php
-        }
+            if(has_access($user_data["job_code"]) == true) {
+                $query = "SELECT f.fmla_id FROM fmla f JOIN employee e ON e.employee_id = f.employee_id WHERE status = 'R'";
+                if($result = mysqli_query($link, $query)) {
+                    // Return the number of rows in result set
+                    $row_count = mysqli_num_rows($result);
+                }      
+            }
+            else {
+                $query = "SELECT f.fmla_id FROM fmla f JOIN employee e ON e.employee_id = f.employee_id WHERE supervisor_id =" . $user_data["employee_id"] . " AND status = 'R'";
+                if($result = mysqli_query($link, $query)) {
+                    // Return the number of rows in result set
+                    $row_count = mysqli_num_rows($result);
+                }
+            }
 ?>
-                    <li><a href="<?php echo $linkToALL;?>/Approval%20Center/index.php">Approval Center</a></li>
+                    <li><a href="<?php echo $linkToALL;?>/Approval%20Center/index.php">Approval Center (<?php echo $row_count; ?>)</a></li>
 <?php
+        }
         if(has_access($user_data["job_code"]) == true) {
 ?>
                     <li>
