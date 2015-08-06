@@ -11,12 +11,12 @@
         
         //Username and Password fields are empty 
         if(empty($username) === true || empty($password) === true) {
-            $errors[] = "If you forget your username or password, you can <a href='register.php'>register</a> again.";
+            $errors[] = "If you forget your username or password, recover your <a href='recover.php?mode=username'>username</a> or reset <a href='recover.php?mode=password'>password</a>.";
         }
         
         //Check if the username is either exist or not in our database system
         else if (user_exists($username) === false) {
-            $errors[] = "If you forget your username or password, you can <a href='register.php'>register</a> again.";      
+            $errors[] = "If you forget your username or password,recover your <a href='recover.php?mode=username'>username</a> or reset <a href='recover.php?mode=password'>password</a>.";      
         }
         
         //Users have not check their email to activiate their account
@@ -34,7 +34,7 @@
             $login = login($username, $password);
             
             //Either username and password input is incorrect
-            if($login === false) {
+            if($login == false) {
                 $errors[] = "That username/password combination is incorrect";   
             }
             else {
