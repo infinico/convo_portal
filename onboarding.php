@@ -7,7 +7,7 @@
     include("assets/inc/header.inc.php");
     include("includes/includes_functions.php");
 
-    $errorFirst = $errorLast = $errorCity = $errorState = $errorStreetAddress = $errorZipCode = $errorDOB = $errorEmail = $errorEmergencyName = $errorEmergencyNumber = $errorFiles = "";
+    $errorFirst = $errorLast = $errorCity = $errorState = $errorStreetAddress = $errorZipCode = $errorDOB = $errorEmail = $errorFiles = "";
 
     $fileDL = $fileSSN = "";
 
@@ -32,7 +32,7 @@
             $errorZipCode = "<span class='error'>Please enter zip code</span>";   
         }
         else if(is_numeric($_POST["zipcode"]) == false){
-            $errorZipCode = "<span class='error'>Please enter in number onl.</span>";
+            $errorZipCode = "<span class='error'>Please enter numbers only for zip code.</span>";
         }
         if(empty($_POST["dob"])){
             $errorDOB = "<span class='error'>Please enter date of birth</span>";     
@@ -40,16 +40,10 @@
         if(empty($_POST["email"])) {
             $errorEmail = "<span class='error'> Please enter email address</span>"; 
         }
-        if(empty($_POST["emergencyName"])) {
-            $errorEmergencyName = "<span class='error'> Please enter contact's name</span>"; 
-        }
-        if(empty($_POST["emergencyNumber"])) {
-            $errorEmergencyNumber = "<span class='error'> Please enter contact's phone number</span>"; 
-        }
         if(empty($_FILES["fileDL"]["name"]) && empty($_FILES["fileSSN"]["name"])){
-            $errorFiles = "<span class='error'>Please upload both your driver license and Social Security card.</span>";   
+            $errorFiles = "<span class='error'>Please upload both your Driver's License/State ID and Social Security card.</span>";   
         }
-        if($errorFirst == "" &&  $errorLast == "" && $errorState == "" && $errorStreetAddress == "" && $errorCity == "" && $errorZipCode == "" && $errorDOB == "" && $errorEmail == "" && $errorEmergencyName == "" && $errorEmergencyNumber == "" && $errorFiles == "") {
+        if($errorFirst == "" &&  $errorLast == "" && $errorState == "" && $errorStreetAddress == "" && $errorCity == "" && $errorZipCode == "" && $errorDOB == "" && $errorEmail == "" && $errorFiles == "") {
                 $firstname = sanitize($_POST["firstname"]);
                 $lastname = sanitize($_POST["lastname"]);
                 $state = sanitize($_POST["res_state"]);
@@ -58,10 +52,15 @@
                 $zipcode = sanitize($_POST["zipcode"]);
                 $dob = sanitize($_POST["dob"]);
                 $email = sanitize($_POST["email"]);
-                $emergencyName = sanitize($_POST["emergencyName"]);
-                $emergencyNumber = sanitize($_POST["emergencyNumber"]);
+                $emergencyName = ""; // sanitize($_POST["emergencyName"]);
+                $emergencyNumber = ""; // sanitize($_POST["emergencyNumber"]);
+            
+            
                 $fileDL = $_FILES["fileDL"];
                 $fileSSN = $_FILES["fileSSN"];
+            //print_r($fileDL);
+            //print_r($fileSSN);
+            //die();
                             
 
                 $dobInput = multiexplode(array("-", "/"), $dob);
@@ -73,11 +72,9 @@
                 $hire_emp_info .= "<strong>Date of Birth:</strong> " . $dob . "<br/>";
                 $hire_emp_info .= "<strong>E-mail Address:</strong> " . $email . "<br/>";
                 $hire_emp_info .= "<h3>Emergency Contact Information</h3>";
-                $hire_emp_info .= "<strong>Contact's Name:</strong> " . $emergencyName . "<br/>";
-                $hire_emp_info .= "<strong>Contact's Phone Number:</strong> " . $emergencyNumber . "<br/>";
               //  $hire_emp_info .= "Read the link for more information: " . $linkToALL . "/Convo%20New%20Hire%20Packet%20-%20FT.pdf";
 
-                mysqli_query($link, "CALL insert_new_hire('$firstname', '$lastname', '$street_address', '$city', '$state', '$zipcode', '$date_of_birth', '$email', '$emergencyName', '$emergencyNumber', CURRENT_TIMESTAMP);");
+                mysqli_query($link, "CALL insert_new_hire('$firstname', '$lastname', '$street_address', '$city', '$state', '$zipcode', '$date_of_birth', '$email', '$emergencyName', '$emergencyNumber', CURRENT_TIMESTAMP);"); 
 
                 //newEmail($email, $firstname, $lastname, 'New Employee Onboarding', $hire_emp_info);
 
@@ -89,7 +86,7 @@
                     $("#convoLogo a").removeAttr("href");
                 </script>
 <?php
-                echo "<h2 class='headerPages'><br/><br/><br/>Thank you for your submission. We will contact you after your background check is cleared. Please contact <a href='mailto:hr@convorelay.com'>hr@convorelay.com</a> with any questions.</h2>";
+                echo "<h2 class='headerPages'><br/><br/><br/>Thank you for your submission. We will contact you after your background check is cleared. </h2>";
                 die(); 
             }
 
@@ -102,10 +99,10 @@
                 $("aside").hide(); 
                 $("#convoLogo a").removeAttr("href");
             </script>
-            <br/><br/><br/>
-            <h2 class="headerPages">Welcome to Convo! Please fill out all the fields below. We also need copies of your driver license and Social Security card for your background check. Please have these ready to be uploaded.</h2>
-
-            <form id="form" action="<?php $location = $_SERVER['PHP_SELF']; echo ''.$location.'#form';?>" method="post" enctype="multipart/form-data">
+            <br/><br/><br/><br/>
+            <h2 class="headerPages">Welcome to Convo! Please fill out all the fields below. We also need copies of your Driver's License/State ID and Social Security card for your background check. Please have these ready to be uploaded.</h2>
+            <br/>
+            <form id="form" action="<?php $location = $_SERVER['PHP_SELF']; echo ''.$location.'';?>" method="post" enctype="multipart/form-data">
                 <h2>Personal Information</h2>
 
                 <!-- First Name -->
@@ -143,29 +140,22 @@
                 <!-- Date of Birth -->
                 <span class="spanHeader">Date of Birth:</span>
                 <input type="text" placeholder="MM/DD/YYYY" name="dob" value=<?php if(isset($_POST["submitNewHire"])){echo $_POST['dob'];} ?>>
-                <?php echo $errorDOB; ?><br/><em class="note">MM/DD/YYYY</em><br/><br/>
+                <?php echo $errorDOB; ?><br/><br/>
                 
                 <!-- Email Address -->
                 <span class="spanHeader">E-mail address:</span>
-                <input type="text" class="input-large" name="email" value=<?php if(isset($_POST["submitNewHire"])){echo $_POST['email'];} ?>>
+                <input type="text" class="input-large" name="email" placeholder="Email Address" value=<?php if(isset($_POST["submitNewHire"])){echo $_POST['email'];} ?>>
                 <?php echo $errorEmail; ?><br/><br/>
-
-                <h2>Emergency Contact Information</h2>
-                <!-- Emergency Name -->
-                <span class="spanHeader">Contact's Name:</span>
-                <input type="text" class="input-large" name="emergencyName" value=<?php if(isset($_POST["submitNewHire"])){echo "'" . $_POST['emergencyName'] . "'";} ?>>
-                <?php echo $errorEmergencyName; ?><br/><br/>
-
-                <!-- Emergency Phone number -->
-                <span class="spanHeader">Contact's Phone Number:</span>
-                <input type="text" name="emergencyNumber" value=<?php if(isset($_POST["submitNewHire"])){echo "'" . $_POST['emergencyNumber'] . "'";} ?>>
-                <?php echo $errorEmergencyNumber; ?><br/><br/>
                 
+                <!-- Files to Upload -->
                 <?php echo $errorFiles; ?>
-                <p>Upload Driver License: <input type="file" id="fileDL" name="fileDL"/> </p>
-                <p>Upload Social Security Card: <input type="file" id="fileSSN" name="fileSSN"/> </p>
-
+                <span class="spanHeader">Driver's License/State ID:</span>
+                <input type="file" id="fileDL" name="fileDL"/><br/><br/>
+                <span class="spanHeader">Social Security card:</span>
+                <input type="file" id="fileSSN" name="fileSSN"/><br/><br/>
+                
                 <!-- Background Check Consent -->
+                <br/>
                 <h2>Background Check Consent</h2>
                 <p>I understand that Convo will engage a private company to verify the following information in connection with my application with Convo:</p>
                 <ul class="background_check_consent">
@@ -177,7 +167,7 @@
                 </ul>
                 <p>I certify that the information that I have provided or will provide on my resume and new hire paperwork are complete and accurate in every respect.  I understand that a false statement or omission of facts therein may result in my subsequent dismissal for cause.  I understand that my authorization below serves as my written consent to a background check.  A copy of the background check report may be requested.</p>
 
-                <input type="checkbox" id="background_check_consent_cb" value="bg_check_consent_cb"><span class="background_span">I authorize Convo to run a background check prior to employment.  I understand I will need to provide Convo with copies of my Social Security card and driver's license or state-issued ID as soon as possible.</span><br/><br/>
+                <input type="checkbox" id="background_check_consent_cb" value="bg_check_consent_cb"><span class="background_span">I authorize Convo to run a background check prior to employment.  I understand I will need to provide Convo with copies of my Social Security card and Driver's License or state-issued ID as soon as possible.</span><br/><br/>
                 <input type="submit" id="submit_button_disabled" name="submitNewHire" value="Submit" disabled/>
             </form>
 <?php

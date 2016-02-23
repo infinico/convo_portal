@@ -37,7 +37,7 @@
 			if(isset($_POST["email"]) === true && empty($_POST["email"]) === false) {
 				if(email_exists($_POST["email"]) === true) {
 					recover($_GET["mode"], $_POST["email"]);
-					header("Location: $linkToALL/recover.php?success");
+					header("Location: $linkToALL/recover.php?success");//redirect to recover.php
                     exit();
 				}
 				else {

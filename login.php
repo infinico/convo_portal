@@ -2,12 +2,9 @@
     $page_title = "Incorrect Login";
     include("core/init.php");
 
-
     if(empty($_POST) === false) {
         $username = $_POST["username"];
         $password = $_POST["password"];
-        
-        //echo $username, " ", $password;
         
         //Username and Password fields are empty 
         if(empty($username) === true || empty($password) === true) {
@@ -18,12 +15,9 @@
         else if (user_exists($username) === false) {
             $errors[] = "If you forget your username or password,recover your <a href='recover.php?mode=username'>username</a> or reset <a href='recover.php?mode=password'>password</a>.";      
         }
-        
-        //Users have not check their email to activiate their account
-        /*else if(user_active($username) === false) {
-            $errors[] = "You haven't activiated your account!";   
-        }*/
-        
+        else if (user_terminated($username) === true) {
+            $errors[] = "Sorry, you no longer have access to the Convo portal. ";
+        }
         
         else {
             //Max characters for password is 30
@@ -47,9 +41,20 @@
                 }
                 
                 // Set the user Session
-                $_SESSION['employee_id'] = $login;
+                $_SESSION['emplid'] = $login;
                 
-                // Redirect user to home
+                // Check if user needs to acknowledge anything. If true, redirect to acknowledgement page
+                /*$sql = "SELECT ack_type FROM pending_acknowledgements_vw WHERE employee_id = '" . $login . "'";
+                $acknowledgementQuery = mysqli_query($link, $sql);
+
+                while($row = mysqli_fetch_assoc($acknowledgementQuery)){
+                    if(mysqli_num_rows($acknowledgementQuery) > 0 ) {
+                        header("Location: acknowledgement.php?type=" . $row["ack_type"]); 
+                        exit();
+                    }
+                }*/
+                
+                // Redirect user to home page
                 header("Location: index.php");
                 exit();
             }

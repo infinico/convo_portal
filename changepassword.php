@@ -44,6 +44,11 @@
             //header("Location: changepassword.php?success");
             
             echo "<h1 class='headerPages'>Your password has been changed successfully!</p>";
+            
+            if($user_data["emp_type"] == "O")
+            {
+                echo "<h1 class='headerPages'>Please proceed to the <a href=\"NEO/index.php\">New Employee Onboarding</a> page.</p>";
+            }
 ?>
             <script>$(".force_password").hide()</script>
 <?php

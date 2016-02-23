@@ -17,8 +17,8 @@
         }
         else{
             echo "EMPLOYEE NAME";
-            $_SESSION['employee_id'] = $_POST["employeeName"];
-            $session_user_id = $_SESSION['employee_id'];
+            $_SESSION['emplid'] = $_POST["employeeName"];
+            $session_user_id = $_SESSION['emplid'];
             test_employee_id($session_user_id);
             //echo $session_user_id;
             

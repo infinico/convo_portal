@@ -18,7 +18,7 @@
 
 <?php
 /*
-SELECT e.employee_id, e.firstname, e.lastname, e.supervisor_id, p.position_name AS position, CONCAT(s.firstname, ' ', s.lastname) AS supervisor, CONCAT(MONTH(e.hire_date), '-', DAY(e.hire_date), '-', YEAR(e.hire_date)) AS hireDate, CONCAT(MONTH(e.review_date), '-', DAY(e.review_date), '-', YEAR(e.review_date)) AS reviewDate, e.payroll_status, e.hourly_rate, e.employment_status FROM employee s RIGHT JOIN employee e ON e.supervisor_id = s.employee_id LEFT JOIN position_type p ON e.job_code = p.job_code WHERE employee_id NOT IN("C001", "C002", "C003")
+SELECT e.employee_id, e.firstname, e.lastname, e.supervisor_id, p.position_name AS position, CONCAT(s.firstname, ' ', s.lastname) AS supervisor, CONCAT(MONTH(e.hire_date), '-', DAY(e.hire_date), '-', YEAR(e.hire_date)) AS hireDate, CONCAT(MONTH(e.review_date), '-', DAY(e.review_date), '-', YEAR(e.review_date)) AS reviewDate, e.payroll_status, e.hourly_rate, e.employment_status FROM employee_vw s RIGHT JOIN employee_vw e ON e.supervisor_id = s.employee_id LEFT JOIN position_vw p ON e.job_code = p.job_code WHERE employee_id NOT IN("C001", "C002", "C003")
 */
     /*
     * See every employees
@@ -32,9 +32,18 @@ SELECT e.employee_id, e.firstname, e.lastname, e.supervisor_id, p.position_name 
         $result = mysqli_query($link, $query);   
     }
     $num_rows = mysqli_affected_rows($link);
-    echo "<table id='example' class='display' cellspacing='0' width='1010px'>";
+    echo "<table id='employee_table' class='display' cellspacing='0' width='1010px'>";
         if ($result && $num_rows > 0) { 
-           echo "<thead><tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Position</th><th>Supervisor</th><th>Hire Date</th><th>Review Date</th><th>Payroll Status</th><th>Hourly Rate</th><th>Status</th></tr></thead><tbody>";
+           echo "<thead><tr><th style='background-color:#71AB3A'>ID</th>" .
+               "<th style='background-color:#71AB3A'>First Name</th>" .
+               "<th style='background-color:#71AB3A'>Last Name</th>" .
+               "<th style='background-color:#71AB3A'>Position</th>" .
+               "<th style='background-color:#71AB3A'>Supervisor</th>" .
+               "<th style='background-color:#71AB3A'>Hire Date</th>" .
+               "<th style='background-color:#71AB3A'>Review Date</th>" .
+               "<th style='background-color:#71AB3A'>Payroll Status</th>" .
+               "<th style='background-color:#71AB3A'>Hourly Rate</th>" .
+               "<th style='background-color:#71AB3A'>Status</th></tr></thead><tbody>";
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr><td>";
                 if(has_access($user_data["job_code"]) == true){
