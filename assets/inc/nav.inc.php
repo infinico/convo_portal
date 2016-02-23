@@ -1,48 +1,65 @@
             <nav id="primaryNav">
                 <ul>    <!-- Main Navigation -->
-                    <li><a href="<?php echo $linkToALL;?>/index.php">Home</a></li>
 <?php
     if(logged_in()) {
+
+    if($user_data["emp_type"] == "O")
+    {
+    ?>
+            <li><a href="<?php echo $linkToALL;?>/NEO/index.php">New Employee Onboarding</a></li>
+<?php
+    }
+        
+        
+    else
+    {
 ?>
+                    <li><a href="<?php echo $linkToALL;?>/index.php">Home</a></li>
                     <li>
                         <a href="#">HR</a>
                         <ul class="HR">
                             <li><a href="<?php echo $linkToALL;?>/HR/resources.php">Resources</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/HR/fmla.php">FMLA</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/HR/employment_data.php">Employment Data</a></li>
-<?php
-    //}
-    // Only full-time employees can see Open Enrollment
-    // Exception is Monique Clark (emplid 229) who is considering full time and wants to check benefits before deciding
-    // Tabitha Poplin (emplid 274)
-    // Jonathan Plaxco (emplid 327)
-    if($user_data["payroll_status"] == "FT" || $session_user_id == '229' ||  $session_user_id == '274' || $session_user_id == '327' ){
-
-?>
-                             <!--<li><a href="<?php echo $linkToALL;?>/HR/OpenEnrollment.php">Open Enrollment</a></li>-->   
-<?php
-    }
-?>
+                            <li><a href="<?php echo $linkToALL;?>/HR/fmla.php">Family Medical Leave</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/HR/employment_data.php">Employee Data</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/HR/acknowledgements.php">Acknowledgements</a></li>
                         </ul>      
                     </li>
                     
-<?php
-    if(has_access($user_data["job_code"]) == true || has_access_manager($user_data["job_code"]) == true || $user_data["payroll_status"] != "GBS" || $user_data["job_code"] == "INT007"){
-?>
                     <li>
                         <a href="#">Benefits</a>
-                        <ul class="benefits_menu">
+                        <ul class="HR">
+                        <?php
+                            if((has_access_interpreting($user_data["job_code"]) == true) || (has_access_support($user_data["job_code"]) == true)){
+                        ?>                          
+                            <li><a href="<?php echo $linkToALL;?>/Benefits/overview.php">Overview</a></li> 
+                        <?php
+                            }
+
+                            if($user_data["payroll_status"] != "GBS" || $user_data["job_code"] == "INT007"){
+                        ?>
                             <li><a href="<?php echo $linkToALL;?>/Benefits/401k.php">401(k)</a></li>
                             <li><a href="<?php echo $linkToALL;?>/Benefits/medical.php">Medical</a></li>
                             <li><a href="<?php echo $linkToALL;?>/Benefits/dental_vision.php">Dental/Vision</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Benefits/supplemental_life.php">Supplemental Life</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Benefits/HealthBenefits.php">Health Benefits Example</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Benefits/FSA.php">Flexible Spending Account</a></li>
+                        <?php
+                            }
+                        ?>
+                            <li><a href="<?php echo $linkToALL;?>/Benefits/supplemental.php">Supplemental</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Benefits/EAP.php">Employee Assistance Program</a></li>
                         </ul>
                     </li>
                     
-<?php
-    }
-?>
+                    <li>
+                        <a href="#">Finance</a>
+                        <ul class="finance_menu">
+                            <li><a href="<?php echo $linkToALL;?>/Finance/travel_request.php">Travel Reimbursement Form </a></li>            
+                            <li><a href="<?php echo $linkToALL;?>/Finance/finance.php">Travel &amp; Reimbursement Policy</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Finance/Travel_Request_Form.xlsx">Travel Request Form (Excel)</a></li>
+                            <li><a href="<?php echo $linkToALL;?>/Finance/Reimbursement_Form.xlsx">Travel Reimbursement Form (Excel)</a></li>
+                        </ul>      
+                    </li>
+                    
+                    
                     <li>
                         <a href="#">Experts</a>
                         <ul class="experts_menu">
@@ -68,27 +85,20 @@
                             <li><a href="<?php echo $linkToALL;?>/Convo University/log.php">Employee Log</a></li>
                         </ul>
                     </li>
-                    
-
 <?php
-        if(has_access_census($user_data["job_code"]) == true){
-?>
-                    <!--<li><a href="census.php">Census</a></li>-->
-<?php
-        }
         if(has_access_manager($user_data["job_code"]) == true) {
 ?>
                     <li><a href="<?php echo $linkToALL;?>/employee.php">Employees</a></li>
 <?php
             if(has_access($user_data["job_code"]) == true) {
-                $query = "SELECT f.fmla_id FROM fmla f JOIN employee e ON e.employee_id = f.employee_id WHERE status = 'R'";
+                $query = "SELECT f.fmla_id FROM fmla_vw f JOIN employee_vw e ON e.employee_id = f.employee_id WHERE status = 'R'";
                 if($result = mysqli_query($link, $query)) {
                     // Return the number of rows in result set
                     $row_count = mysqli_num_rows($result);
                 }      
             }
             else {
-                $query = "SELECT f.fmla_id FROM fmla f JOIN employee e ON e.employee_id = f.employee_id WHERE supervisor_id =" . $user_data["employee_id"] . " AND status = 'R'";
+                $query = "SELECT f.fmla_id FROM fmla_vw f JOIN employee_vw e ON e.employee_id = f.employee_id WHERE supervisor_id =" . $user_data["employee_id"] . " AND status = 'R'";
                 if($result = mysqli_query($link, $query)) {
                     // Return the number of rows in result set
                     $row_count = mysqli_num_rows($result);
@@ -101,20 +111,13 @@
         if(has_access($user_data["job_code"]) == true) {
 ?>
                     <li>
-                        <a href="#">Admin</a>
-                        <ul class="admin_menu">
-                            <li><a href="<?php echo $linkToALL;?>/Admin/hire.php">Add Employee</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Admin/edit.php">Edit Employee</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Admin/createdatabase.php">Add DB Values</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Admin/editdatabase.php">Edit DB Values</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Admin/announcements.php">Announcements</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Admin/files_uploaded.php">Files Uploaded</a></li>
-                            <li><a href="<?php echo $linkToALL;?>/Admin/dashboard.php">Dashboard</a></li>
-                        </ul>
+                        <a href="<?php echo $linkToALL;?>/Admin/index.php">Admin</a>
                     </li>
 <?php
+                                                        
         }
     }
+}
 ?>
                 </ul> <!-- Main Navigation // -->
             </nav>  <!-- Menu List Ends -->

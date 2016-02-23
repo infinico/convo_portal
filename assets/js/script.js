@@ -23,7 +23,19 @@ function onLoad(){
     var zipCode = $("#employeeName").val().split("|")[12];
     var hourlyRate = $("#employeeName").val().split("|")[13];
     var location_code = $("#employeeName").val().split("|")[14];
+    var email = $("#employeeName").val().split("|")[15];
+    var convoNumber = $("#employeeName").val().split("|")[16];
+    
+    var formattedPhone = ""; 
+    
+    if(convoNumber.length > 0){
+        formattedPhone = convoNumber.substring(0,3) + "-" + convoNumber.substring(3,6) + "-" + convoNumber.substring(6,10); 
+    }
 
+    else{
+        formattedPhone = "";
+    }
+    
    // Employee Information
     $("input[name='employee_id']").val(empID);
     $("select[name='change_position_name']").val(jobCode);
@@ -37,7 +49,11 @@ function onLoad(){
     $("input[name='current_emp_status']").val(emp_status);
     $("select[name='emp_status']").val(emp_status);
     $("input[name='current_supervisor']").val(supervisor);
-    $("select[name='supervisor']").val(supervisor); 
+    $("select[name='supervisor']").val(supervisor);
+    
+    $("input[name='convoNumber']").val(formattedPhone); 
+    $("input[name='current_convoNumber']").val(formattedPhone); 
+    
 
     // Personal Information
     $("input[name='current_firstname']").val(firstname);
@@ -52,7 +68,13 @@ function onLoad(){
     $("select[name='res_state']").val(res_state);
     $("input[name='current_zipCode']").val(zipCode);
     $("input[name='zipCode']").val(zipCode);
+    $("input[name='email']").val(email);
+    $("input[name='current_email']").val(email);    
+
+
 }
+
+
 
 /*
 * CENSUS PAGE
@@ -65,9 +87,11 @@ $(document).ready(function() {
     $('input[name="announcement_time"]').timepicker();
     $('#active_leave_checkbox input:checkbox').prop('checked', 'checked');
 
+    
     // Employee Table
-    $("#example").dataTable().fnDestroy();
-    $('#example').dataTable( {
+    $("#employee_table").dataTable().fnDestroy();
+    $('#employee_table').dataTable( {
+        responsive: true,
         "language": {
             "lengthMenu": "Display _MENU_ records per page",
             "zeroRecords": "Nothing found - sorry",
@@ -92,6 +116,85 @@ $(document).ready(function() {
             { "width": "15%" }  // Employment Status
         ]
     });
+    
+    //Acknowledgement Waivers Tabe
+    $("#acknowledgement_waivers_table").dataTable().fnDestroy();
+    $('#acknowledgement_waivers_table').dataTable( {
+        responsive: true,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_ of _PAGES_",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        },
+        "order": [
+            [2, "asc" ],
+            [1, "asc" ]
+        ],
+        "columns": [
+            { "width": "1%" },  // Acknowledgement
+            { "width": "0.25%" }, // Version
+            { "width": "0.25%" }, // Date
+            { "width": "0.25%" }, // IP Address
+
+        ]
+    });
+    
+    
+    // Acknowledgement Table
+    $("#acknowledgement_table").dataTable().fnDestroy();
+    $('#acknowledgement_table').dataTable( {
+        responsive: true,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_ of _PAGES_",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        },
+        "order": [
+            [2, "asc" ],
+            [1, "asc" ]
+        ],
+        "columns": [
+            { "width": "6%" },  // Employee ID
+            { "width": "14%" }, // First Name
+            { "width": "14%" }, // Last Name
+            { "width": "10%" }, // Ack type
+            { "width": "10%" }, // Version
+            { "width": "17%" }, // Date Sent
+            { "width": "17%" }, // Ack Date
+            { "width": "10%" },  // IP Address
+        ]
+    });
+    
+    
+    // Onboarding Table
+    $("#onboarding_table").dataTable().fnDestroy();
+    $('#onboarding_table').dataTable( {
+        responsive: true,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_ of _PAGES_",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        },
+        "order": [
+            [5, "desc"]
+        ],
+        "columns": [
+            { "width": "8%" },  // First Name
+            { "width": "8%" }, // Last Name
+            { "width": "10%" }, // City
+            { "width": "5%" }, // State
+            { "width": "10%" }, // Email            
+            { "width": "10%" }, // Updated At
+            { "width": "10%" }, // Status
+        ]
+    });       
+    
     
     // Termination
     $("#termination").change(function() {

@@ -46,6 +46,14 @@ Copyright 2015
         
         <script type="text/javascript" src="<?php echo $linkToALL;?>/assets/js/script.js"></script>
         
+      <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+      <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+      <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+      <link rel="stylesheet" href="/resources/demos/style.css">-->
+
+ 
+
+        
         
         
         
@@ -53,8 +61,8 @@ Copyright 2015
     </head> <!-- Head ends -->
     <body onload="onLoad()">    <!-- Body -->
         <header>
-            <div class="infini-logo">
-            <a href="https://www.theinfini.com" target="_blank"><img id="infinilogo" src="<?php echo $linkToALL;?>/assets/images/infini.svg" alt="Infini" width="200"/></a></div>
+            <!--<div class="infini-logo">
+            <a href="https://www.theinfini.com" target="_blank"><img id="infinilogo" src="<?php echo $linkToALL;?>/assets/images/infini.svg" alt="Infini" width="200"/></a></div>-->
             <aside>              
 <?php      
     if(isset($_POST["login"]) && $_POST["username"] == "tester" && $_POST["password"] == "DBacce$$"){

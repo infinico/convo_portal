@@ -1,4 +1,8 @@
 /* ------------------------------- General CSS ------------------------------- */
+.center {
+    text-align: center;
+}
+
 hr {
     border: 0;
     height: 1px;
@@ -97,6 +101,34 @@ input {
     position: absolute;   
 }
 
+/* Email Directory */
+
+.columnLeft, .columnRight{
+    display: inline-block;
+    width: 500px;
+}
+
+.columnRight{
+    position: absolute;
+    margin-top: -40px;
+}
+
+
+/* Travel Request */
+
+.columnLeftQuantity{
+    display: inline-block;
+    width: 500px;
+}
+
+.columnRightQuantity{
+    position: absolute;
+    /*margin-bottom: 10px; */
+    margin-top: -240px;
+    margin-left: 270px;
+}
+
+
 /* Aside */
 aside {
     width: 260px;
@@ -164,7 +196,6 @@ header {
     float: left;
     margin-left: -57px;
     margin-bottom: 95px;
-    
 }
 /* ------------------------------- Header // ------------------------------- */
 
@@ -195,7 +226,7 @@ nav ul li.children:before {
     z-index: 1;
 	width: 100%;
 	display: block;
-    margin-top: -10px;
+    margin-top: -20px;
     margin-left: -20px;
 }
 
@@ -269,13 +300,14 @@ nav ul li.children:before {
 /* Give the space between the submenu */
 #primaryNav ul ul a {
 	padding: 4px 7px;
-    width: 140px;   /* Give the width of the white background */
+    /*width: 140px; */   /* Give the width of the white background */
     font-size: 11pt;
 }
 
 /* It ACTUALLY shows the submenu.  Without display, the submenu doesn't appear */
 #primaryNav ul li:hover > ul {
 	display: inline-block;
+    width: 140px;
 }
 
 /* Move sub-submenu to the left or right*/
@@ -300,6 +332,10 @@ nav ul li.children:before {
 
 .benefits_menu a {
     width: 180px !important;   
+}
+
+.finance_menu{
+    width: 180px;
 }
 
 .experts_menu {
@@ -328,7 +364,7 @@ footer {
 }
 
 .copyRight{
-    margin-left: -20px;  
+    margin-left: 20px;  
     font-weight: normal;
 }
 
@@ -344,7 +380,7 @@ footer {
 
 #policyFooter {
     float: right;
-    margin-right: -20px;   
+    margin-right: -20px;
 }
 
 /* ------------------------------- Footer // ------------------------------- */
@@ -515,7 +551,20 @@ ul li input[type="text"], ul li input[type="password"] {
     padding-top: 5pt;
     margin-top: -35px;
 }
+/* ACKNOWLEDGEMENT */
 
+.ack_background_span {
+    font-size: 11pt;
+    padding-bottom: 10pt;
+    margin-bottom: -20px
+    
+}
+
+#background_check_consent_cb{
+    float: left;   
+}
+
+/*-------------------------------------------------------------------------------------*/
 #submit_button_disabled {
     display: inline-block;
     -webkit-border-radius: 5px;
@@ -584,6 +633,14 @@ ul li input[type="text"], ul li input[type="password"] {
     text-align: center;
 }
 /* ------------------------------- onboarding // -------------------------------- */
+
+/* ------------------------------- Finance(travel request form) -------------------------------- */
+
+.note {
+    font-size: 11pt;
+    width: 100% !important;
+    display: inline-block;
+}
 
 /* ------------------------------- FMLA / Health Benefits------------------------------------------ */
 .fmla_header, .hb_header {
@@ -729,6 +786,14 @@ ul li input[type="text"], ul li input[type="password"] {
     
 }
 
+/*--------------------------FINANCE-------------------------------------------*/
+
+.policy_header{
+    margin: 0;   
+}
+
+
+
 /*--------------------------EVENTS-------------------------------------------*/
 .today{
     background-color: #71AB3A;
@@ -818,4 +883,27 @@ ul li input[type="text"], ul li input[type="password"] {
 
 #wowslider-container1 {
     z-index: 0 !important;   
+}
+
+/*---------------------------Tables //------------------------------*/
+
+table { 
+    width: 100%; 
+    border: 2px solid #71AB3A; 
+    border-collapse: collapse;
+}
+
+th { 
+    background-color: #71AB3A;
+    font-weight: bold;
+    color: #FFFFFF; 
+    border-collapse: collapse;
+    border: 2px solid #71AB3A;
+    padding: 5px;
+}
+
+td { 
+    border-collapse: collapse;
+    border: 2px solid #71AB3A;
+    padding: 5px;
 }

@@ -69,7 +69,7 @@
   float: left;
 }
 
-#logIn, #linkToReg, #completeReg, #recoverButton, #changePassButton, #updateButton, .hireOrTerm, #addButton, #verify, #editEventButton, #addevent, #deleteEventButton {
+#logIn, #linkToReg, #completeReg, #recoverButton, #changePassButton, #updateButton, .hireOrTerm, #addButton, #verify, #editEventButton, #addevent, #deleteEventButton, #submitBtn, #submit, #searchSubmit, #submitPicture{
   display: inline-block;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;

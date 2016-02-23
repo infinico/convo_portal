@@ -23,7 +23,10 @@ function filterme() {
     return '^' + this.value + '\$';
   }).get().join('|');
   //filter in column 0, with an regex, no smart filtering, no inputbox, not case sensitive
-  $('#example').dataTable().fnFilter(emp_status, 9, true, false, false, false);
+  $('#employee_table').dataTable().fnFilter(emp_status, 9, true, false, false, false);
+  $('#acknowledgement_table').dataTable().fnFilter(emp_status, 9, true, false, false, false);
+  $('#onboarding_table').dataTable().fnFilter(emp_status, 9, true, false, false, false);
+
 }
 
 /*
@@ -55,7 +58,23 @@ $("#employeeName").change(function() {
     var res_state = $(this).val().split("|")[11];
     var zipCode = $(this).val().split("|")[12];
     var hourlyRate = $(this).val().split("|")[13];
-    var location_code = $(this).val().split("|")[14];
+    var location_code = $(this).val().split("|")[14];    
+    var email = $(this).val().split("|")[15];
+    var convoNumber = $(this).val().split("|")[16];
+
+    
+    var formattedPhone = ""; 
+    
+    if(convoNumber.length > 0){
+        formattedPhone = convoNumber.substring(0,3) + "-" + convoNumber.substring(3,6) + "-" + convoNumber.substring(6,10); 
+    }
+    else{
+        formattedPhone = "";
+    }
+    
+    //var formattedPhone = convoNumber.substring(0,3) + "-" + convoNumber.substring(3,6) + "-" + convoNumber.substring(6,10); 
+
+
 
     // Employee Information
     $("input[name='employee_id']").val(empID);
@@ -71,6 +90,9 @@ $("#employeeName").change(function() {
     $("select[name='emp_status']").val(emp_status);
     $("input[name='current_supervisor']").val(supervisor);
     $("select[name='supervisor']").val(supervisor); 
+    $("input[name='convoNumber']").val(formattedPhone);
+    $("input[name='current_convoNumber']").val(formattedPhone);
+
 
     // Personal Information
     $("input[name='current_firstname']").val(firstname);
@@ -84,7 +106,10 @@ $("#employeeName").change(function() {
     $("input[name='current_res_state']").val(res_state);
     $("select[name='res_state']").val(res_state);
     $("input[name='current_zipCode']").val(zipCode);
-    $("input[name='zipCode']").val(zipCode);   
+    $("input[name='zipCode']").val(zipCode);
+    $("input[name='email']").val(email);
+    $("input[name='current_email']").val(email);
+
 });
 
 /*EDIT DATABASE */
