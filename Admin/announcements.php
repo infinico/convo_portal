@@ -5,6 +5,7 @@
     include("../core/init.php");
     include("../assets/inc/header.inc.php");
     admin_protect();
+    protect_page();
 
     if(isset($_POST["submit"])) {
         

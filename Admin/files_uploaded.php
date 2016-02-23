@@ -3,6 +3,7 @@
     $title = "Convo Portal | File Uploaded";
     include("../core/init.php");
     admin_protect();
+    protect_page();
     include("../assets/inc/header.inc.php");
 
     // Bytes Conversion Function

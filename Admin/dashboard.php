@@ -5,6 +5,8 @@
     include("../core/init.php");
     include("../assets/inc/header.inc.php");
     admin_protect();
+    protect_page();
+
 
     /*Video Interpreter*/
     $resultVI = mysqli_query($link, "SELECT COUNT('employee_id') FROM convo_employee_vw WHERE job_code = 'INT007' AND (employment_status = 'Active' OR employment_status = 'Leave')");

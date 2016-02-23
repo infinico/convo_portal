@@ -4,6 +4,7 @@
     $title = "Convo Portal | Edit Database";
     include("../core/init.php");
     admin_protect();
+    protect_page();
     include("../assets/inc/header.inc.php");
     include("../includes/includes_functions.php");
     //$url_empID = $_GET["employerID"];

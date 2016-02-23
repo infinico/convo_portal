@@ -5,7 +5,6 @@
     include("/../assets/inc/header.inc.php");
     protect_page();
 
-
 ?>
 
             <h1 class="headerPages">Portal Admininistration</h1>
@@ -22,14 +21,13 @@
                 
                 <h2>Database Administration</h2>
                 <ul class="resources">
-                    <li><a href="onboarding.php">New Employee Onboarding</a></li>                
-                    <li><a href="add_acknowledgement.php">Add Acknowledgment</a></li>
                     <li><a href="hire.php">Add Employee</a></li>
                     <li><a href="edit.php">Edit Employees</a></li>
                     <li><a href="createdatabase.php">Add Database Values</a></li>
                     <li><a href="editdatabase.php">Edit Database Values</a></li>
                     <li><a href="announcements.php">Announcements</a></li>
-                    
+                    <li><a href="add_acknowledgement.php">Add Acknowledgment</a></li>
+
                 </ul>
                 
                 <h2>File Management</h2>
@@ -37,7 +35,6 @@
                     <li><a href="files_uploaded.php">Files Uploaded</a></li>
                 </ul>        
             </div>  <!-- column Left // -->
-
             <div id="colRight">   <!-- column Right -->
             </div>  <!-- column Right //-->
 

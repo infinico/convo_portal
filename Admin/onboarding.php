@@ -1,6 +1,8 @@
 <?php 
-    $page_title = "Add Employee";
-    $title = "Convo Portal | Hire";
+    $page_title = "New Employee Onboarding";
+    $title = "New Employee Onboarding";
+    require_once "../includes/phpmailer/vendor/autoload.php";
+    require("../includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
     include("../core/init.php");
     admin_protect();
     protect_page();
@@ -8,23 +10,9 @@
     include("../assets/inc/header.inc.php");
     include("../includes/includes_functions.php");
 
-    $errorId = $errorFirst = $errorLast = $errorPosition = $errorLocation = $errorStreet = $errorCity = $errorZip = $errorState = $errorStreetAddress = $errorCity = $errorZipCode = $errorEmailAddress = $errorPayroll = $errorDate = $errorPhoneNumber = $errorLocation = $errorDOB = $errorSSN = $errorGender = "";
+    $errorUsername = $errorFirst = $errorLast = $errorPosition = $errorLocation = $errorStreet = $errorCity = $errorZip = $errorState = $errorStreetAddress = $errorCity = $errorZipCode = $errorEmailAddress = $errorPayroll = $errorDate = $errorPhoneNumber = $errorLocation = $errorGender = "";
 
     if(isset($_POST["submit"])) {
-        if(empty($_POST["employee_id"])) {
-            $errorId = "<span class='error'> Please enter new employee ID</span>";   
-        }
-        else if($_POST["employee_id"]{0} == "C"){
-            if(!(is_numeric($_POST["employee_id"]{1})) || !(is_numeric($_POST["employee_id"]{2})) || !(is_numeric($_POST["employee_id"]{3})) || strlen($_POST["employee_id"]) != 4){
-                $errorId = "<span class='error'>If it is a contractor, please use \"C###\"</span>"; 
-            }
-        }
-        else if(!(is_numeric($_POST["employee_id"]))){
-            $errorId = "<span class='error'>Please enter numbers or first character 'C' for contractor</span>";   
-        }
-        if(employee_id_exists($_POST["employee_id"]) == true) {
-            $errorId = "<span class='error'>The employee ID exists in the database, please enter different employee ID</span>";   
-        }
         if(empty($_POST["firstname"])) {
             $errorFirst = "<span class='error'>Please enter first name</span>";
         }
@@ -61,26 +49,19 @@
         if(empty($_POST["hire_date"])) {
             $errorDate = "<span class='error'>Please enter Month, Day, and Year</span>";     
         }
-        /*if(empty($_POST["phone_number"])) {
-            $errorPhoneNumber = "<span class='error'>Please enter Convo number </span>";     
-        } */
-        
-        if(empty($_POST["dob"])){
-            $errorDOB = "<span class='error'>Please enter date of birth</span>";   
-        }
         if(empty($_POST["gender"])){
             $errorGender = "<span class='error'>Please enter gender</span>";   
         }
-        if(empty($_POST["ssn"])){
-            $errorSSN = "<span class='error'>Please enter last 4 digits ssn</span>";   
+        
+        else if(empty($_POST["username"])){
+            $errorUsername = "<span class='error'>Please enter username</span>";
+        }
+        else if(user_exists($_POST["username"]) === true) {
+            $errorUsername = "<span class='error'>Sorry, the username \"" . $_POST["username"] . "\" is already taken.</span>";   
         }
 
-        else if(!(is_numeric($_POST["ssn"]))){
-            $errorSSN = "<span class='error'>Please enter number only</span>";
-        }
         
-        if($errorId == "" && $errorFirst == "" &&  $errorLast == "" && $errorPosition == "" && $errorLocation == "" && $errorState == "" && $errorStreetAddress == "" && $errorCity == "" && $errorZipCode == "" && $errorPayroll == "" && $errorDate == "" && $errorPhoneNumber == "" && $errorDOB == "" && $errorGender == "" && $errorSSN == ""){
-            $employee_id = sanitize($_POST["employee_id"]);
+        if($errorUsername == "" && $errorFirst == "" &&  $errorLast == "" && $errorPosition == "" && $errorLocation == "" && $errorState == "" && $errorStreetAddress == "" && $errorCity == "" && $errorZipCode == "" && $errorPayroll == "" && $errorDate == "" && $errorGender == ""){
             $firstname = sanitize($_POST["firstname"]);
             $lastname = sanitize($_POST["lastname"]);
             $jobTitle = sanitize($_POST["change_position_name"]);
@@ -91,25 +72,23 @@
             $zipcode = sanitize($_POST["zipcode"]);
             $emailAddress = sanitize($_POST["email_address"]);
             $payrollStatus = sanitize($_POST["payroll_status"]);
-            // $supervisor = explode(" ", sanitize($_POST["supervisor"]))[0];
             $supervisor = sanitize($_POST["supervisor"]);
             $hire_date = sanitize($_POST["hire_date"]);
-            $phone_number = sanitize($_POST["phone_number"]);
-            $dob = sanitize($_POST["dob"]);
-            $ssn = sanitize($_POST["ssn"]);
             $gender = sanitize($_POST["gender"]);
             $hourlyRate = sanitize($_POST["hourly_rate"]);
-            $new_hire_id = sanitize($_POST["hide_employee_id"]);
+            $username = sanitize($_POST["username"]);
+            $generated_password = substr(md5(rand(999, 999999)), 0, 8); //generated password
+            $md5_password = md5($generated_password);
         
             
             // Convert from MM-DD-YYYY to YYYY-MM-DD to follow the MySQL Date Format
             $hireDateInput = multiexplode(array("-", "/"), $hire_date);
             $hireDate = $hireDateInput[2] . "-" . $hireDateInput[0] . "-" . $hireDateInput[1];
             
-            $dobInput = multiexplode(array("-", "/"), $dob);
-            $date_of_birth = $dobInput[2] . "-" . $dobInput[0] . "-" . $dobInput[1];
+            //$dobInput = multiexplode(array("-", "/"), $dob);
+            //$date_of_birth = $dobInput[2] . "-" . $dobInput[0] . "-" . $dobInput[1];
             
-            $phoneNumber = clean_up_phone($phone_number);
+            //$phoneNumber = clean_up_phone($phone_number);
             
             /*
             echo $hireDate;
@@ -140,42 +119,24 @@
             die();
             */
         
-            mysqli_query($link, "CALL insert_employee_hire('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$emailAddress','$date_of_birth', '$ssn', '$gender', '$phoneNumber');");
+            mysqli_query($link, "CALL insert_onboarding_hire('$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '1', '$emailAddress', '$gender', '$username', 'O', '$md5_password');");   
             
-            mysqli_query($link, "CALL update_new_hire('$new_hire_id', 'Accepted')");
+            onboarding_reset_password($firstname, $username, $emailAddress, $generated_password);
             
-            echo "<h2 class='headerPages'>The employee's information was added to database successfully!</h2>";
+            echo "<h2 class='headerPages'>" . $firstname . " " . $lastname . "'s information was successfully added to the database, and an email has been sent to " . $firstname . ".</h2>";
             die();      
         }
     }
 ?>
     
-            <h1 class="headerPages">Add employee</h1>
+            <h1 class="headerPages"> New Employee Onboarding</h1>
             <h3>Please fill out the new employee's information below.</h3>
 
             <form id="hire" method="POST">
 
                 <!-- Personal Information -->
                 <h2>Personal Information</h2>
-                
-                <span class="spanHeader">Employee:</span>
-                <?php   
-                        echo "<select id='new_hire' name='new_hire'>";
-                        echo "<option value=''>Select an employee</option>";
-                        while($row = mysqli_fetch_assoc($resultNewHire)) {
-                            if($row["status"] == "Pending"){
-                                echo "<option value ='" . $row['firstname'] . "|" . $row['lastname'] . "|" . $row['street_address'] . "|" . $row['city'] . "|" . $row['res_state'] . "|" . $row['zip_code'] . "|" . $row['date_of_birth'] . "|" . $row['email_address'] . "|" . $row["employee_id"] . "'";
-                        
-                                echo ">" . $row['lastname'] . ", " . $row["firstname"] . "</option>";   
-                            }
-                        }
-                        echo "</select>";
-                ?><input type="hidden" name="hide_employee_id" value="<?php if(isset($_POST["submit"])){echo $_POST["hide_employee_id"];} ?>"><br/><br/>
-
-                <!-- EmployeeID -->
-                <span class="spanHeader">Employee ID: </span>
-                <input type="text" id="employee_id" name="employee_id" placeholder="Employee ID" maxlength="4" value=<?php if(isset($_POST["submit"])){echo $_POST['employee_id'];} ?>><?php echo $errorId; ?><br/><br/>
-                
+                              
 
                <!-- First Name -->
                 <span class="spanHeader">First Name: </span>
@@ -193,15 +154,7 @@
                     <option value="F" <?php if(isset($_POST["submit"]) && $_POST["gender"] == "F"){echo "selected='selected'";} ?> >F</option>
                 </select> <?php echo $errorGender; ?><br/><br/>
 
-                <!-- Date of Birth -->
-                <span class="spanHeader">Date of Birth:</span>
-                <input type="text" placeholder="MM/DD/YYYY" name="dob" value=<?php if(isset($_POST["submit"])){echo $_POST['dob'];} ?>>
-                <?php echo $errorDOB; ?><br/><em class="note">MM/DD/YYYY</em><br/><br/>
 
-                <!-- SSN -->
-                <span class="spanHeader">SSN:</span>
-                <input type="text" name="ssn" maxlength="4" size="5" placeholder="Enter last four digits" value=<?php if(isset($_POST["submit"])){echo $_POST['ssn'];} ?>>
-                <?php echo $errorSSN; ?><br/><br/>
 
                 <!-- Street Address-->
                 <span class="spanHeader">Street Address: </span>
@@ -237,7 +190,7 @@
                     while($row = mysqli_fetch_assoc($resultPosition)) {
                         echo "<option value = '" . $row['job_code'] . "'";
 
-                        if(isset($_POST["submit"]) && $_POST["change_position_name"] == $row['position_name']){
+                        if(isset($_POST["submit"]) && $_POST["change_position_name"] == $row['job_code']){
                             echo "selected='selected'";
                         }       
                         echo ">" . $row['job_code'] . " - " . $row['position_name'] . "</option>";   
@@ -294,15 +247,20 @@
                 <!-- Hire Date -->
                 <span class="spanHeader">Hire Date:</span>
                 <input type="text" placeholder="MM/DD/YYYY" class="datepicker" name="hire_date" value=<?php if(isset($_POST["submit"])){echo $_POST['hire_date'];} ?>><?php echo $errorDate; ?><br/><br/>
-                
-                <!-- Phone Number -->
-                <span class="spanHeader">Convo Number:</span>
-                <input type="text" placeholder="xxx-xxx-xxxx" class="input-large" name="phone_number" value=<?php
-
-               if(isset($_POST["submit"])){echo $_POST['phone_number'];} ?>><br/><br/><br/>
             
+                
+                
+  <!-- EMPLOYEE USERNAME AND PASSWORD INFORMATION -->
+                <h2>Login Credentials</h2>
 
+                <!-- Username-->
+                <span class="spanHeader">Username: </span>
+                <input type="text" name="username" value=<?php if(isset($_POST["submit"])){echo $_POST['username'];} ?>><?php echo $errorUsername ?><br/><br/>              
+
+                
                 <input type="submit" id="addButton" name="submit" value="Add">
+                
+                
             </form>
 <?php
     include("../assets/inc/footer.inc.php");
