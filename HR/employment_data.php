@@ -1,6 +1,6 @@
 <?php
-    $page_title = "Employment Data";
-    $title = "Convo Portal | Employment Data";
+    $page_title = "Employee Data";
+    $title = "Convo Portal | Employee Data";
     include("../core/init.php");
     protect_page();
     include("../assets/inc/header.inc.php");
@@ -9,14 +9,32 @@
     $errorEmail = "";
 
     $query = "SELECT * FROM employee_vw WHERE employee_id = '$employee_id'";
-
     $result = mysqli_query($link, $query);
     $num_rows = mysqli_affected_rows($link);
 
     if ($result && $num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
+            $payroll = $row["payroll_status"];
             $email_address = $row["email"];
             $hireDate = $row["hire_date"];
+            
+            if($payroll == "FT"){
+                $payroll_status = "Full Time";
+            }
+            
+            else if($payroll == "PT"){
+                $payroll_status = "Part Time";
+            }
+            
+            else if($payroll = "GBS"){
+                $payroll_status = "General Benefit Staff";
+            }
+            
+            else {
+                $payroll_status = "Unknown";
+            }
+                
+                
             $hireDateInput = explode("-", $hireDate);
             $hire_date = $hireDateInput[1] . "/" . $hireDateInput[2] . "/" . $hireDateInput[0];
         }
@@ -38,9 +56,10 @@
             }
         }
     }
+
 ?>
 
-            <h1 class="headerPages">My Employment Data</h1>
+            <h1 class="headerPages">Employee Data</h1>
 
             <p>If your home address is incorrect, please fill out <a href="<?php echo $linkToALL; ?>/HR/resources/W-4%20form.pdf" target="_blank">W-4 Form</a> and email to <a href="mailto:HR@convorelay.com">HR@convorelay.com</a>.</p>
 
@@ -69,16 +88,23 @@
 
                 <br/>
 
+                
+
                 <h2>Employee Information</h2>
+
+                
                 <span class="spanHeader">Position: </span>
                 <input type="text" class="input-large" name="position" style='background:#E9E9E9;' readonly value="<?php echo $position_data["position_name"]; ?>"/><br/>
+                
                 <span class="spanHeader">Supervisor: </span>
                 <input type="text" class="input-large" name="supervisor" style='background:#E9E9E9;' readonly value="<?php echo $supervisor_data["firstname"] . " " . $supervisor_data["lastname"]; ?>"/><br/>
                 <span class="spanHeader">Date of Hire: </span>
                 <input type="text" class="input-medium" name="hire_date" style='background:#E9E9E9;' readonly value="<?php echo $hire_date; ?>"/><br/>
+                                <span class="spanHeader">Payroll status: </span>
+                 <input type="text" class="input-large" name="payroll_status" style='background:#E9E9E9;' readonly value="<?php echo $payroll_status; ?>"/><br/>
                 <br/>
 
-                <input type="submit" class="btn-success" value ="Submit" name="submit">
+                <input type="submit" class="btn-success" value ="Submit" name="submit" id="submit">
             </form>
 <?php
     include("../assets/inc/footer.inc.php");

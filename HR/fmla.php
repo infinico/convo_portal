@@ -1,6 +1,6 @@
 <?php
-    $page_title = "FMLA";
-    $title = "Convo Portal | FMLA";
+    $page_title = "Family Medical Leave";
+    $title = "Convo Portal | Family Medical Leave";
     require_once "../includes/phpmailer/vendor/autoload.php";
     require("../includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
     include("../core/init.php");
@@ -70,14 +70,14 @@
             
             newEmail($user_data['email'], $user_data["firstname"], $user_data["lastname"], 'Family Medical Leave Request', $fmla_info);
             
-            echo "<h2 class='headerPages'>Thank you for submitting the form!</h2>";
+            echo "<h2 class='headerPages'>Thank you for submitting your Family Medical Leave request. This request has been sent to HR.</h2>";
             die();   
             } 
         }
     }
 ?>
 
-            <h1 class="headerPages">Family and Medical Leave of Absence (FMLA)</h1>
+            <h1 class="headerPages">Family and Medical Leave of Absence</h1>
 
             <!-- General Provisions -->
             <h2 class="fmla_header">General Provisions</h2>
