@@ -4,17 +4,11 @@
     */
 
 
-    
-
-
-
-
-
     // employee ID from the username will apply to the Login Function below
     function user_id_from_username($username) {
         global $link;
         $username = sanitize($username);
-        $query = mysqli_query($link, "SELECT employee_id FROM employee WHERE username = '$username'");
+        $query = mysqli_query($link, "SELECT employee_id FROM employee_vw WHERE username = '$username'");
         while($row = mysqli_fetch_assoc($query)){
             if(mysqli_num_rows($query) > 0 ) {
                 return $row["employee_id"];   
@@ -32,7 +26,8 @@
         $username = sanitize($username);
         $password = md5($password);
         
-        $query = mysqli_query($link, "SELECT employee_id FROM employee WHERE username = '$username' AND password = '$password'");
+        $sql = "SELECT employee_id FROM employee_vw WHERE username = '$username' AND password = '$password'";
+        $query = mysqli_query($link, $sql);
         
         while($row = mysqli_fetch_assoc($query)){
             if(mysqli_num_rows($query) > 0 ) {
@@ -46,14 +41,14 @@
     }
 
     function logged_in() {
-        return(isset($_SESSION['employee_id'])) ? true : false;   
+        return(isset($_SESSION['emplid'])) ? true : false;   
     }
 
     // The users are active when they register the usernames
     function user_active($username) {
         global $link;
         $username = sanitize($username);
-        $query = mysqli_query($link, "SELECT employee_id FROM employee WHERE username = '$username' AND active = 1");
+        $query = mysqli_query($link, "SELECT employee_id FROM employee_vw WHERE username = '$username' AND active = 1");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -64,7 +59,7 @@
 
     function test_employee_id($employeeID){
         global $link;
-        $query = mysqli_query($link, "SELECT * FROM employee WHERE employee_id = '$employeeID'");
+        $query = mysqli_query($link, "SELECT * FROM employee_vw WHERE employee_id = $employeeID");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -83,7 +78,9 @@
         global $link;
         $ssn = sanitize($ssn);
         $dob = sanitize($dob);
-        $query = mysqli_query($link, "SELECT employee_id FROM employee WHERE ssn = '$ssn' AND date_of_birth = '$dob'");
+        $dob = str_replace("/","-",$dob);
+        $query = mysqli_query($link, "SELECT employee_id FROM employee_vw WHERE ssn = '$ssn' AND DATE_FORMAT(date_of_birth, '%m-%d-%Y') = '$dob'");
+        
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -101,11 +98,13 @@
         $username = $register_data["username"];
         //$register_data["ssn"] = md5($register_data["ssn"]);
         //$ssn = $register_data["ssn"];
+        $dob = str_replace("/","-",$dob);
+        
         
         $fields = "" . implode(", ", array_keys($register_data)) . "";
         $data = "\"" . implode("\" , \"", $register_data) . "\"";
         
-        mysqli_query($link, "UPDATE employee SET username = '$username', password = '$password' WHERE ssn = '$ssn' AND date_of_birth = '$dob'");
+        mysqli_query($link, "UPDATE employee SET username = '$username', password = '$password' WHERE ssn = '$ssn' AND DATE_FORMAT(date_of_birth, '%m-%d-%Y') = '$dob'");
 
         /*email($register_data["email"], "Activate your account", "
             Hello " . $register_data["firstname"] . ",\n\nYou need to activiate your account, so use the link below:\n\nhttp://localhost/testing/activiate.php?email=" . $register_data["email"] . " &email_code=" . $register_data["email_code"] . "\n\n-Infini Consulting");*/
@@ -124,7 +123,7 @@
         foreach($update_data as $field => $data) {
             $update[] = "$field = \"$data\"";
         }
-        mysqli_query($link, "UPDATE employee SET " . implode(", ", $update) . " WHERE employee_id = '$user_id'") or die(mysqli_error($link));
+        mysqli_query($link, "UPDATE employee SET " . implode(", ", $update) . " WHERE emplid = $user_id") or die(mysqli_error($link));
     }
 
     function change_password($user_id, $password) {
@@ -132,7 +131,7 @@
         $user_id = $user_id;
         //setcookie("password", $password, time() + 7200);
         $password = md5($password); 
-        mysqli_query($link, "UPDATE employee SET password = '$password', password_recover = 0 WHERE employee_id = '$user_id'");    
+        mysqli_query($link, "UPDATE employee SET password = '$password', password_recover = 0 WHERE emplid = $user_id");    
     }
 
     /*
@@ -145,7 +144,7 @@
         $job_code = $job_code;
         //$type = (int)$type;
         
-        $query = mysqli_query($link, "SELECT job_code FROM position_type WHERE job_code = '$job_code' AND admin_privilege = '1'");
+        $query = mysqli_query($link, "SELECT job_code FROM position_vw WHERE job_code = '$job_code' AND admin_privilege = '1'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -158,7 +157,7 @@
     function has_access_manager($job_code) {
         global $link;
         $job_code = $job_code;    
-        $query = mysqli_query($link, "SELECT job_code FROM position_type WHERE job_code = '$job_code' AND manager_privilege = '1'");
+        $query = mysqli_query($link, "SELECT job_code FROM position_vw WHERE job_code = '$job_code' AND manager_privilege = '1'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -167,10 +166,10 @@
         }
     }
 
-    //Interpreting Department Access - everyone in this department have access.
+    //Interpreting Department Access - everyone in Interpreting and Operations have access.
     function has_access_interpreting($job_code){
         global $link;
-        $query = mysqli_query($link, "SELECT job_code FROM position_type WHERE job_code = '$job_code' AND dept_code = 'INT'");
+        $query = mysqli_query($link, "SELECT job_code FROM position_vw WHERE job_code = '$job_code' AND dept_code IN('INT','OPS')");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -181,7 +180,7 @@
 
     function has_access_support($job_code){
         global $link;
-        $query = mysqli_query($link, "SELECT job_code FROM position_type WHERE job_code = '$job_code' AND dept_code = 'SUP'");
+        $query = mysqli_query($link, "SELECT job_code FROM position_vw WHERE job_code = '$job_code' AND dept_code = 'SUP'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -211,7 +210,9 @@
             unset($func_get_args[0]);
             
             $fields = "" . implode(", ", $func_get_args) . "";
-            $query = mysqli_query($link, "SELECT $fields FROM employee WHERE employee_id = '$user_id'");
+            
+            $sql = "SELECT $fields FROM employee_vw WHERE employee_id = $user_id";
+            $query = mysqli_query($link, $sql);
             //$result = mysql_result($link, $query);
             $data = mysqli_fetch_assoc($query);
             
@@ -224,17 +225,19 @@
     */
 
     // Census Access for the full-time employees only.
-    function has_access_census($user_id) {
+    /*function has_access_census($user_id) {
         global $link;
-        $user_id = $user_id;    
-        $query = mysqli_query($link, "SELECT employee_id FROM employee WHERE employee_id = '$user_id' AND payroll_status = 'FT'");
+        $user_id = $user_id;   
+        $sql = "SELECT employee_id FROM employee_vw WHERE employee_id = $user_id AND payroll_status = 'FT'";
+        echo $sql;
+        $query = mysqli_query($link, $sql);
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
         else {
             return false;   
         }
-    }
+    }*/
 
     // Census Data collects the employees' information from the database.
     function census_data($user_id) {
@@ -249,7 +252,7 @@
             unset($func_get_args[0]);
             
             $fields = "" . implode(", ", $func_get_args) . "";
-            $query = mysqli_query($link, "SELECT $fields FROM employee WHERE employee_id = '$user_id'");
+            $query = mysqli_query($link, "SELECT $fields FROM employee_vw WHERE employee_id = $user_id");
             //$result = mysql_result($link, $query);
             $data = mysqli_fetch_assoc($query);
             
@@ -266,7 +269,7 @@
         global $link;
         $user_id = $user_id;
         
-        $query = mysqli_query($link, "SELECT COUNT('supervisor_id') FROM employee WHERE employee_id = '$user_id' AND supervisor_id = '$supervisor_id'");
+        $query = mysqli_query($link, "SELECT COUNT('supervisor_id') FROM employee_vw WHERE employee_id = $user_id AND supervisor_id = '$supervisor_id'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -288,7 +291,7 @@
             unset($func_get_args[0]);
             
             $fields = "s." . implode(", s.", $func_get_args) . "";
-            $query = mysqli_query($link, "SELECT $fields FROM employee s INNER JOIN employee e ON s.employee_id = e.supervisor_id WHERE e.employee_id = '$user_id'");
+            $query = mysqli_query($link, "SELECT $fields FROM employee_vw s INNER JOIN employee_vw e ON s.employee_id = e.supervisor_id WHERE e.employee_id = $user_id");
             $data = mysqli_fetch_assoc($query);
             
             return $data;
@@ -308,7 +311,7 @@
             unset($func_get_args[0]);
             
             $fields = "e." . implode(", e.", $func_get_args) . "";
-            $query = mysqli_query($link, "SELECT $fields, p.position_name FROM employee e INNER JOIN position_type p ON e.job_code = p.job_code WHERE e.employee_id = '$user_id'");
+            $query = mysqli_query($link, "SELECT $fields, p.position_name FROM employee_vw e INNER JOIN position_vw p ON e.job_code = p.job_code WHERE e.employee_id = $user_id");
             $data = mysqli_fetch_assoc($query);
             
             return $data;
@@ -324,7 +327,7 @@
     function user_exists($username) {
         global $link;
         $username = sanitize($username);
-        $query = mysqli_query($link, "SELECT COUNT('employee_id') FROM employee WHERE username = '$username'");
+        $query = mysqli_query($link, "SELECT employee_id FROM employee_vw WHERE username = '$username'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -333,11 +336,30 @@
         }
     }
 
+    // User Terminated - user has been terminated and is no longer given access
+    function user_terminated($username) {
+        global $link;
+        $username = sanitize($username);
+        $query = mysqli_query($link, "SELECT employee_id FROM employee_vw WHERE username = '$username' AND employment_status = 'Terminated'");
+        if(mysqli_num_rows($query) > 0 ) {
+            return true;   
+        }
+        
+         
+        else {
+            return false;   
+        }
+    }
+
+    function logout_user() {
+        return(isset($_SESSION['emplid'])) ? true : false;   
+    }
+
     // Employee ID Exists - must be unique and can't be same employeeID
     function employee_id_exists($employee_id) {
         global $link;
         $employee_id = sanitize($employee_id);
-        $query = mysqli_query($link, "SELECT employee_id FROM employee WHERE employee_id = '$employee_id'");
+        $query = mysqli_query($link, "SELECT employee_id FROM employee_vw WHERE employee_id = $employee_id");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -350,7 +372,7 @@
     function position_name_exists($positionName) {
         global $link;
         $positionName = sanitize($positionName);
-        $query = mysqli_query($link, "SELECT position_name FROM position_type WHERE position_name = '$positionName'");
+        $query = mysqli_query($link, "SELECT position_name FROM position_vw WHERE position_name = '$positionName'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -362,7 +384,7 @@
     function department_name_exists($departmentName) {
         global $link;
         $departmentName = sanitize($departmentName);
-        $query = mysqli_query($link, "SELECT department_name FROM department WHERE department_name = '$departmentName'");
+        $query = mysqli_query($link, "SELECT department_name FROM department_vw WHERE department_name = '$departmentName'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -375,7 +397,7 @@
     function convo_location_exists($convoLocation) {
         global $link;
         $convoLocation = sanitize($convoLocation);
-        $query = mysqli_query("SELECT location_code FROM location WHERE convo_location = '$convoLocation'");
+        $query = mysqli_query("SELECT location_code FROM location_vw WHERE convo_location = '$convoLocation'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -388,7 +410,7 @@
     function job_code_exists($jobCode) {
         global $link;
         $jobCode = sanitize($jobCode);
-        $query = mysqli_query($link, "SELECT job_code FROM position_type WHERE job_code = '$jobCode'");
+        $query = mysqli_query($link, "SELECT job_code FROM position_vw WHERE job_code = '$jobCode'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -401,7 +423,7 @@
     function department_code_exists($deptCode) {
         global $link;
         $deptCode = sanitize($deptCode);
-        $query = mysqli_query($link, "SELECT dept_code FROM department WHERE dept_code = '$deptCode'");
+        $query = mysqli_query($link, "SELECT dept_code FROM department_vw WHERE dept_code = '$deptCode'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -413,7 +435,7 @@
     function convo_location_code_exists($locationCode) {
         global $link;
         $locationCode = sanitize($locationCode);
-        $query = mysqli_query($link, "SELECT location_code FROM location WHERE location_code = '$locationCode'");
+        $query = mysqli_query($link, "SELECT location_code FROM location_vw WHERE location_code = '$locationCode'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -429,24 +451,26 @@
     function newEmail($email, $firstname, $lastname, $subjectHeader, $bodyMessage){
         
         global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
-        // CONTACT FORM
-        if(isset($_POST["submitContact"])){
+        
+            
+        // TRAVEL REQUEST FORM
+        if(isset($_POST["submit"])){
             
             $mail = new PHPMailer;
         
             $mail->SMTPAuth = true;
 
-            $mail->Host = 'stmp.gmail.com';
+            $mail->Host = 'smtp.gmail.com';
             $mail->Username = 'convoportal@gmail.com';
             $mail->Password = 'ConvoPortal#1!';
             $mail->STMPSecure = 'ssl';
             $mail->Port = 465;
 
-            $mail->From = 'jja4740@rit.edu';
+            $mail->From = 'alw7097@rit.edu';
             $mail->FromName = 'Convo Portal';
             $mail->AddAddress = $email;
             $mail->AddCC($COOP1Email, $COOP1Name);
-            $mail->AddCC($COOP2Email, $COOP2Name);
+            /*$mail->AddCC($COOP2Email, $COOP2Name);*/
             $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message = "Hello " . $firstname . ", \n\n";
@@ -479,7 +503,7 @@
         
             $receiver->SMTPAuth = true;
 
-            $receiver->Host = 'stmp.gmail.com';
+            $receiver->Host = 'smtp.gmail.com';
             $receiver->Username = 'convoportal@gmail.com';
             $receiver->Password = 'ConvoPortal#1!';
             $receiver->STMPSecure = 'ssl';
@@ -487,9 +511,91 @@
 
             $receiver->From = $email;
             $receiver->FromName = $firstname . " " . $lastname;
-            $receiver->AddAddress = 'jja4740@rit.edu';
+            $receiver->AddAddress = 'alw7097@rit.edu';
             $receiver->AddCC($COOP1Email, $COOP1Name);
-            $receiver->AddCC($COOP2Email, $COOP2Name);
+            /*$receiver->AddCC($COOP2Email, $COOP2Name); */
+            $receiver->AddCC($SupervisorCOOPEmail, $SupervisorName);
+            
+            $message2 = "<p>Hello HR,</p>";
+            $message2 .= "<p>" . $bodyMessage . "</p>";
+            $message2 .= "<p>" . $firstname . " " . $lastname . "</p>";
+            
+            if($_ENV["HOSTNAME"] = "TESTING"){
+                $subject2 = 'Convo - ' . $subjectHeader . ' TESTING'; 
+            }
+            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+                $subject2 = 'Convo - ' . $subjectHeader . ' DEVELOPING'; 
+            }
+
+
+            $receiver->Subject = $subject2;
+            $receiver->Body = $message2;
+            $receiver->AltBody = $bodyMessage;
+
+            $receiver->send();
+        }
+        
+        // CONTACT FORM
+        if(isset($_POST["submitContact"])){
+            
+            $mail = new PHPMailer;
+        
+            $mail->SMTPAuth = true;
+
+            $mail->Host = 'smtp.gmail.com';
+            $mail->Username = 'convoportal@gmail.com';
+            $mail->Password = 'ConvoPortal#1!';
+            $mail->STMPSecure = 'ssl';
+            $mail->Port = 465;
+
+            $mail->From = 'alw7097@rit.edu';
+            $mail->FromName = 'Convo Portal';
+            $mail->AddAddress = $email;
+            $mail->AddCC($COOP1Email, $COOP1Name);
+            /*$mail->AddCC($COOP2Email, $COOP2Name);*/
+            $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+            
+            $message = "Hello " . $firstname . ", \n\n";
+            $message .= "<p>Thank you for e-mailing CONVO Human Resources.  We will try to do our best to respond to your e-mail as soon as possible.  You can expect a response within two business days.</p>";
+            $message .= "<p>Your message was sent to Human Resources:</p>";
+            $message .= "<p>\"" . $bodyMessage . "\"</p>";
+            $message .= "<p>If you have any questions, please contact CONVO Human Resources at HR@convorelay.com.</p>";
+            $message .= "<p>CONVO Human Resources</p>";
+            $message .= "<p>Email:  HR@convorelay.com</p>";
+            
+            if($_ENV["HOSTNAME"] = "TESTING"){
+                //$to = 'pxy9548@rit.edu';
+                $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . " - TESTING"; 
+            }
+            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+                //$to = 'jja4740@rit.edu';
+                $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . ' - DEVELOPING'; 
+            }
+
+
+            $mail->Subject = $subject;
+            $mail->Body = $message;
+            $mail->AltBody = $bodyMessage;
+
+            $mail->send();
+            
+            
+            
+            $receiver = new PHPMailer;
+        
+            $receiver->SMTPAuth = true;
+
+            $receiver->Host = 'smtp.gmail.com';
+            $receiver->Username = 'convoportal@gmail.com';
+            $receiver->Password = 'ConvoPortal#1!';
+            $receiver->STMPSecure = 'ssl';
+            $receiver->Port = 465;
+
+            $receiver->From = $email;
+            $receiver->FromName = $firstname . " " . $lastname;
+            $receiver->AddAddress = 'alw7097@rit.edu';
+            $receiver->AddCC($COOP1Email, $COOP1Name);
+            /*$receiver->AddCC($COOP2Email, $COOP2Name); */
             $receiver->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message2 = "<p>Hello HR,</p>";
@@ -512,7 +618,7 @@
         }
         // ONBOARDING
         else if(isset($_POST["submitNewHire"])){
-            
+                    
             /*$to = $email;
             $subject = $subjectHeader;  // Subject is New Hired Employee
             $message .= "<p>Dear " . $firstname . ",</p>";
@@ -549,6 +655,8 @@
         
             mail($to, $subject, $message, $headers); */
         }
+       
+        
         // FMLA REQUEST
         else if(isset($_POST["submitRequest"])){
             
@@ -556,17 +664,17 @@
         
             $mail->SMTPAuth = true;
 
-            $mail->Host = 'stmp.gmail.com';
+            $mail->Host = 'smtp.gmail.com';
             $mail->Username = 'convoportal@gmail.com';
             $mail->Password = 'ConvoPortal#1!';
             $mail->STMPSecure = 'ssl';
             $mail->Port = 465;
 
-            $mail->From = 'pxy9548@rit.edu';
-            $mail->FromName = 'Convo Portal';
+            $mail->From = 'hr@convorelay.com';
+            $mail->FromName = 'Convo HR';
             $mail->AddAddress = $email;
             $mail->AddCC($COOP1Email, $COOP1Name);
-            $mail->AddCC($COOP2Email, $COOP2Name);
+            /*$mail->AddCC($COOP2Email, $COOP2Name); */
             $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message = "<p>Dear " . $firstname . ",</p>";
@@ -599,17 +707,17 @@
         
             $mail->SMTPAuth = true;
 
-            $mail->Host = 'stmp.gmail.com';
+            $mail->Host = 'smtp.gmail.com';
             $mail->Username = 'convoportal@gmail.com';
             $mail->Password = 'ConvoPortal#1!';
             $mail->STMPSecure = 'ssl';
             $mail->Port = 465;
 
-            $mail->From = 'pxy9548@rit.edu';
-            $mail->FromName = 'Peter Yeung';
+            $mail->From = 'alw7097@rit.edu';
+            $mail->FromName = 'Allison Wong';
             $mail->AddAddress = $email;
             $mail->AddCC($COOP1Email, $COOP1Name);
-            $mail->AddCC($COOP2Email, $COOP2Name);
+            /*$mail->AddCC($COOP2Email, $COOP2Name); */
             $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             if($_ENV["HOSTNAME"] = "TESTING"){
@@ -636,32 +744,55 @@
         
         $fileDlAttachment = $fileDL['tmp_name'];
         $fileSSNAttachment = $fileSSN['tmp_name'];
+        //file_name_new = $convo_user_data["lastname"] . ' ' . $convo_user_data["firstname"]  . '.' . $file_ext;
+
+       // $file_destination = $root . '/convo/Admin/upload_oe/' . $file_name_new;
+       // move_uploaded_file($fileDlAttachment, $fileDL['tmp_name']
         
-        $mail = new PHPMailer;
         
-        $mail->SMTPAuth = true;
+               /* $uploads_dir = '/uploads';
+        foreach ($_FILES["pictures"]["error"] as $key => $error) {
+            if ($error == UPLOAD_ERR_OK) {
+                $tmp_name = $_FILES["pictures"]["tmp_name"][$key];
+                $name = $_FILES["pictures"]["name"][$key];
+                move_uploaded_file($tmp_name, "$uploads_dir/$name");
+            }
+        } */
         
-        $mail->Host = 'stmp.gmail.com';
-        $mail->Username = 'convoportal@gmail.com';
-        $mail->Password = 'ConvoPortal#1!';
-        $mail->STMPSecure = 'ssl';
-        $mail->Port = 465;
         
-        $mail->From = 'noreply@theinfini.com';
-        $mail->FromName = 'Convo Portal';
-        $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
-        $mail->AddCC($COOP1Email, $COOP1Name);
-        $mail->AddCC($COOP2Email, $COOP2Name);
-        $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
-        
-        $mail->AddAttachment($fileDlAttachment, $lastname . "_" . $fileDL['name']);
-        $mail->AddAttachment($fileSSNAttachment, $lastname . "_" . $fileSSN['name']);
-        
-        $mail->Subject = $firstname . " " . $lastname . " - " . $state;
-        $mail->Body = $firstname . " " . $lastname . " - " . $state;
-        $mail->AltBody = $firstname . " " . $lastname . " - " . $state;
-        
-        $mail->send();
+        try{
+            $mail = new PHPMailer();
+
+            $mail->SMTPAuth = true;
+            //$mail->IsSMTP();
+            $mail->Host = 'stmp.gmail.com';
+            $mail->Username = 'convoportal@gmail.com';
+            $mail->Password = 'ConvoPortal#1!';
+            $mail->STMPSecure = 'ssl';
+            $mail->Port = 465;
+
+            $mail->From = 'noreply@theinfini.com';
+            $mail->FromName = 'Convo Portal';
+            $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+            $mail->AddCC($COOP1Email, $COOP1Name);
+           /* $mail->AddCC($COOP2Email, $COOP2Name); */
+            $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+
+            $mail->AddAttachment($fileDlAttachment, $lastname . "_" . $fileDL['name']);
+            $mail->AddAttachment($fileSSNAttachment, $lastname . "_" . $fileSSN['name']);
+
+            $mail->Subject = $firstname . " " . $lastname . " - " . $state;
+            $mail->Body = $firstname . " " . $lastname . " - " . $state;
+            $mail->AltBody = $firstname . " " . $lastname . " - " . $state;
+
+            $mail->send();
+            echo 'Message has been sent.';
+            
+        }
+        catch(phpmailerException $e){
+            echo $e -> errorMessage();
+            //echo $fileDlAttachment;
+        }
     }
 
 
@@ -670,7 +801,7 @@
     function user_id_from_email($email) {
         global $link;
         $email= sanitize($email);
-        $query = mysqli_query($link, "SELECT employee_id FROM employee WHERE email = '$email'");
+        $query = mysqli_query($link, "SELECT employee_id FROM employee_vw WHERE email = '$email'");
         while($row = mysqli_fetch_assoc($query)){
             if(mysqli_num_rows($query) > 0 ) {
                 //echo "Login Successful";
@@ -695,7 +826,7 @@
 
         $mail->SMTPAuth = true;
 
-        $mail->Host = 'stmp.gmail.com';
+        $mail->Host = 'smtp.gmail.com';
         $mail->Username = 'convoportal@gmail.com';
         $mail->Password = 'ConvoPortal#1!';
         $mail->STMPSecure = 'ssl';
@@ -706,7 +837,7 @@
         $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
         $mail->AddAddress($email);
         $mail->AddCC($COOP1Email, $COOP1Name);
-        $mail->AddCC($COOP2Email, $COOP2Name);
+       /* $mail->AddCC($COOP2Email, $COOP2Name); */
         $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
 
@@ -752,17 +883,175 @@
             }
 
             $mail->Subject = $subject;
-            $mail->Body = "Hello " . $user_data["firstname"] . ",<br/><br/>Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            $mail->Body = "Hello " . $user_data["firstname"] . ",<br/><br/> Your username is: " . $username . " Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
             $mail->AltBody = "Hello " . $user_data["firstname"] . ",<br/><br/>Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
 
             $mail->send();
         }
     }
+
+
+ /* TEMP PASSWORD FOR ONBOARDING EMPLOYEES   */
+
+
+    /*function userIdEmail($email) {
+        global $link;
+        $email= sanitize($email);
+        $query = mysqli_query($link, "SELECT employee_id FROM employee WHERE email = '$email'");
+        while($row = mysqli_fetch_assoc($query)){
+            if(mysqli_num_rows($query) > 0 ) {
+                //echo "Login Successful";
+                return $row["employee_id"];   
+            }
+            else {
+                return false;   
+            }
+        }
+    } */
+    
+    function onboarding_reset_password($firstname, $username, $email, $generated_password) {
+        global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+        
+        
+        
+        //$mode = sanitize($mode);
+        $email = sanitize($email);
+        $url = "https://test.theinfini.com/convo/";
+        //$user_data = user_data("firstname", "username");
+        
+        $mail = new PHPMailer;
+
+        $mail->SMTPAuth = true;
+
+        $mail->Host = 'smtp.gmail.com';
+        $mail->Username = 'convoportal@gmail.com';
+        $mail->Password = 'ConvoPortal#1!';
+        $mail->STMPSecure = 'ssl';
+        $mail->Port = 465;
+
+        $mail->From = 'noreply@theinfini.com';
+        $mail->FromName = 'Convo Portal';
+        $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+        $mail->AddAddress($email);
+        $mail->AddCC($COOP1Email, $COOP1Name);
+       /* $mail->AddCC($COOP2Email, $COOP2Name); */
+        $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+            
+
+    
+            // Recover username
+            //email($email, "Your username", "Hello " . $user_data["firstname"] . "\n\nYour username is: " . $user_data["username"] . "\n\n -CONVO Portal"); 
+             //change_password($user_data["employee_id"], $generated_password);
+
+            $subject = "Access to Convo Employee Portal";
+            if($_ENV["HOSTNAME"] = "TESTING"){
+                $to = 'alw7097@rit.edu';
+                $subject .= " - TESTING"; 
+            }
+            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+                //$to = 'jja4740@rit.edu';
+                $subject .= " - DEV"; 
+            }
+
+
+            $mail->Subject = $subject;
+        
+            $body = "Hi " . $firstname . ",<br/><br/>Congratulations and welcome to the Convo family!<br><br>Prior to employment, we need to run your background check. Please be prepared to upload a copy of your state-issued Driver License and a copy of your Social Security card to Convo's employee portal.<br><br>Please click on the link to the portal: " . $url . "<br/><br/>Your username is: " . $username . "<br/><br/>" . "Your temporary password is: " . $generated_password . "<br><br>Once these documents have been received and background check cleared, we will then notify you and your manager to arrange a date and time for training and the official beginning of your employment with Convo.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            
+            $mail->Body = $body;
+            $mail->AltBody = $body;
+
+            $mail->send(); 
+    } 
+
+function fileUploaded($firstname, $lastname, $fileDL, $fileSSN) {
+        global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+
+        
+        $mail = new PHPMailer;
+
+        $mail->SMTPAuth = true;
+
+        $mail->Host = 'smtp.gmail.com';
+        $mail->Username = 'convoportal@gmail.com';
+        $mail->Password = 'ConvoPortal#1!';
+        $mail->STMPSecure = 'ssl';
+        $mail->Port = 465;
+
+        $mail->From = 'noreply@theinfini.com';
+        $mail->FromName = 'Convo Portal';
+        $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+        $mail->AddCC($COOP1Email, $COOP1Name);
+        $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+            
+
+
+            $subject = "Onboarding Files Received for " . $firstname . " " . $lastname;
+            if($_ENV["HOSTNAME"] = "TESTING"){
+                $to = 'alw7097@rit.edu';
+                $subject .= ' - TESTING'; 
+            }
+            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+                //$to = 'jja4740@rit.edu';
+                $subject .= ' - DEV'; 
+            }
+
+            $mail->Subject = $subject;
+            $body = $firstname . " " . $lastname . " has uploaded files necessary for background check.<br/><br/>" .
+                "<a href=\"$fileDL\">Driver's License</a>";
+    
+            if ($fileSSN != "")
+            {
+                $body = $body . "<br><a href=\"$fileSSN\">Social Security Card</a>";
+            }
+    
+            $mail->Body = $body;
+            $mail->AltBody = $body;
+            $mail->send(); 
+    } 
+
+function sendCheckOptInEmail($firstname, $lastname, $email) 
+{
+    global $SupervisorCOOPEmail, $SupervisorName;
+    $requestor = $firstname . " " . $lastname;
+    
+    $mail = new PHPMailer;
+    $mail->SMTPAuth = true;
+    $mail->Host = 'smtp.gmail.com';
+    $mail->Username = 'convoportal@gmail.com';
+    $mail->Password = 'ConvoPortal#1!';
+    $mail->STMPSecure = 'ssl';
+    $mail->Port = 465;
+
+    $mail->From = 'noreply@theinfini.com';
+    $mail->FromName = 'Convo Portal';
+    $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+    $mail->AddAddress('chrisc@convorelay.com');
+    
+    if ($email != "")
+    {
+        $mail->AddCC($email, $requestor);
+    }
+            
+    $subject = "Pay Stub Request for " . $requestor;
+    $mail->Subject = $subject;
+    
+    $body = "I would like to continue receiving a hard copy of my bi-weekly check stub.<br/><br/>" . $requestor;
+    $mail->Body = $body;
+    $mail->AltBody = $body;
+    
+    $mail->send(); 
+}
+
+
+
+
+
     
     function email_exists($email) {
         global $link;
         $emil= sanitize($email);
-        $query = mysqli_query($link, "SELECT employee_id FROM employee WHERE email = '$email'");
+        $query = mysqli_query($link, "SELECT employee_id FROM employee_vw WHERE email = '$email'");
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
@@ -817,5 +1106,59 @@
         $dirName = str_replace('_', ' ', $dirName);
         $dirName = str_replace('%20', ' ', $dirName);
         return $dirName;
-    }    
+    }
+
+function clean_up_phone($phoneNumber){
+    
+    $phonelength = strlen($phoneNumber);
+    
+    for($i=0; $i<= $phonelength; $i++){
+        $charNum = substr($phoneNumber, $i, 1);
+        
+        if($charNum == ')'){
+            $phoneNumber = str_replace(')', '', $phoneNumber);   
+        }
+        else if($charNum == '('){
+            $phoneNumber = str_replace('(', '', $phoneNumber);   
+        }
+        else if($charNum == '-'){
+            $phoneNumber = str_replace('-', '', $phoneNumber);   
+        }
+        else if($charNum == '/'){
+            $phoneNumber = str_replace('/', '', $phoneNumber);   
+        }
+        /*else if($charNum == ' '){
+            $phoneNumber = str_replace(' '), '', $phoneNumber);
+        }*/
+    }
+    
+    
+    
+    return $phoneNumber;   
+}
+
+function validatePhoneNumber($phone){
+    $countDigit = 0;
+    $phonelength = strlen($phone);
+    
+    if($phonelength == 0){
+        return true;
+    }
+    
+    for($i = 0; $i <= $phonelength; $i++){
+        $charNumber = substr($phone, $i, 1);
+        
+        if(is_numeric($charNumber)){
+            $countDigit++;
+            //echo 'Not valid';
+        }
+    }
+    if($countDigit == 10){
+        return $phone;   
+    }
+    else{
+        return false;   
+    }
+}
+
 ?>

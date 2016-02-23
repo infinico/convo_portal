@@ -10,10 +10,10 @@
         The variables are used for email functions (PHPMailer)
         If you have any questions, you can contact Josh at jja4740@rit.edu or Peter at pxy9548@rit.edu
     */
-    $COOP1Email = 'jja4740@rit.edu';
-    $COOP1Name = 'Joshua Aziz';
-    $COOP2Email = 'pxy9548@rit.edu';
-    $COOP2Name = 'Peter Yeung';
+    $COOP1Email = 'alw7097@rit.edu';
+    $COOP1Name = 'Allison Wong';
+    /*$COOP2Email = 'pxy9548@rit.edu';
+    $COOP2Name = 'Peter Yeung';*/
     $SupervisorCOOPEmail = 'chris@theinfini.com';
     $SupervisorName = 'Chris Campbell';
     
@@ -28,9 +28,9 @@
     $current_file_employment = "/convo/HR/" . end($current_file);
 
     if(logged_in() === true) {
-        $session_user_id = $_SESSION['employee_id'];
+        $session_user_id = $_SESSION['emplid'];
         
-        $user_data = user_data($session_user_id, 'employee_id', "email", "supervisor_id", 'username', 'password', 'firstname', 'lastname', 'job_code', 'payroll_status', 'location_code', 'res_state', 'password_recover', 'date_of_birth', 'ssn', 'street_address', 'city', 'zipcode', 'job_code', 'hire_date');
+        $user_data = user_data($session_user_id, 'employee_id', "email", "supervisor_id", 'username', 'password', 'firstname', 'lastname', 'job_code', 'payroll_status', 'location_code', 'res_state', 'password_recover', 'date_of_birth', 'ssn', 'street_address', 'city', 'zipcode', 'job_code', 'hire_date', 'emp_type');
                 
         // EMPLOYMENT DATA
         $supervisor_data = supervisor_data($session_user_id, 'employee_id', "supervisor_id", 'firstname', 'lastname');

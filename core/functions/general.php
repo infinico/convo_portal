@@ -41,19 +41,7 @@
     function benefits_protect(){
         global $user_data;
         $test = 0;
-        if(has_access_manager($user_data["job_code"]) == true){
-            $test = 1;
-        }
-        else if(has_access($user_data["job_code"]) == true){
-            $test = 1;
-        }
-        else if($user_data["job_code"] == "INT007" && $user_data["payroll_status"] == "GBS"){
-            $test = 0;
-        }
-        else if($user_data["job_code"] != "INT007"){
-            $test = 0;
-        }
-        else if($user_data["job_code"] == "INT007"){
+        if($user_data["job_code"] == "INT007"){
             $test = 1;
         }
         else if($user_data["payroll_status"] != "GBS"){
