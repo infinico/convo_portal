@@ -16,7 +16,7 @@ if(logged_in()){
 <table>
     <tr>
         <td width="20%">Eligibility/Plan Entry</td>
-        <td>All Convo employees are eligible effective March 1, 2016. New hires will be eligible on the first day of the month following 30 days of employment.</td>
+        <td>All full-time and part-time employees are eligible effective March 1, 2016. New hires will be eligible on the first day of the month following 30 days of employment.</td>
     </tr>
     <tr>
         <td width="20%">Dependent Care Assistance Expense Limit</td>
