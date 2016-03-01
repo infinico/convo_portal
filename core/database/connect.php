@@ -1,7 +1,7 @@
 <?php
     $db_host = "localhost";
-    $db_user = "root";
-    $db_pass = "mysql#1!";
+    $db_user = "webuser";
+    $db_pass = "DBacce$$";
     $db_name = "convotesting";
   
     // Intialize the database connection
