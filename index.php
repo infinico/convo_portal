@@ -11,7 +11,28 @@
 <?php
     if(logged_in() == true) {
 ?>
-     <p style="font-size: smaller; font-style: italic;">February 16, 2016</p>
+    <p style="font-size: smaller; font-style: italic;">March 3, 2016</p>
+    <div style="text-align: center;"><img src="assets/images/community.jpg" alt="Community" width="600"></div>
+    <p>Folks,<br /><br />
+    This is the beginning of a very exciting time ahead.<br /><br />
+    We witnessed the impact of our Beyoutiful campaign and that has led us to an even bigger vision this year: the Community campaign. In three weeks, we will host the first of several events spotlighting Deaf communities. And our first event is where? Yep, you guessed it: Austin, Texas!<br /><br />
+    As we premiere a short film about the Austin Deaf Community, it will also act as a launchpad for a new Convo feature: Community Directory, a central resource tailored to specific Deaf communities. Think of it as an extension of our Deaf Ecosystem Directory.<br /><br />
+    Have questions about the new Community Directory? Please feel free to contact your supervisor if you would like to learn more.<br /><br />
+    Convo</p>
+    <hr />
+
+    <p style="font-size: smaller; font-style: italic;">March 3, 2016</p>
+    <div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/Vv0q4_iCDvg" frameborder="0" allowfullscreen=""></iframe></div>
+    <p>Folks,<br /><br />
+    We have some great news to share!<br /><br />
+    As you may remember, we've had some back-and-forth over the past few years with FCC regarding rate cuts. After repeated visits to FCC and thanks to all of you, our hard work has finally paid off and we can now breathe: FCC has ordered a rate-cut freeze for Tier-1 companies.<br /><br />
+    This means we can continue to be an innovative company for the Deaf community.<br /><br />
+    Please watch the video to learn more. You can also read the FCC notice <a href="http://transition.fcc.gov/Daily_Releases/Daily_Business/2016/db0303/FCC-16-25A1.pdf" target="_blank">here</a>.<br /><br />
+    Thank you for all that you do.<br /><br />
+    Jarrod</p>
+    <hr />
+
+    <p style="font-size: smaller; font-style: italic;">February 16, 2016</p>
     <div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/_9Jwbcf9oSM" frameborder="0" allowfullscreen=""></iframe></div>
     <p>Folks,<br /><br />
     Starting tomorrow, we will proceed with collecting the Social Security Numbers (SSNs) of our customers per FCC's updated policy requirement. Watch Jeff's video above for more information. It is important that we are all aware of this new requirement.<br/><br/>
