@@ -131,7 +131,7 @@
         $user_id = $user_id;
         //setcookie("password", $password, time() + 7200);
         $password = md5($password); 
-        mysqli_query($link, "UPDATE employee SET password = '$password', password_recover = 0 WHERE emplid = $user_id");    
+        mysqli_query($link, "CALL update_password($user_id, '$password')");    
     }
 
     /*
