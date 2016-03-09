@@ -1,11 +1,9 @@
 <?php
     $page_title = "Portal Admininistration";
     $title = "Convo Portal | Portal Admininistration";
-    include("/../core/init.php");
-    include("/../assets/inc/header.inc.php");
+    include("../core/init.php");
+    include("../assets/inc/header.inc.php");
     protect_page();
-
-
 ?>
 
             <h1 class="headerPages">Portal Admininistration</h1>
