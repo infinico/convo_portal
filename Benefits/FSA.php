@@ -59,17 +59,17 @@ if(logged_in()){
 </table>
 <br/>
 
-<p>Under health care reform, Dependent Care Expenses (DCE) employee contributions will be limited to $2500 annually. Please note that employers may choose a limit less than $5000.<br><br>
+<p>Under health care reform, Dependent Care Expenses (DCE) employee contributions will be limited to $2500 annually. Please note that the Employer may choose a limit less than the maximum allowed.<br><br>
 Clients can now assist employees by obtaining enrollment forms, and enrolling the employees through the PBA Employer Web during the Open Enrollment period.<br><br>
-    <b>Important: </b> The information contained in this summary is for informational purposes only and does not contain all of the provisions pertaining to your plan. This summary is not intended to be a substitute for any formal plan documentation. For a full description of the plan, please refer to the <a href="FSA/Section125.pdf" target="_blank">Section 125 Basic Plan Document, Summary Plan Description, and Adoption Agreement</a>.</p>
+    <b>Important: </b> The information contained in this summary is for informational purposes only and does not contain all of the provisions pertaining to your plan. This summary is not intended to be a substitute for any formal plan documentation. For a full description of the plan, please refer to the Section 125 Basic Plan Document, Summary Plan Description, and Adoption Agreement.</p>
 
 <h2>Flexible Spending Account Documents</h2>
 
-<ul>
-    <li><a href="FSA/Section125.pdf" target="_blank">Section 125 Basic Plan Document, Summary Plan Description, and Adoption Agreement</a></li>
-    <li><a href="FSA/EnrollmentForm.pdf" target="_blank">FSA Enrollment Form</a></li>
-    <li><a href="FSA/EligibleExpenseListing.pdf" target="_blank">Dependent Care Account Eligible Expense Listing</a></li>
-</ul>
+<p>
+    <a href="FSA/Section125.pdf" target="_blank">Section 125 Basic Plan Document, Summary Plan Description, and Adoption Agreement</a><br /><br />
+    <a href="FSA/EnrollmentForm.pdf" target="_blank">FSA Enrollment Form</a><br /><br />
+    <a href="FSA/EligibleExpenseListing.pdf" target="_blank">Dependent Care Account Eligible Expense Listing</a>
+</p>
 
 <?php
     include("../assets/inc/footer.inc.php");
