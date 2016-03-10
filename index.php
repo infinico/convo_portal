@@ -11,6 +11,14 @@
 <?php
     if(logged_in() == true) {
 ?>
+    <p style="font-size: smaller; font-style: italic;">March 9, 2016</p>
+    <div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/6j7V3FJciI8" frameborder="0" allowfullscreen=""></iframe></div>
+    <p>Folks,<br /><br />
+    We turn seven years old today! There have been some ups and downs, unexpected changes, and extraordinary growth along the way, but one thing has remained the same: our passion in elevating our Deaf community. We couldn't be any prouder of our work, and we're nowhere near done.<br /><br />
+        Here's to many more birthdays to come!<br /><br />
+    Convo</p>
+    <hr />
+
     <p style="font-size: smaller; font-style: italic;">March 3, 2016</p>
     <div style="text-align: center;"><img src="assets/images/community.jpg" alt="Community" width="600"></div>
     <p>Folks,<br /><br />
