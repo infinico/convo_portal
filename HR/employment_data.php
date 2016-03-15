@@ -6,7 +6,7 @@
     include("../assets/inc/header.inc.php");
     $employee_id = $user_data["employee_id"];
 
-    $errorEmail = "";
+    $errorEmail = $errorUsername = "";
 
     $query = "SELECT * FROM employee_vw WHERE employee_id = '$employee_id'";
     $result = mysqli_query($link, $query);
@@ -44,6 +44,11 @@
         if(empty($_POST["email_address"])) {
             $errorEmail = "<span class='hireErrors'> Please enter email address</span>"; 
         }
+        
+        if(empty($_POST["username"])){
+            $errorUsername = "<span class='usernameErrors'> Please enter username</span>"; 
+        }
+        
         if($errorEmail == "") {
             $email = sanitize($_POST["email_address"]);
             
@@ -52,6 +57,18 @@
             $num_rowsEmail = mysqli_affected_rows($link);
             if ($resultEmail && $num_rowsEmail > 0) {
                 echo "<h2 class='headerPages'>Email was updated successfully!</h2>";
+            }
+        }
+        
+        if($errorUsername == ""){
+            $username = sanitize($_POST["username"]);
+            
+            $queryUsername = "CALL update_username('$employee_id', '$username')";
+            $resultUsername = mysqli_query($link, $queryUsername);
+            $num_rowsUsername = mysqli_affected_rows($link);
+            
+            if ($resultUsername && $num_rowsUsername > 0) {
+                echo "<h2 class='headerPages'>Username was updated successfully!</h2>";
                 die();
             }
         }
@@ -91,7 +108,9 @@
                 
 
                 <h2>Employee Information</h2>
-
+                
+                <span class="spanHeader">Username: </span>
+<input type="text" class="input-large" name="username" placeholder="username" value="<?php if(isset($_POST["submit"])){echo $_POST['username'];}else{ echo $user_data["username"]; } ?>"/><?php echo $errorUsername;?><br/>
                 
                 <span class="spanHeader">Position: </span>
                 <input type="text" class="input-large" name="position" style='background:#E9E9E9;' readonly value="<?php echo $position_data["position_name"]; ?>"/><br/>
