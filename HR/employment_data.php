@@ -5,13 +5,10 @@
     protect_page();
     include("../assets/inc/header.inc.php");
     $employee_id = $user_data["employee_id"];
-
     $errorEmail = $errorUsername = "";
-
     $query = "SELECT * FROM employee_vw WHERE employee_id = '$employee_id'";
     $result = mysqli_query($link, $query);
     $num_rows = mysqli_affected_rows($link);
-
     if ($result && $num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $payroll = $row["payroll_status"];
@@ -39,7 +36,6 @@
             $hire_date = $hireDateInput[1] . "/" . $hireDateInput[2] . "/" . $hireDateInput[0];
         }
     }
-
     if(isset($_POST["submit"])) {
         if(empty($_POST["email_address"])) {
             $errorEmail = "<span class='hireErrors'> Please enter email address</span>"; 
@@ -49,6 +45,9 @@
             $errorUsername = "<span class='usernameErrors'> Please enter username</span>"; 
         }
         
+        // Boolean variable on whether or not to show rest of form
+        $killPage = false;
+        
         if($errorEmail == "") {
             $email = sanitize($_POST["email_address"]);
             
@@ -57,6 +56,7 @@
             $num_rowsEmail = mysqli_affected_rows($link);
             if ($resultEmail && $num_rowsEmail > 0) {
                 echo "<h2 class='headerPages'>Email was updated successfully!</h2>";
+                $killPage = true;
             }
         }
         
@@ -69,11 +69,15 @@
             
             if ($resultUsername && $num_rowsUsername > 0) {
                 echo "<h2 class='headerPages'>Username was updated successfully!</h2>";
-                die();
+                $killPage = true;
             }
         }
+        
+        if ($killPage == true)
+        {
+            die();
+        }
     }
-
 ?>
 
             <h1 class="headerPages">Employee Data</h1>
