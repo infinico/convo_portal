@@ -58,7 +58,8 @@
                 mysqli_query($link, "CALL insert_fmla('$session_user_id', CURRENT_TIMESTAMP, '$requestType', '$expectedLeave', '$expectedReturn', '$leaveReason', 'R');");
             //echo "CALL insert_fmla('$session_user_id', CURRENT_TIMESTAMP, '$requestType', '$expectedLeave', '$expectedReturn', '$leaveReason', 'R')";
             
-            $fmla_info = "<strong>Family Medical Leave Request Type:</strong> " . $requestType . "<br/>";
+            $fmla_info = "<strong>Employee Name:</strong> " . $user_data["firstname"] . " " . $user_data["lastname"] . "<br/>";
+            $fmla_info .= "<strong>Family Medical Leave Request Type:</strong> " . $requestType . "<br/>";
             $fmla_info .= "<strong>Expected Effective Date of Leave:</strong> " . $_POST["expectedLeave"] . "<br/>";
             if(isset($_POST["unknownDate"])) {
                 $fmla_info .= "<strong>Exepcted Date of Return:</strong> Unknown <br/>";
