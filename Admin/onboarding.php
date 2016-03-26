@@ -59,7 +59,6 @@
         else if(user_exists($_POST["username"]) === true) {
             $errorUsername = "<span class='error'>Sorry, the username \"" . $_POST["username"] . "\" is already taken.</span>";   
         }
-
         
         if($errorUsername == "" && $errorFirst == "" &&  $errorLast == "" && $errorPosition == "" && $errorLocation == "" && $errorState == "" && $errorStreetAddress == "" && $errorCity == "" && $errorZipCode == "" && $errorPayroll == "" && $errorDate == "" && $errorGender == ""){
             $firstname = sanitize($_POST["firstname"]);
@@ -79,47 +78,15 @@
             $username = sanitize($_POST["username"]);
             $generated_password = substr(md5(rand(999, 999999)), 0, 8); //generated password
             $md5_password = md5($generated_password);
-        
             
             // Convert from MM-DD-YYYY to YYYY-MM-DD to follow the MySQL Date Format
             $hireDateInput = multiexplode(array("-", "/"), $hire_date);
             $hireDate = $hireDateInput[2] . "-" . $hireDateInput[0] . "-" . $hireDateInput[1];
-            
-            //$dobInput = multiexplode(array("-", "/"), $dob);
-            //$date_of_birth = $dobInput[2] . "-" . $dobInput[0] . "-" . $dobInput[1];
-            
-            //$phoneNumber = clean_up_phone($phone_number);
-            
-            /*
-            echo $hireDate;
-            echo $date_of_birth;
-            echo "employee_id: " . $employee_id;
-            echo "FirstName: " . $firstname;
-            echo "Last Name: " . $lastname;
-            echo "Position: " . $jobTitle;
-            echo "Location: " . $location;
-            echo "State: " . $state;
-            echo "Department: " . $department;
-            echo "Street Address: " . $street_address;
-            echo "City: " . $city;
-            echo "zipcode: " . $zipcode;
-            echo "Payroll: " . $payrollStatus;
-            echo "Supervisor: " . $supervisor;
-            echo "Hire Date: " . $hire_date;
-            echo "Admin: " . $admin_privileges;
-            echo "Manager: " . $manager_privileges;
-            echo "Date of Birth: " . $dob;
-            echo "SSN: " . $ssn;
-            echo "Gender: " . $gender;
-            die();
-            */
-            
-            /*
-            echo "INSERT INTO employee (employee_id, firstname, lastname, job_code, street_address, city, res_state, zipcode, convo_location, supervisor_id, payroll_status, hourly_rate, hire_date, updated_at, employment_status, active, password_recover, date_of_birth, ssn, gender) VALUES ('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$date_of_birth', '$ssn', '$gender')";
-            die();
-            */
         
-            mysqli_query($link, "CALL insert_onboarding_hire('$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '1', '$emailAddress', '$gender', '$username', 'O', '$md5_password');");   
+           $sql = "CALL insert_onboarding_hire('$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '1', '$emailAddress', '$gender', '$username', 'O', '$md5_password');";
+            //echo $sql;
+            //die();
+            mysqli_query($link, $sql);   
             
             onboarding_reset_password($firstname, $username, $emailAddress, $generated_password);
             
@@ -135,8 +102,7 @@
             <form id="hire" method="POST">
 
                 <!-- Personal Information -->
-                <h2>Personal Information</h2>
-                              
+                <h2>Personal Information</h2>                         
 
                <!-- First Name -->
                 <span class="spanHeader">First Name: </span>
@@ -153,8 +119,6 @@
                     <option value="M" <?php if(isset($_POST["submit"]) && $_POST["gender"] == "M"){echo "selected='selected'";} ?>>M</option>
                     <option value="F" <?php if(isset($_POST["submit"]) && $_POST["gender"] == "F"){echo "selected='selected'";} ?> >F</option>
                 </select> <?php echo $errorGender; ?><br/><br/>
-
-
 
                 <!-- Street Address-->
                 <span class="spanHeader">Street Address: </span>
@@ -176,9 +140,6 @@
                 
                 <span class="spanHeader">Email Address: </span>
                 <input type="text" id="email_address" class="input-large" name="email_address" placeholder="example@gmail.com" value=<?php if(isset($_POST["submit"])){echo $_POST['email_address'];} ?>><?php echo $errorEmailAddress; ?><br/><br/>
-                
-                
-
 
                 <!-- EMPLOYEE INFORMATION -->
                 <h2>Employee Information</h2>
@@ -247,20 +208,14 @@
                 <!-- Hire Date -->
                 <span class="spanHeader">Hire Date:</span>
                 <input type="text" placeholder="MM/DD/YYYY" class="datepicker" name="hire_date" value=<?php if(isset($_POST["submit"])){echo $_POST['hire_date'];} ?>><?php echo $errorDate; ?><br/><br/>
-            
                 
-                
-  <!-- EMPLOYEE USERNAME AND PASSWORD INFORMATION -->
+                <!-- EMPLOYEE USERNAME AND PASSWORD INFORMATION -->
                 <h2>Login Credentials</h2>
 
                 <!-- Username-->
                 <span class="spanHeader">Username: </span>
                 <input type="text" name="username" value=<?php if(isset($_POST["submit"])){echo $_POST['username'];} ?>><?php echo $errorUsername ?><br/><br/>              
-
-                
                 <input type="submit" id="addButton" name="submit" value="Add">
-                
-                
             </form>
 <?php
     include("../assets/inc/footer.inc.php");
