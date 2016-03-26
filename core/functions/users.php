@@ -481,11 +481,11 @@
             $message .= "<p>CONVO Human Resources</p>";
             $message .= "<p>Email:  HR@convorelay.com</p>";
             
-            if($_ENV["HOSTNAME"] = "TESTING"){
+            if($_ENV["HOSTNAME"] == "TESTING"){
                 //$to = 'pxy9548@rit.edu';
                 $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . " - TESTING"; 
             }
-            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
                 //$to = 'jja4740@rit.edu';
                 $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . ' - DEVELOPING'; 
             }
@@ -520,10 +520,10 @@
             $message2 .= "<p>" . $bodyMessage . "</p>";
             $message2 .= "<p>" . $firstname . " " . $lastname . "</p>";
             
-            if($_ENV["HOSTNAME"] = "TESTING"){
+            if($_ENV["HOSTNAME"] == "TESTING"){
                 $subject2 = 'Convo - ' . $subjectHeader . ' TESTING'; 
             }
-            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
                 $subject2 = 'Convo - ' . $subjectHeader . ' DEVELOPING'; 
             }
 
@@ -563,11 +563,11 @@
             $message .= "<p>CONVO Human Resources</p>";
             $message .= "<p>Email:  HR@convorelay.com</p>";
             
-            if($_ENV["HOSTNAME"] = "TESTING"){
+            if($_ENV["HOSTNAME"] == "TESTING"){
                 //$to = 'pxy9548@rit.edu';
                 $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . " - TESTING"; 
             }
-            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
                 //$to = 'jja4740@rit.edu';
                 $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . ' - DEVELOPING'; 
             }
@@ -602,10 +602,10 @@
             $message2 .= "<p>" . $bodyMessage . "</p>";
             $message2 .= "<p>" . $firstname . " " . $lastname . "</p>";
             
-            if($_ENV["HOSTNAME"] = "TESTING"){
+            if($_ENV["HOSTNAME"] == "TESTING"){
                 $subject2 = 'Convo - ' . $subjectHeader . ' TESTING'; 
             }
-            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
                 $subject2 = 'Convo - ' . $subjectHeader . ' DEVELOPING'; 
             }
 
@@ -674,22 +674,20 @@
             $mail->FromName = 'Convo HR';
             $mail->AddAddress = $email;
             $mail->AddCC($COOP1Email, $COOP1Name);
-            /*$mail->AddCC($COOP2Email, $COOP2Name); */
             $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message = "<p>Dear " . $firstname . ",</p>";
-            $message .= "<p>Thank you for submitting your Family Medical Leave Request Form!  We have the following information: </p>";
+            $message .= "<p>Thank you for submitting your Family Medical Leave request.  We have the following information: </p>";
             $message .= $bodyMessage . "\n\n";
-            $message .= "<p>Test Test Test</p>";
-            $message .= "<p>Please contact your manager or HR if you have any questions.</p>";
+            $message .= "<p>Please contact us or your manager if you have any questions.</p>";
             $message .= "<p>Sincerely,</p>";
-            $message .= "<p>CONVO Team</p>";
+            $message .= "<p>Convo HR Team</p>";
             
-            if($_ENV["HOSTNAME"] = "TESTING"){
+            if($_ENV["HOSTNAME"] == "TESTING"){
                 //$to = 'pxy9548@rit.edu';
                 $subject = $subjectHeader . ' - TESTING'; 
             }
-            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
                 //$to = 'jja4740@rit.edu';
                 $subject = $subjectHeader . ' - DEVELOPING'; 
             }
@@ -720,11 +718,11 @@
             /*$mail->AddCC($COOP2Email, $COOP2Name); */
             $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
-            if($_ENV["HOSTNAME"] = "TESTING"){
+            if($_ENV["HOSTNAME"] == "TESTING"){
                 //$to = 'pxy9548@rit.edu';
                 $subject = $subjectHeader . ' - TESTING'; 
             }
-            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
                 //$to = 'jja4740@rit.edu';
                 $subject = $subjectHeader . ' - DEVELOPING'; 
             }
@@ -845,11 +843,11 @@
             // Recover username
             //email($email, "Your username", "Hello " . $user_data["firstname"] . "\n\nYour username is: " . $user_data["username"] . "\n\n -CONVO Portal");
             
-            if($_ENV["HOSTNAME"] = "TESTING"){
+            if($_ENV["HOSTNAME"] == "TESTING"){
                 //$to = 'pxy9548@rit.edu';
                 $subject = 'Your username - TESTING'; 
             }
-            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
                 //$to = 'jja4740@rit.edu';
                 $subject = 'Your username - DEVELOPING'; 
             }
@@ -873,11 +871,11 @@
             
             
             
-            if($_ENV["HOSTNAME"] = "TESTING"){
+            if($_ENV["HOSTNAME"] == "TESTING"){
                 //$to = 'pxy9548@rit.edu';
                 $subject = 'Your password recovery - TESTING'; 
             }
-            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
+            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
                 //$to = 'jja4740@rit.edu';
                 $subject = 'Your password recovery - DEVELOPING'; 
             }
@@ -912,17 +910,11 @@
     function onboarding_reset_password($firstname, $username, $email, $generated_password) {
         global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
         
-        
-        
-        //$mode = sanitize($mode);
         $email = sanitize($email);
         $url = "https://test.theinfini.com/convo/";
-        //$user_data = user_data("firstname", "username");
         
         $mail = new PHPMailer;
-
         $mail->SMTPAuth = true;
-
         $mail->Host = 'smtp.gmail.com';
         $mail->Username = 'convoportal@gmail.com';
         $mail->Password = 'ConvoPortal#1!';
@@ -932,46 +924,42 @@
         $mail->From = 'noreply@theinfini.com';
         $mail->FromName = 'Convo Portal';
         $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
-        $mail->AddAddress($email);
-        $mail->AddCC($COOP1Email, $COOP1Name);
-       /* $mail->AddCC($COOP2Email, $COOP2Name); */
-        $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
-            
 
-    
-            // Recover username
-            //email($email, "Your username", "Hello " . $user_data["firstname"] . "\n\nYour username is: " . $user_data["username"] . "\n\n -CONVO Portal"); 
-             //change_password($user_data["employee_id"], $generated_password);
-
-            $subject = "Access to Convo Employee Portal";
-            if($_ENV["HOSTNAME"] = "TESTING"){
-                $to = 'alw7097@rit.edu';
-                $subject .= " - TESTING"; 
-            }
-            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
-                //$to = 'jja4740@rit.edu';
-                $subject .= " - DEV"; 
-            }
-
-
-            $mail->Subject = $subject;
+        $subject = "Access to Convo Employee Portal";
         
-            $body = "Hi " . $firstname . ",<br/><br/>Congratulations and welcome to the Convo family!<br><br>Prior to employment, we need to run your background check. Please be prepared to upload a copy of your state-issued Driver License and a copy of your Social Security card to Convo's employee portal.<br><br>Please click on the link to the portal: " . $url . "<br/><br/>Your username is: " . $username . "<br/><br/>" . "Your temporary password is: " . $generated_password . "<br><br>Once these documents have been received and background check cleared, we will then notify you and your manager to arrange a date and time for training and the official beginning of your employment with Convo.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
-            
-            $mail->Body = $body;
-            $mail->AltBody = $body;
+        if($_ENV["HOSTNAME"] == "PRODUCTION")
+        {
+            $mail->AddAddress($email);
+            //$mail->AddCC("hr@convorelay.com");
+            $mail->AddBCC("chris@theinfini.com");
+        }
+        else if($_ENV["HOSTNAME"] == "TESTING")
+        {
+            $mail->AddAddress($SupervisorCOOPEmail);
+            $mail->AddCC($COOP1Email, $COOP1Name);
+            $subject .= " - TESTING"; 
+        }
+        else 
+        {
+            $mail->AddAddress($SupervisorCOOPEmail);
+            $mail->AddCC($COOP1Email, $COOP1Name);
+            $subject .= " - DEV"; 
+        }
+        
+        $mail->Subject = $subject;
 
-            $mail->send(); 
+        $body = "Hi " . $firstname . ",<br/><br/>Congratulations and welcome to the Convo family!<br><br>Prior to employment, we need to run your background check. Please be prepared to upload a copy of your state-issued Driver License and a copy of your Social Security card to Convo's employee portal.<br><br>Please click on the link to the portal: " . $url . "<br/><br/>Your username is: " . $username . "<br/><br/>" . "Your temporary password is: " . $generated_password . "<br><br>Once these documents have been received and background check cleared, we will then notify you and your manager to arrange a date and time for training and the official beginning of your employment with Convo.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            
+        $mail->Body = $body;
+        $mail->AltBody = $body;
+        $mail->send(); 
     } 
 
 function fileUploaded($firstname, $lastname, $fileDL, $fileSSN) {
         global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
 
-        
         $mail = new PHPMailer;
-
         $mail->SMTPAuth = true;
-
         $mail->Host = 'smtp.gmail.com';
         $mail->Username = 'convoportal@gmail.com';
         $mail->Password = 'ConvoPortal#1!';
@@ -984,30 +972,38 @@ function fileUploaded($firstname, $lastname, $fileDL, $fileSSN) {
         $mail->AddCC($COOP1Email, $COOP1Name);
         $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
-
-
-            $subject = "Onboarding Files Received for " . $firstname . " " . $lastname;
-            if($_ENV["HOSTNAME"] = "TESTING"){
-                $to = 'alw7097@rit.edu';
-                $subject .= ' - TESTING'; 
-            }
-            else if($_ENV["HOSTNAME"] = "DEVELOPING"){
-                //$to = 'jja4740@rit.edu';
-                $subject .= ' - DEV'; 
-            }
-
-            $mail->Subject = $subject;
-            $body = $firstname . " " . $lastname . " has uploaded files necessary for background check.<br/><br/>" .
-                "<a href=\"$fileDL\">Driver's License</a>";
+        $subject = "Onboarding Files Received for " . $firstname . " " . $lastname;
+        if($_ENV["HOSTNAME"] == "PRODUCTION")
+        {
+            //$mail->AddAddress($email);
+            $mail->AddAddress("chris@theinfini.com");
+            $mail->AddBCC("chris@theinfini.com");
+        }
+        else if($_ENV["HOSTNAME"] == "TESTING")
+        {
+            $mail->AddAddress($SupervisorCOOPEmail);
+            $mail->AddCC($COOP1Email, $COOP1Name);
+            $subject .= " - TESTING"; 
+        }
+        else 
+        {
+            $mail->AddAddress($SupervisorCOOPEmail);
+            $mail->AddCC($COOP1Email, $COOP1Name);
+            $subject .= " - DEV"; 
+        }
+        
+        $mail->Subject = $subject;
+        $body = $firstname . " " . $lastname . " has uploaded files necessary for background check.<br/><br/>" .
+            "<a href=\"$fileDL\">Driver's License</a>";
     
-            if ($fileSSN != "")
-            {
-                $body = $body . "<br><a href=\"$fileSSN\">Social Security Card</a>";
-            }
-    
-            $mail->Body = $body;
-            $mail->AltBody = $body;
-            $mail->send(); 
+        if ($fileSSN != "")
+        {
+            $body .= "<br><a href=\"$fileSSN\">Social Security Card</a>";
+        }
+
+        $mail->Body = $body;
+        $mail->AltBody = $body;
+        $mail->send(); 
     } 
 
 function sendCheckOptInEmail($firstname, $lastname, $email) 
