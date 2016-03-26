@@ -123,7 +123,7 @@ if(isset($_POST["submitOnboarding"])){
         }
     }
 
-    $errorFirst = $errorLast = $errorCity = $errorState = $errorStreetAddress = $errorZipCode = $errorEmail = $errorFiles =  "";
+    $errorFirst = $errorLast = $errorCity = $errorState = $errorStreetAddress = $errorZipCode = $errorEmail = $errorDOB = $errorSSN = $errorFiles =  "";
     $fileDL = $fileSSN = "";
 
 
@@ -153,27 +153,38 @@ if(isset($_POST["submitOnboarding"])){
         if(empty($_POST["email"])) {
             $errorEmail = "<span class='error'> Please enter email address</span>"; 
         }
+        if(empty($_POST["dob"])){
+            $errorDOB = "<span class='error'>Please enter your date of birth</span>";   
+        }
+        if(empty($_POST["ssn"])){
+            $errorSSN = "<span class='error'>Please enter last 4 digits of your SSN</span>";   
+        }
+        else if(!(is_numeric($_POST["ssn"]))){
+            $errorSSN = "<span class='error'>Please enter numbers only</span>";
+        }
         if(empty($_FILES["fileDL"]["name"]) && empty($_FILES["fileSSN"]["name"])){
             $errorFiles = "<span class='error'>Please upload both your Driver's License/State ID and Social Security card.</span><br/>";   
         }   
 
         if($errorFirst == "" &&  $errorLast == "" && $errorState == "" && $errorStreetAddress == "" && $errorCity == "" && $errorZipCode == "" && $errorEmail == "" && $errorFiles == "" && $errorUploadDL == "" && $errorUploadSSN == "") {
+                
                 $employeeID = $user_data["employee_id"];
-
                 $state = sanitize($_POST["res_state"]);
                 $street_address = sanitize($_POST["street_address"]);
                 $city = sanitize($_POST["city"]);
                 $zipcode = sanitize($_POST["zipcode"]);
                 $email = sanitize($_POST["email"]);
+                $dob = sanitize($_POST["dob"]);
+                $ssn = sanitize($_POST["ssn"]);
+            
+                // Convert from MM-DD-YYYY to YYYY-MM-DD to follow the MySQL Date Format
+                $dobInput = multiexplode(array("-", "/"), $dob);
+                $date_of_birth = $dobInput[2] . "-" . $dobInput[0] . "-" . $dobInput[1];
       
                 //$fileDL = $_FILES["fileDL"];
                 //$fileSSN = $_FILES["fileSSN"];
-
-
-                //mysqli_query($link, "CALL insert_new_hire('$firstname', '$lastname', '$street_address', '$city', '$state', '$zipcode', '$email', '$emergencyName', '$emergencyNumber', CURRENT_TIMESTAMP);"); 
-
                
-            mysqli_query($link, "CALL update_onboarding_hire('$employeeID', '$firstname', '$lastname', '$street_address', '$city', '$state', '$zipcode', '$email')");
+            mysqli_query($link, "CALL update_onboarding_hire('$employeeID', '$firstname', '$lastname', '$street_address', '$city', '$state', '$zipcode', '$email', '$date_of_birth', '$ssn')");
             
             
             echo "<h2 class='headerPages'>Thank you for uploading your files!<br/><br/>
@@ -257,10 +268,8 @@ if(isset($_POST["submitOnboarding"])){
                 <!-- Resident State -->
                 <span class="spanHeader">Resident State: </span>
                 <select name="res_state" class="input-medium">
-                    <?= set_option_list($states, "state", $user_data["res_state"] ) ?>
-                    
+                    <?= set_option_list($states, "state", $user_data["res_state"] ) ?>      
                 </select>
-                
                 <?php echo $errorState; ?><br/><br/>
 
                 <!-- Zip Code -->
@@ -271,8 +280,17 @@ if(isset($_POST["submitOnboarding"])){
                 <!-- Email Address -->
                 <span class="spanHeader">E-mail address:</span>
                 <input type="text" class="input-large" name="email" placeholder="Email Address" value="<?php echo $user_data["email"]; ?>">
-                <?php echo $errorEmail; ?><br/><br/><br/>
+                <?php echo $errorEmail; ?><br/><br/>
+                
+                <!-- Date of Birth -->
+                <span class="spanHeader">Date of Birth:</span>
+                <input type="text" placeholder="MM/DD/YYYY" name="dob" value=<?php if(isset($_POST["submitOnboarding"])){echo $_POST['dob'];} ?>>
+                <?php echo $errorDOB; ?><br/><br/>
 
+                <!-- SSN -->
+                <span class="spanHeader">Last 4 Digits SSN:</span>
+                <input type="text" name="ssn" maxlength="4" size="5" placeholder="Enter last four digits" value=<?php if(isset($_POST["submitOnboarding"])){echo $_POST['ssn'];} ?>>
+                <?php echo $errorSSN; ?><br/><br/><br/>
                 
                 <?php echo $errorFiles; ?>
             
