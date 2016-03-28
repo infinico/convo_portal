@@ -1,8 +1,7 @@
-            <nav id="primaryNav">
+<nav id="primaryNav">
                 <ul>    <!-- Main Navigation -->
 <?php
     if(logged_in()) {
-
     if($user_data["emp_type"] == "O")
     {
     ?>
@@ -44,7 +43,6 @@
     </li>
 <?php      
     }   
-
     else
     {
 ?>
@@ -68,7 +66,6 @@
                             <li><a href="<?php echo $linkToALL;?>/Benefits/overview.php">Overview</a></li> 
                         <?php
                             }
-
                             if($user_data["payroll_status"] != "GBS" || $user_data["job_code"] == "INT007"){
                         ?>
                             <li><a href="<?php echo $linkToALL;?>/Benefits/401k.php">401(k)</a></li>
@@ -94,7 +91,7 @@
                     </li>
                     
                     
-                    <li>
+                    <!--<li>
                         <a href="#">Experts</a>
                         <ul class="experts_menu">
                             <li><a href="<?php echo $linkToALL;?>/Experts/index.php">Home</a></li>
@@ -118,7 +115,7 @@
                             <li><a href="<?php echo $linkToALL;?>/Convo University/module.php">Module 1</a></li>
                             <li><a href="<?php echo $linkToALL;?>/Convo University/log.php">Employee Log</a></li>
                         </ul>
-                    </li>
+                    </li>-->
 <?php
         if(has_access_manager($user_data["job_code"]) == true) {
 ?>
