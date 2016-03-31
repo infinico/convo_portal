@@ -10,13 +10,16 @@
     global $link;
 
     /* Displays the list of departments */
-    $resultEmail = mysqli_query($link, "SELECT 'ALL' dept_code, 'All Departments' department_name UNION SELECT dept_code, department_name FROM department"); 
+    $resultDepartment = mysqli_query($link, "SELECT 'ALL' dept_code, 'All Departments' department_name UNION SELECT dept_code, department_name FROM department"); 
     
     /* Displays the list of Convo locations */
-    $resultLocation= mysqli_query($link, "SELECT location_code, convo_location FROM location WHERE active = 'Y' ORDER BY convo_location"); 
-    
+    //$resultLocation= mysqli_query($link, "SELECT location_code, convo_location FROM location WHERE active = 'Y' ORDER BY convo_location"); 
+    //$resultLocation= mysqli_query($link, "SELECT 'ALL' location_code, 'All Locations' convo_location UNION SELECT location_code, convo_location FROM location WHERE active = 'Y' ORDER BY convo_location");
+$resultLocation= mysqli_query($link, "SELECT 'ALL' location_code, 'All Locations' convo_location UNION SELECT location_code, convo_location FROM location WHERE active = 'Y' ORDER BY convo_location"); 
 
-    
+    //$resultLocation= mysqli_query($link, "SELECT 'ALL' location_code, 'All Locations' convo_location FROM location WHERE active = 'Y' ORDER BY convo_location"); 
+
+
 
 /*----------------------------------------------------------------------------------------- */
 
@@ -29,7 +32,7 @@
         <span class="spanHeader">Department: </span>
         <?php
             echo "<select id='departmentName' name='departmentName'><option value=''>Select a department</option>";
-            while($row = mysqli_fetch_assoc($resultEmail)) {
+            while($row = mysqli_fetch_assoc($resultDepartment)) {
                 
                 
                 echo "<option value = '" . $row['dept_code'] . "'";
@@ -43,8 +46,6 @@
             echo "</select>";?>
         
         <br/>
-        
-
         
         
         <span class="spanHeader">Location: </span>
@@ -80,8 +81,7 @@
             echo "EMPTY";   
         }
         else{
-            
-            
+        
             $deptCode = $_POST["departmentName"];
             $sql = "SELECT firstname, lastname FROM convo_employee_vw WHERE employment_status = 'Active' ";
             
@@ -91,7 +91,7 @@
             }
             
             $location = $_POST["location"];
-            if ($location != "")
+            if ($location != "ALL")
             {
                 $sql .= "AND location_code = '" . $location . "' ";
             }
@@ -125,13 +125,10 @@ AND (employment_status = 'Active')"; */
             echo "EMPTY";   
         }
         
-
-        
         else{
-            
+            $sql = "SELECT email FROM convo_employee_vw WHERE employment_status = 'Active' ";
             
             $deptCode = $_POST["departmentName"];
-            $sql = "SELECT email FROM convo_employee_vw WHERE employment_status = 'Active' ";
             
             if ($deptCode != "ALL")
             {
@@ -139,7 +136,8 @@ AND (employment_status = 'Active')"; */
             }
             
             $location = $_POST["location"];
-            if ($location != "")
+            
+            if ($location != "ALL")
             {
                 $sql .= "AND location_code = '" . $location . "' ";
             }
@@ -150,6 +148,7 @@ AND (employment_status = 'Active')"; */
             while($row = mysqli_fetch_assoc($email_query)){
                 //if(is_null($row['email'])){
                 if($row['email'] ==  ""){
+                    $email = "&nbsp;";
                     $email = "&nbsp;";
                 }
                 else
