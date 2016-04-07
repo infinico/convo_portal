@@ -11,36 +11,6 @@
     else if($user_data["emp_type"] == "C"){
 ?>
     <li><a href="<?php echo $linkToALL;?>/index.php">Home</a></li>
-    <li>
-      <a href="#">Finance</a>
-      <ul class="finance_menu">
-        <li>
-          <a href=""
-            <?php echo $linkToALL;?>/Finance/travel_request.php">Travel Reimbursement Form
-          </a>
-        </li>
-        <li>
-          <a href=""
-            <?php echo $linkToALL;?>/Finance/finance.php">Travel &amp; Reimbursement Policy
-          </a>
-        </li>
-        <li>
-          <a href=""
-            <?php echo $linkToALL;?>/Finance/Travel_Request_Form.xlsx">Travel Request Form (Excel)
-          </a>
-        </li>
-        <li>
-          <a href=""
-            <?php echo $linkToALL;?>/Finance/Reimbursement_Form.xlsx">Travel Reimbursement Form (Excel)
-          </a>
-        </li>
-      </ul>
-    </li>
-    <li>
-      <a href=""
-        <?php echo $linkToALL;?>/Admin/index.php">Admin
-      </a>
-    </li>
 <?php      
     }   
     else
