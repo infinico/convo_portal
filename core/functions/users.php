@@ -103,8 +103,7 @@
         
         $fields = "" . implode(", ", array_keys($register_data)) . "";
         $data = "\"" . implode("\" , \"", $register_data) . "\"";
-        
-        mysqli_query($link, "UPDATE employee SET username = '$username', password = '$password' WHERE ssn = '$ssn' AND DATE_FORMAT(date_of_birth, '%m-%d-%Y') = '$dob'");
+        mysqli_query($link, "CALL register_user('$username','$password','$ssn','$dob')");
 
         /*email($register_data["email"], "Activate your account", "
             Hello " . $register_data["firstname"] . ",\n\nYou need to activiate your account, so use the link below:\n\nhttp://localhost/testing/activiate.php?email=" . $register_data["email"] . " &email_code=" . $register_data["email_code"] . "\n\n-Infini Consulting");*/
@@ -121,9 +120,10 @@
         array_walk($update_data, "array_sanitize");
 
         foreach($update_data as $field => $data) {
-            $update[] = "$field = \"$data\"";
+            $update[] = "$data";
         }
-        mysqli_query($link, "UPDATE employee SET " . implode(", ", $update) . " WHERE emplid = $user_id") or die(mysqli_error($link));
+        $recover = implode($update);        
+        mysqli_query($link, "CALL update_user($user_id, $recover)") or die(mysqli_error($link));
     }
 
     function change_password($user_id, $password) {
@@ -759,7 +759,7 @@
         
         
         try{
-            $mail = new PHPMailer();
+            $mail = new PHPMailer;
 
             $mail->SMTPAuth = true;
             //$mail->IsSMTP();
@@ -835,7 +835,7 @@
         $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
         $mail->AddAddress($email);
         $mail->AddCC($COOP1Email, $COOP1Name);
-       /* $mail->AddCC($COOP2Email, $COOP2Name); */
+        $mail->AddCC($COOP2Email, $COOP2Name); 
         $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
 
@@ -865,12 +865,12 @@
             //die($generated_password);
             change_password($user_data["employee_id"], $generated_password);
 
-            update_user($user_data["employee_id"], array("password_recover" => "1"));
+            update_user($user_data["employee_id"], array("password_recover" => 1));
 
             //email($email, "Your password recovery", "Hello " . $user_data["firstname"] . "\n\nYour temporary password is: " . $generated_password . "\n\nAfter logging in, you will be prompted to change your password.\n\n -CONVO Portal");
             
             
-            
+           
             if($_ENV["HOSTNAME"] == "TESTING"){
                 //$to = 'pxy9548@rit.edu';
                 $subject = 'Your password recovery - TESTING'; 
@@ -884,7 +884,7 @@
             $mail->Body = "Hello " . $user_data["firstname"] . ",<br/><br/> Your username is: " . $username . " Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
             $mail->AltBody = "Hello " . $user_data["firstname"] . ",<br/><br/>Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
 
-            $mail->send();
+            $mail->send(); 
         }
     }
 
