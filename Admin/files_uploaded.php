@@ -32,7 +32,7 @@
             function confirmDelete()
             {
                 var chkCount = 0;
-                var arrCheckboxes = document.files.elements["fileToDelete"];
+                var arrCheckboxes = document.files.elements["fileToDelete[]"];
                 for (var i=0; i<arrCheckboxes.length; i++) {
                     if(arrCheckboxes[i].checked == true) {
                         chkCount++;
