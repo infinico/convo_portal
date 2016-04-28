@@ -3,7 +3,8 @@
     $resultDepartment = mysqli_query($link, "SELECT * FROM department_vw");
     $resultLocation = mysqli_query($link, "SELECT * FROM location_vw");
     $resultSupervisor = mysqli_query($link, "SELECT * FROM employee_supervisor_vw");
-    $resultNewHire = mysqli_query($link, "SELECT * FROM new_hire_vw");
+    //$resultNewHire = mysqli_query($link, "SELECT * FROM new_hire_vw");
+    $resultNewHire = mysqli_query($link, "SELECT employee_id, firstname, lastname, gender, street_address, city, res_state, zipcode, email, job_code, location_code, payroll_status, hourly_rate, supervisor_id, hire_date, date_of_birth, ssn FROM employee_info_vw WHERE emp_type = 'O' ORDER BY lastname, firstname");
 
     // State Creation
 $states = array(
@@ -64,6 +65,7 @@ $states = array(
         
         foreach($data as $name) {
             $output .= "<option value='$name'";
+            
             if(isset($_POST["submit"]) && $_POST["res_state"] == $name){
                 $output .= "selected='selected'";
             }
@@ -71,5 +73,27 @@ $states = array(
         }
         return $output;
     }	// End Create Option List Function
+
+
+
+
+    // for NEO/index.php to keep states value set after submission
+   function set_option_list($data, $title, $user_data) {
+        $output = "<option value=''>Select a $title</option>";
+        
+        foreach($data as $name) {
+            // variable
+            $output .= "<option value='$name'";
+            
+            //if(isset($_POST["submitNewHire"]) && $_POST["res_state"] == $user_data){
+                if($name == $user_data){ 
+                $output .= "selected='selected'";
+            }
+            $output .= ">$name</option>";
+        }
+        return $output;
+   }
+    
+// End Create Option List Function
 
 ?>
