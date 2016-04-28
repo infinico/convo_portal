@@ -12,7 +12,7 @@
 
     if(isset($_POST["submit"])) {
         if(empty($_POST["employee_id"])) {
-            $errorId = "<span class='error'> Please enter new employee ID</span>";   
+            $errorId = "<span class='error'> Please enter employee ID from Paychex</span>";   
         }
         else if($_POST["employee_id"]{0} == "C"){
             if(!(is_numeric($_POST["employee_id"]{1})) || !(is_numeric($_POST["employee_id"]{2})) || !(is_numeric($_POST["employee_id"]{3})) || strlen($_POST["employee_id"]) != 4){
@@ -22,7 +22,7 @@
         else if(!(is_numeric($_POST["employee_id"]))){
             $errorId = "<span class='error'>Please enter numbers or first character 'C' for contractor</span>";   
         }
-        if(employee_id_exists($_POST["employee_id"]) == true) {
+        else if(employee_id_exists($_POST["employee_id"]) == true) {
             $errorId = "<span class='error'>The employee ID exists in the database, please enter different employee ID</span>";   
         }
         if(empty($_POST["firstname"])) {
@@ -91,7 +91,6 @@
             $zipcode = sanitize($_POST["zipcode"]);
             $emailAddress = sanitize($_POST["email_address"]);
             $payrollStatus = sanitize($_POST["payroll_status"]);
-            // $supervisor = explode(" ", sanitize($_POST["supervisor"]))[0];
             $supervisor = sanitize($_POST["supervisor"]);
             $hire_date = sanitize($_POST["hire_date"]);
             $phone_number = sanitize($_POST["phone_number"]);
@@ -101,7 +100,6 @@
             $hourlyRate = sanitize($_POST["hourly_rate"]);
             $new_hire_id = sanitize($_POST["hide_employee_id"]);
         
-            
             // Convert from MM-DD-YYYY to YYYY-MM-DD to follow the MySQL Date Format
             $hireDateInput = multiexplode(array("-", "/"), $hire_date);
             $hireDate = $hireDateInput[2] . "-" . $hireDateInput[0] . "-" . $hireDateInput[1];
@@ -111,38 +109,19 @@
             
             $phoneNumber = clean_up_phone($phone_number);
             
-            /*
-            echo $hireDate;
-            echo $date_of_birth;
-            echo "employee_id: " . $employee_id;
-            echo "FirstName: " . $firstname;
-            echo "Last Name: " . $lastname;
-            echo "Position: " . $jobTitle;
-            echo "Location: " . $location;
-            echo "State: " . $state;
-            echo "Department: " . $department;
-            echo "Street Address: " . $street_address;
-            echo "City: " . $city;
-            echo "zipcode: " . $zipcode;
-            echo "Payroll: " . $payrollStatus;
-            echo "Supervisor: " . $supervisor;
-            echo "Hire Date: " . $hire_date;
-            echo "Admin: " . $admin_privileges;
-            echo "Manager: " . $manager_privileges;
-            echo "Date of Birth: " . $dob;
-            echo "SSN: " . $ssn;
-            echo "Gender: " . $gender;
-            die();
-            */
+            if(strlen($new_hire_id) > 0)
+            {
+                $sql = "CALL update_employee_hire('$new_hire_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$emailAddress','$date_of_birth', '$ssn', '$gender', '$phoneNumber','$employee_id');";
+                //echo $sql;
+                //die();
+                mysqli_query($link, $sql);
+            }
+            else
+            {
+                mysqli_query($link, "CALL insert_employee_hire('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$emailAddress','$date_of_birth', '$ssn', '$gender', '$phoneNumber');");
+            }
             
-            /*
-            echo "INSERT INTO employee (employee_id, firstname, lastname, job_code, street_address, city, res_state, zipcode, convo_location, supervisor_id, payroll_status, hourly_rate, hire_date, updated_at, employment_status, active, password_recover, date_of_birth, ssn, gender) VALUES ('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$date_of_birth', '$ssn', '$gender')";
-            die();
-            */
-        
-            mysqli_query($link, "CALL insert_employee_hire('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$emailAddress','$date_of_birth', '$ssn', '$gender', '$phoneNumber');");
             
-            mysqli_query($link, "CALL update_new_hire('$new_hire_id', 'Accepted')");
             
             echo "<h2 class='headerPages'>The employee's information was added to database successfully!</h2>";
             die();      
@@ -161,20 +140,33 @@
                 <span class="spanHeader">Employee:</span>
                 <?php   
                         echo "<select id='new_hire' name='new_hire'>";
-                        echo "<option value=''>Select an employee</option>";
-                        while($row = mysqli_fetch_assoc($resultNewHire)) {
-                            if($row["status"] == "Pending"){
-                                echo "<option value ='" . $row['firstname'] . "|" . $row['lastname'] . "|" . $row['street_address'] . "|" . $row['city'] . "|" . $row['res_state'] . "|" . $row['zip_code'] . "|" . $row['date_of_birth'] . "|" . $row['email_address'] . "|" . $row["employee_id"] . "'";
-                        
-                                echo ">" . $row['lastname'] . ", " . $row["firstname"] . "</option>";   
-                            }
+                        echo "<option value=''>Select onboarded employee</option>";
+                        while($row = mysqli_fetch_assoc($resultNewHire)) 
+                        {
+                            echo "<option value ='" . 
+                                $row['employee_id'] . "|" . 
+                                $row['firstname'] . "|" . 
+                                $row['lastname'] . "|" . 
+                                $row['gender'] . "|" . 
+                                $row['street_address'] . "|" . 
+                                $row['city'] . "|" .
+                                $row['res_state'] . "|" . 
+                                $row['zipcode'] . "|" . 
+                                $row['email'] . "|" .
+                                $row['job_code'] . "|" .
+                                $row['location_code'] . "|" .
+                                $row['payroll_status'] . "|" .
+                                $row['hourly_rate'] . "|" .
+                                $row['supervisor_id'] . "|" .
+                                $row['hire_date'] . "|" .
+                                $row['date_of_birth'] . "|" .
+                                $row['ssn'] .
+                                "'";
+
+                            echo ">" . $row['lastname'] . ", " . $row["firstname"] . "</option>";   
                         }
                         echo "</select>";
                 ?><input type="hidden" name="hide_employee_id" value="<?php if(isset($_POST["submit"])){echo $_POST["hide_employee_id"];} ?>"><br/><br/>
-
-                <!-- EmployeeID -->
-                <span class="spanHeader">Employee ID: </span>
-                <input type="text" id="employee_id" name="employee_id" placeholder="Employee ID" maxlength="4" value=<?php if(isset($_POST["submit"])){echo $_POST['employee_id'];} ?>><?php echo $errorId; ?><br/><br/>
                 
 
                <!-- First Name -->
@@ -196,7 +188,7 @@
                 <!-- Date of Birth -->
                 <span class="spanHeader">Date of Birth:</span>
                 <input type="text" placeholder="MM/DD/YYYY" name="dob" value=<?php if(isset($_POST["submit"])){echo $_POST['dob'];} ?>>
-                <?php echo $errorDOB; ?><br/><em class="note">MM/DD/YYYY</em><br/><br/>
+                <?php echo $errorDOB; ?><br/><br/>
 
                 <!-- SSN -->
                 <span class="spanHeader">SSN:</span>
@@ -237,7 +229,7 @@
                     while($row = mysqli_fetch_assoc($resultPosition)) {
                         echo "<option value = '" . $row['job_code'] . "'";
 
-                        if(isset($_POST["submit"]) && $_POST["change_position_name"] == $row['position_name']){
+                        if(isset($_POST["submit"]) && $_POST["change_position_name"] == $row['job_code']){
                             echo "selected='selected'";
                         }       
                         echo ">" . $row['job_code'] . " - " . $row['position_name'] . "</option>";   
@@ -299,7 +291,11 @@
                 <span class="spanHeader">Convo Number:</span>
                 <input type="text" placeholder="xxx-xxx-xxxx" class="input-large" name="phone_number" value=<?php
 
-               if(isset($_POST["submit"])){echo $_POST['phone_number'];} ?>><br/><br/><br/>
+               if(isset($_POST["submit"])){echo $_POST['phone_number'];} ?>><br/><br/>
+                
+                <!-- EmployeeID -->
+                <span class="spanHeader">Paychex Employee ID: </span>
+                <input type="text" id="employee_id" name="employee_id" placeholder="Get from Paychex" maxlength="4" value=<?php if(isset($_POST["submit"])){echo $_POST['employee_id'];} ?>><?php echo $errorId; ?><br/><br/>
             
 
                 <input type="submit" id="addButton" name="submit" value="Add">
