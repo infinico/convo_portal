@@ -11,10 +11,16 @@
 <?php
     if(logged_in() == true) {
 ?>
+    <p style="font-size: smaller; font-style: italic;">May 9, 2016</p>
+    <div style="text-align: center;"><iframe src="https://drive.google.com/a/convorelay.com/file/d/0B30jdhMpVJ-gZzkzTl9iR1gya1E/preview" width="600" height="337"></iframe></div>
+    <p>Hello team,<br /><br />
+    I know this is long overdue, but I will be sending out Vlogs more often for the remainder of 2016. Convo has been growing at an amazing rate, and I could not be more proud of the team we have here. I look forward to the amazing opportunities that the rest of 2016 holds for all of us.<br /><br />
+    Jarrod</p>
+    <hr />
     <p style="font-size: smaller; font-style: italic;">March 9, 2016</p>
     <div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/6j7V3FJciI8" frameborder="0" allowfullscreen=""></iframe></div>
     <p>Folks,<br /><br />
-    We turn seven years old today! There have been some ups and downs, unexpected changes, and extraordinary growth along the way, but one thing has remained the same: our passion in elevating our Deaf community. We couldn't be any prouder of our work, and we're nowhere near done.<br /><br />
+    We turn seven years     old today! There have been some ups and downs, unexpected changes, and extraordinary growth along the way, but one thing has remained the same: our passion in elevating our Deaf community. We couldn't be any prouder of our work, and we're nowhere near done.<br /><br />
         Here's to many more birthdays to come!<br /><br />
     Convo</p>
     <hr />
