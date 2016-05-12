@@ -10,7 +10,7 @@
 
 
 <?php
-    $query = "SELECT * FROM new_hire_vw";
+    $query = "SELECT * FROM employee_info_vw WHERE emp_type = 'O' ORDER BY updated_at DESC";
     $result = mysqli_query($link, $query);
     
     $num_rows = mysqli_affected_rows($link);
@@ -26,7 +26,7 @@
 
                "</tr></thead><tbody>";
             while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr><td>" . $row["firstname"] . "</td><td>" . $row["lastname"] . "</td><td>" . $row["city"]  . "</td><td>" . $row["res_state"] . "</td><td><a target=_blank href= mailto:" . $row["email_address"] . ">" . $row["email_address"] . "</a></td><td>" . $row["updated_at"] . "</td><td>" . $row["status"] . "</td></tr>";
+                echo "<tr><td>" . $row["firstname"] . "</td><td>" . $row["lastname"] . "</td><td>" . $row["city"]  . "</td><td>" . $row["res_state"] . "</td><td><a target=_blank href= mailto:" . $row["email"] . ">" . $row["email"] . "</a></td><td>" . $row["updated_at"] . "</td><td>Background Check</td></tr>";
 
             }
         }        
