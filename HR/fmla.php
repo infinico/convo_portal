@@ -48,31 +48,41 @@
             
             $day_diff= (strtotime($expectedReturn) - strtotime($expectedLeave)) / (60 * 60 * 24);
             
-            if($day_diff >= 90) {
+            if (strtotime($expectedLeave) < strtotime('today'))
+            {
+                $dayDiffError = "<span class='error'>Date of leave cannot be earlier than today's date.</span>";
+            }
+            else if($day_diff >= 90) 
+            {
                 $dayDiffError = "<span class='error'>You cannot be on leave for more than 90 days.</span>";   
             }
-            else if($day_diff < 0 && !isset($_POST["unknownDate"])) {
+            else if($day_diff < 0 && !isset($_POST["unknownDate"])) 
+            {
                 $dayDiffError = "<span class='error'>Return date cannot be earlier than expected date of leave.</span>";   
             }
-            else {
-                mysqli_query($link, "CALL insert_fmla('$session_user_id', CURRENT_TIMESTAMP, '$requestType', '$expectedLeave', '$expectedReturn', '$leaveReason', 'R');");
-            //echo "CALL insert_fmla('$session_user_id', CURRENT_TIMESTAMP, '$requestType', '$expectedLeave', '$expectedReturn', '$leaveReason', 'R')";
+            else 
+            {
+                $sql = "CALL insert_fmla('$session_user_id', CURRENT_TIMESTAMP, '$requestType', '$expectedLeave', '$expectedReturn', '$leaveReason', 'R');";
+                mysqli_query($link, $sql);
             
-            $fmla_info = "<strong>Employee Name:</strong> " . $user_data["firstname"] . " " . $user_data["lastname"] . "<br/>";
-            $fmla_info .= "<strong>Family Medical Leave Request Type:</strong> " . $requestType . "<br/>";
-            $fmla_info .= "<strong>Expected Effective Date of Leave:</strong> " . $_POST["expectedLeave"] . "<br/>";
-            if(isset($_POST["unknownDate"])) {
-                $fmla_info .= "<strong>Exepcted Date of Return:</strong> Unknown <br/>";
-            }
-            else {
-                 $fmla_info .= "<strong>Exepcted Date of Return:</strong> " . $_POST["expectedReturn"] . "<br/>";
-            }
-            $fmla_info .= "<strong>Leave is being requested for:</strong> " . $leaveReason . "<br/>";
-            
-            newEmail($user_data['email'], $user_data["firstname"], $user_data["lastname"], 'Family Medical Leave Request', $fmla_info);
-            
-            echo "<h2 class='headerPages'>Thank you for submitting your Family Medical Leave request. This request has been sent to HR.</h2>";
-            die();   
+                $fmla_info = "<strong>Employee Name:</strong> " . $user_data["firstname"] . " " . $user_data["lastname"] . "<br/>";
+                $fmla_info .= "<strong>Family Medical Leave Request Type:</strong> " . $requestType . "<br/>";
+                $fmla_info .= "<strong>Expected Effective Date of Leave:</strong> " . $_POST["expectedLeave"] . "<br/>";
+                
+                if(isset($_POST["unknownDate"])) 
+                {
+                    $fmla_info .= "<strong>Exepcted Date of Return:</strong> Unknown <br/>";
+                }
+                else 
+                {
+                     $fmla_info .= "<strong>Exepcted Date of Return:</strong> " . $_POST["expectedReturn"] . "<br/>";
+                }
+                $fmla_info .= "<strong>Leave is being requested for:</strong> " . $leaveReason . "<br/>";
+
+                newEmail($user_data['email'], $user_data["firstname"], $user_data["lastname"], 'Family Medical Leave Request', $fmla_info);
+
+                echo "<h2 class='headerPages'>Thank you for submitting your Family Medical Leave request. This request has been sent to HR.</h2>";
+                die();   
             } 
         }
     }
