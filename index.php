@@ -11,6 +11,15 @@
 <?php
     if(logged_in() == true) {
 ?>
+    <p style="font-size: smaller; font-style: italic;">June 8, 2016</p>
+    <div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/I5edLmtafAI" frameborder="0" allowfullscreen></iframe></div>
+    <p>Hello everyone,<br /><br />
+    I hope this finds each of you well and happy. I am still floating from our amazing weekend in Rochester. We had an excellent turnout. It was such a pleasure to be there and feel the strong sense of community spirit in Rochester.<br /><br />
+    As you know we are always looking for ways to improve our call centers and the experience and well being of our interpreters. In the past year we have had numerous improvements: Mobile, Rochester, Pleasanton and Roseville. Finally, Fort Wayne's time has come. Since day one Fort Wayne has been a heavy weight in our success. Numerous interpreters have faithfully commuted, some nearly two hours each way, from the Toledo area to serve in the Fort Wayne center. Now, we are excited to share and celebrate with you our plans to open two new centers in the region. Convo will have a new home in Fort Wayne and in Toledo.<br /><br />
+    Here is a video of our announcement of the new call centers to the Ft. Wayne team... Enjoy!<br /><br />
+    Jarrod</p>
+    <hr />
+
     <p style="font-size: smaller; font-style: italic;">May 9, 2016</p>
     <div style="text-align: center;"><iframe src="https://drive.google.com/a/convorelay.com/file/d/0B30jdhMpVJ-gZzkzTl9iR1gya1E/preview" width="600" height="337"></iframe></div>
     <p>Hello team,<br /><br />
