@@ -16,11 +16,12 @@
     Open Enrollment is here!  We are pleased to announce that we were able to find a less costly plan with United Healthcare as opposed to what was offered through renewal of the current plans, to be effective July 1<sup>st</sup>.<br /><br />
     Please review the following:<br /><br />
     - <a href="Benefits/CH%20Insurance%20Brokerage%20Letter.pdf" target="_blank">Letter from our broker summarizing the change</a><br>
+    - <a href="Benefits/UHC%20Plans%20Comparison.pdf" target="_blank">Plans Comparison</a><br>
     - <a href="Benefits/UHC%20Election%20Form.pdf" target="_blank">Election Form</a><br>
     - <a href="Benefits/UHC%20-%20AGZP.pdf" target="_blank">Benefit Summary for Plan AGZP</a><br>
     - <a href="Benefits/UHC%20-%20AGZY.pdf" target="_blank">Benefit Summary for Plan AGZY</a><br>
     - <a href="Benefits/UHC%20-%20AGZZ.pdf" target="_blank">Benefit Summary for Plan AGZZ</a><br /><br />
-    The good news is if you are currently enrolled in a health plan, you will not need to fill out enrollment forms. Rather, the Election form can be filled out and returned to <a href="mailto:hr@convorelay.com">hr@convorelay.com</a>. Your individual and dependent information will automatically be transferred over.<br /><br />
+    The good news is if you are currently enrolled in a health plan, you will not need to fill out enrollment forms. Rather, the Election Form can be filled out and returned to <a href="mailto:hr@convorelay.com">hr@convorelay.com</a>. Your individual and dependent information will automatically be transferred over.<br /><br />
     As always, all Full Time employees are eligible to participate. Those who are Full Time and waiving coverage will need to inform HR via email that they are waiving coverage. All elections and waivers will need to be submitted on or before June 20<sup>th</sup>.<br /><br />
     I want to thank everyone for their patience. Please don't hesitate to reach out to us if you have any questions or concerns. Thank you all for all you do for Convo!<br /><br />
     HR</p>
