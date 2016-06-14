@@ -21,10 +21,11 @@ if(logged_in()){
 
 <h2>Medical Insurance Plan Documents</h2>
 
-<p>You can sign up for your medical insurance plan using the <a href="UHC%20Enrollment%20Form.pdf" target="_blank">Enrollment Form</a>. Newly eligible employees may fill out and return this form to <a href="mailto:hr@convorelay.com">hr@convorelay.com</a>. </p>
+<p>Please return all appropriate forms to <a href="mailto:hr@convorelay.com">hr@convorelay.com</a>; don't hesitate to contact us or our broker Joe Courcy at <a href="mailto:jcourcy@chinsurance.cc">jcourcy@chinsurance.cc</a> if you have any further questions.</p>
 
 <p>
-<a href="UHC%20Election%20Form.pdf" target="_blank">Election Form (for Open Enrollment)</a><br>
+<a href="UHC%20Plans%20Comparison.pdf" target="_blank">UHC Plans Comparison</a><br>
+<a href="UHC%20Election%20Form.pdf" target="_blank">Election Form</a><br>
 <a href="UHC%20Enrollment%20Form.pdf" target="_blank">Enrollment Form (for newly eligible employees)</a><br>
 <a href="UHC%20-%20AGZP.pdf" target="_blank">Benefit Summary for Plan AGZP</a><br>
 <a href="UHC%20-%20AGZY.pdf" target="_blank">Benefit Summary for Plan AGZY</a><br>
