@@ -11,6 +11,14 @@
 <?php
     if(logged_in() == true) {
 ?>
+    <p style="font-size: smaller; font-style: italic;">July 2, 2016</p>
+<div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/Vt9IOE6y3CQ?rel=0" frameborder="0" allowfullscreen=""></iframe></div>
+<p>Folks,<br /><br />
+    I'd like to take a moment to reflect what an amazing month June was for Convo. We have more exciting things coming up in July, such as the NAD Conference and the National Deaf People of Color Conference, which we are sponsoring.<br /><br />
+    As always, I am incredibly proud of each team that has worked so hard to commit to an extraordinary growth. Thank you for all that you do. Have a safe and fun 4<sup>th</sup> of July!<br /><br />
+    Jarrod</p>
+    <hr />
+
     <p style="font-size: smaller; font-style: italic;">June 10, 2016</p>
     <p>Hi everyone,<br /><br />
     Open Enrollment is here!  We are pleased to announce that we were able to find a less costly plan with United Healthcare as opposed to what was offered through renewal of the current plans, to be effective July 1<sup>st</sup>.<br /><br />
