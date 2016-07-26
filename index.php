@@ -11,6 +11,33 @@
 <?php
     if(logged_in() == true) {
 ?>
+    
+
+    <p style="font-size: smaller; font-style: italic;">July 26, 2016</p>
+<div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/CMmAO4NU_Yg?rel=0" frameborder="0" allowfullscreen=""></iframe></div>
+<p>Folks,<br /><br />
+    July has been a busy month for us! Please take the time to watch my video above and learn about where Convo has been the past couple of weeks.<br /><br />
+    I'd like to extend a warm welcome to our new hires:<br /><br />
+
+    - Brandon Hill, <em>ASL Adviser</em><br/>
+- Dan Millikin, <em>Business Development Manager</em><br/>
+- Nathalie Johnston, <em>Business Curator</em><br/>
+- Josh Allmann, <em>Lead Platform Engineer</em><br/>
+- Kelley Duran, <em>Platform Engineer</em><br/>
+- Karina Pedersen, <em>Community Curator - Bay Area, CA</em><br/> 
+- Arlene Ngalle, <em>Community Curator - Washington, DC</em><br/>
+- Michael McMahon, <em>Community Curator - Little Rock, Arkansas</em><br/><br />
+
+Also, I'd like to congratulate the following internal people who are now taking on new roles:<br /><br />
+
+- Braam Jordaan, <em>Director of International Relations and Development</em><br/>
+- Jay Kowalczyk, <em>Creative Director</em><br/>
+- Leila Hanaumi, <em>Brand Director</em><br/><br />
+
+Cheers, <br />
+    Jarrod</p>
+    <hr />
+
     <p style="font-size: smaller; font-style: italic;">July 2, 2016</p>
 <div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/Vt9IOE6y3CQ?rel=0" frameborder="0" allowfullscreen=""></iframe></div>
 <p>Folks,<br /><br />
