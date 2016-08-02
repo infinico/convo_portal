@@ -13,7 +13,23 @@
 ?>
     
 
-    <p style="font-size: smaller; font-style: italic;">July 26, 2016</p>
+    <p style="font-size: smaller; font-style: italic;">August 1, 2016</p>
+<div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/uhj8KUU9eAs?rel=0" frameborder="0" allowfullscreen=""></iframe></div>
+<p>Folks,<br /><br />
+    There's more good news to go around! Please take the time to watch the video above and learn about restructuring within the company intended to better support operations as well some news.<br /><br />
+I'd like to extend a warm round of applause to our newly-promoted interpreters:<br /><br />
+- Bella Munoz, Team Manager - <em>Pleasanton CA</em><br/>
+- Kari Todesco, Team Manager - <em>Rochester NY</em><br/>
+- Morgan Stratton, Team Manager - <em>Fort Wayne IN</em><br/>
+- Stephanie Pope, Team Manager - <em>Mobile AL</em><br/>
+- Jason Davenport, Call Center Manager - <em>Roseville CA</em><br/><br/>
+Also, I'd like to congratulate the following internal people who are now taking on new roles:<br /><br />
+- Jeff Neable, <em>IT Support Manager</em><br/>
+- Jared Evans, <em>IT Infrastructure Manager</em><br/><br />
+Cheers, <br />
+    Jarrod</p>
+    <hr />
+
 <div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/CMmAO4NU_Yg?rel=0" frameborder="0" allowfullscreen=""></iframe></div>
 <p>Folks,<br /><br />
     July has been a busy month for us! Please take the time to watch my video above and learn about where Convo has been the past couple of weeks.<br /><br />
