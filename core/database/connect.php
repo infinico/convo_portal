@@ -1,8 +1,8 @@
 <?php
-    $db_host = "localhost";
+    $db_host = "104.130.32.112";
     $db_user = "webuser";
     $db_pass = "DBacce$$";
-    $db_name = "convotesting";
+    $db_name = "portaldemo";
   
     // Intialize the database connection
     $link = mysqli_connect ($db_host, $db_user, $db_pass, $db_name);
