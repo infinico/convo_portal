@@ -151,10 +151,10 @@
                 <!-- Position -->
                 <h2>Position</h2>
                 <span class="spanHeader">Job Code: </span>
-                <input type="text" id="job_code" name="job_code" placeholder="Job Code" value=<?php if(isset($_POST["submit"])){echo $_POST['job_code'];} ?>><?php echo $errorJobCode; ?><br/><br/>
+                <input type="text" id="job_code" name="job_code" placeholder="Job Code" maxlength="45" value=<?php if(isset($_POST["submit"])){echo $_POST['job_code'];} ?>><?php echo $errorJobCode; ?><br/><br/>
 
                 <span class="spanHeader">Position Name: </span>
-                <input type="text" id="position_name" name="position_name" class="input-xlarge" placeholder="Employee Role" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['position_name'] . "'";} ?>><?php echo $errorPosition; ?><br/><br/>
+                <input type="text" id="position_name" name="position_name" class="input-xlarge" placeholder="Employee Role" maxlength="255" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['position_name'] . "'";} ?>><?php echo $errorPosition; ?><br/><br/>
 
                 <span class="spanHeader">Department Change: </span>
                 <?php
@@ -186,28 +186,28 @@
                 <h2>Department</h2>
 
                 <span class="spanHeader">Department Code: </span>
-                <input type="text" id="dept_code" name="dept_code" placeholder="Department Code" value=<?php if(isset($_POST["submit"])){echo $_POST['dept_code'];} ?>><?php echo $errorDeptCode; ?><br/><br/>
+                <input type="text" id="dept_code" name="dept_code" placeholder="Department Code" maxlength="45" value=<?php if(isset($_POST["submit"])){echo $_POST['dept_code'];} ?>><?php echo $errorDeptCode; ?><br/><br/>
 
                 <span class="spanHeader">Department Name: </span>
-                <input type="text" id="department_name" name="department_name" class="input-xlarge" placeholder="Department Name" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['department_name'] . "'";} ?>><?php echo $errorDepartment; ?><br/><br/>
+                <input type="text" id="department_name" name="department_name" class="input-xlarge" placeholder="Department Name" maxlength="255" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['department_name'] . "'";} ?>><?php echo $errorDepartment; ?><br/><br/>
 
 
                 <h2>Location</h2>
                 <!-- Convo Location -->
 
                 <span class="spanHeader">Location Code: </span>
-                <input type="text" id="location_code" name="location_code" placeholder="Location Code" value=<?php if(isset($_POST["submit"])){echo $_POST['location_code'];} ?>><?php echo $errorLocationCode; ?><br/><br/>
+                <input type="text" id="location_code" name="location_code" placeholder="Location Code" maxlength="45" value=<?php if(isset($_POST["submit"])){echo $_POST['location_code'];} ?>><?php echo $errorLocationCode; ?><br/><br/>
 
                 <span class="spanHeader">Convo Location: </span>
-                <input type="text" id="convo_location" name="convo_location" class="input-xlarge" placeholder="Convo Location" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['convo_location'] . "'";} ?>><?php echo $errorLocation; ?><br/><br/>
+                <input type="text" id="convo_location" name="convo_location" class="input-xlarge" placeholder="Convo Location" maxlength="255" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['convo_location'] . "'";} ?>><?php echo $errorLocation; ?><br/><br/>
 
                 <!-- Address -->
                 <span class="spanHeader">Address: </span>
-                <input type="text" id="address" name="address" class="input-xlarge" placeholder="Address" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['address'] . "'";} ?>><?php echo $errorAddress; ?><br/><br/>
+                <input type="text" id="address" name="address" class="input-xlarge" placeholder="Address" maxlength="255" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['address'] . "'";} ?>><?php echo $errorAddress; ?><br/><br/>
 
                 <!-- City -->
                 <span class="spanHeader">City: </span>
-                <input type="text" id="city" name="city" placeholder="City" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['city'] . "'";} ?>><?php echo $errorCity; ?><br/><br/>
+                <input type="text" id="city" name="city" placeholder="City" maxlength="255" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['city'] . "'";} ?>><?php echo $errorCity; ?><br/><br/>
 
                 <!-- State -->
                 <span class="spanHeader">State: </span>
