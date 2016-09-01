@@ -106,11 +106,11 @@
 
                <!-- First Name -->
                 <span class="spanHeader">First Name: </span>
-                <input type="text" id="firstname" name="firstname" size="10" placeholder="First Name" value=<?php if(isset($_POST["submit"])){echo $_POST['firstname'];} ?>><?php echo $errorFirst; ?><br/><br/>
+                <input type="text" id="firstname" name="firstname" size="10" placeholder="First Name" maxlength="40" value=<?php if(isset($_POST["submit"])){echo $_POST['firstname'];} ?>><?php echo $errorFirst; ?><br/><br/>
 
                 <!-- Last Name -->
                 <span class="spanHeader">Last Name: </span>
-                <input type="text" id="lastname" name="lastname" size="10" placeholder="Last Name" value=<?php if(isset($_POST["submit"])){echo $_POST['lastname'];} ?>><?php echo $errorLast; ?><br/><br/>
+                <input type="text" id="lastname" name="lastname" size="10" placeholder="Last Name" maxlength="40" value=<?php if(isset($_POST["submit"])){echo $_POST['lastname'];} ?>><?php echo $errorLast; ?><br/><br/>
 
                 <!-- Gender -->
                 <span class="spanHeader">Gender: </span>
@@ -122,11 +122,11 @@
 
                 <!-- Street Address-->
                 <span class="spanHeader">Street Address: </span>
-                <input type="text" id="street_address" class="input-xlarge" name="street_address" placeholder="Street Address" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['street_address'] . "'";} ?>><?php echo $errorStreetAddress; ?><br/><br/>
+                <input type="text" id="street_address" class="input-xlarge" name="street_address" placeholder="Street Address" maxlength="50" value=<?php if(isset($_POST["submit"])){echo "'" . $_POST['street_address'] . "'";} ?>><?php echo $errorStreetAddress; ?><br/><br/>
 
                 <!-- City -->
                 <span class="spanHeader">City: </span>
-                <input type="text" id="city" name="city" placeholder="City" value=<?php if(isset($_POST["submit"])){echo "'" .  $_POST['city'] . "'"; } ?>><?php echo $errorCity; ?><br/><br/>
+                <input type="text" id="city" name="city" placeholder="City" maxlength="255" value=<?php if(isset($_POST["submit"])){echo "'" .  $_POST['city'] . "'"; } ?>><?php echo $errorCity; ?><br/><br/>
 
                 <!-- Resident State -->
                 <span class="spanHeader">Resident State: </span>
@@ -139,7 +139,7 @@
                 <input type="text" id="zipcode" name="zipcode" placeholder="Zip Code" maxlength="5" value=<?php if(isset($_POST["submit"])){echo $_POST['zipcode'];} ?>><?php echo $errorZipCode; ?><br/><br/>
                 
                 <span class="spanHeader">Email Address: </span>
-                <input type="text" id="email_address" class="input-large" name="email_address" placeholder="example@gmail.com" value=<?php if(isset($_POST["submit"])){echo $_POST['email_address'];} ?>><?php echo $errorEmailAddress; ?><br/><br/>
+                <input type="text" id="email_address" class="input-large" name="email_address" maxlength="50" placeholder="example@gmail.com" value=<?php if(isset($_POST["submit"])){echo $_POST['email_address'];} ?>><?php echo $errorEmailAddress; ?><br/><br/>
 
                 <!-- EMPLOYEE INFORMATION -->
                 <h2>Employee Information</h2>
@@ -214,7 +214,7 @@
 
                 <!-- Username-->
                 <span class="spanHeader">Username: </span>
-                <input type="text" name="username" value=<?php if(isset($_POST["submit"])){echo $_POST['username'];} ?>><?php echo $errorUsername ?><br/><br/>              
+                <input type="text" name="username" maxlength="60" value=<?php if(isset($_POST["submit"])){echo $_POST['username'];} ?>><?php echo $errorUsername ?><br/><br/>              
                 <input type="submit" id="addButton" name="submit" value="Add">
             </form>
 <?php

@@ -108,7 +108,7 @@
             <br/><br/>
 
             <span class="spanHeader">Position Name Change: </span>
-            <input type='text' name='change_positionName' class="input-xlarge">        
+            <input type='text' name='change_positionName' class="input-xlarge" maxlength="255">        
             <input type='text' name='current_positionName' class="input-xlarge" style='background:#E9E9E9;' readonly>
             <br/><br/>
 
@@ -151,7 +151,7 @@
             <br/><br/>
 
             <span class="spanHeader">Department Name Change: </span>
-            <input type='text' name='change_department_name' class="input-xlarge">        
+            <input type='text' name='change_department_name' class="input-xlarge" maxlength="255">        
 
             <input type='text' name='current_department' class="input-xlarge"  style='background:#E9E9E9;' readonly>            <br/><br/>
 
@@ -168,16 +168,16 @@
             <br/><br/>
 
             <span class="spanHeader">Convo Location: </span>
-            <input type='text' name='change_convoLocation' class="input-xlarge">
+            <input type='text' name='change_convoLocation' class="input-xlarge" maxlength="255">
             <input type='text' name='current_convoLocation' class="input-xlarge"  style='background:#E9E9E9;' readonly>
             <br/><br/>
 
             <span class="spanHeader">Address: </span>
-            <input type='text' name='address' class="input-xlarge">
+            <input type='text' name='address' class="input-xlarge" maxlength="255">
             <input type='text' name='current_address' class="input-xlarge" style='background:#E9E9E9;' readonly><br/><br/>
 
             <span class="spanHeader">City: </span>
-            <input type='text' name='city' class="input-xlarge">
+            <input type='text' name='city' class="input-xlarge" maxlength="255">
             <input type='text' name='current_city' class="input-xlarge" style='background:#E9E9E9;' readonly><br/><br/>
 
             <span class="spanHeader">State: </span>
