@@ -77,11 +77,12 @@ p {
 
 a {
     font-weight: bold;
-    color: #71AB3A;
+    /*color: #71AB3A;  green should change it to blue (#0000cd/#00008b) or light blue (#0c97e8/#0c97e8)*/
+    color: #0c97e8;
 }
 
 a:hover {
-    color: black;   
+    color: black;
 }
 
 .table-sortable tbody tr {
@@ -247,7 +248,9 @@ nav ul li.children:before {
 	text-decoration: none;
 	font-size: 11pt;
 	padding: 0 25px;
-    color: #0f5390;
+    color:  #000000; /* could be gray, white, or keep it as the same. */
+    /*color: #0f5390;*/
+
 }
 
 /* Appearance - Main li of the primary nav */
@@ -256,7 +259,8 @@ nav ul li.children:before {
 	float: left;
 	margin-top: 10px;
 	padding: 0;
-    color: #0f5390; 
+    color: #000000;
+    /*color: #0f5390; */
     
 }
 
@@ -266,7 +270,7 @@ nav ul li.children:before {
 }
 
 #primaryNav ul li a:hover {
-    color: black;
+    color: #0f5390;
 }
 
 /* Appearance of the submenu */
@@ -290,11 +294,13 @@ nav ul li.children:before {
 }
 
 #primaryNav ul ul li:hover {
-    background: #71AB3A;
+    /*background: #71AB3A; */
+    background: #00bfff;
 }
 
 #primaryNav ul ul li a:hover {
-    color: white;  
+    /*color: white;  */
+    color: black;
 }
 
 /* Give the space between the submenu */
