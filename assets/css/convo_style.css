@@ -3,9 +3,9 @@
 	height: 200px;
   
 	/* display: inline-block; */
-  background: -moz-linear-gradient(90deg, #e3e4e3 0%, #f7f8f7 100%) #e8e9e8;
+    background: -moz-linear-gradient(90deg, #e3e4e3 0%, #f7f8f7 100%) #e8e9e8;
 	background: -webkit-gradient(linear, left bottom, left top, from(#e3e4e3), to(#f7f8f7)) #e8e9e8;
-  -moz-box-shadow: 0 1px 0 #fffffe;
+    -moz-box-shadow: 0 1px 0 #fffffe;
 	-webkit-box-shadow: 0 1px 0 #fffffe;
 	box-shadow: 0 1px 0 #fffffe;
 	border: 1px solid #c9cac9;
@@ -29,7 +29,7 @@
 	/* display: inline-block; */
     background: -moz-linear-gradient(90deg, #e3e4e3 0%, #f7f8f7 100%) #e8e9e8;
 	background: -webkit-gradient(linear, left bottom, left top, from(#e3e4e3), to(#f7f8f7)) #e8e9e8;
-  -moz-box-shadow: 0 1px 0 #fffffe;
+    -moz-box-shadow: 0 1px 0 #fffffe;
 	-webkit-box-shadow: 0 1px 0 #fffffe;
 	box-shadow: 0 1px 0 #fffffe;
 	border: 1px solid #c9cac9;
@@ -78,15 +78,20 @@
   width: 106px;
   height: 33px;
   color: #ffffff;
-  border: 1px solid #8AE151;
+  /*border: 1px solid #8AE151;*/
   font: bold 17px/35px Avenir, "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
   /* background-color: #8AE151; Green */
   background-color: #0c97e8;
-  background-image: -moz-linear-gradient(90deg, #71AB3A, #71AB3A);
+  /*background-image: -moz-linear-gradient(90deg, #71AB3A, #71AB3A);
   background-image: -ms-linear-gradient(90deg, #71AB3A, #71AB3A);
   background-image: -webkit-linear-gradient(90deg,#71AB3A, #71AB3A);
   background-image: -o-linear-gradient(90deg, #71AB3A, #71AB3A);
-  background-image: linear-gradient(90deg,#71AB3A, #71AB3A);
+  background-image: linear-gradient(90deg,#71AB3A, #71AB3A);*/
+  background-image: -moz-linear-gradient(90deg, #87cefa, #87cefa);
+  background-image: -ms-linear-gradient(90deg, #87cefa, #87cefa);
+  background-image: -webkit-linear-gradient(90deg,#87cefa, #87cefa);
+  background-image: -o-linear-gradient(90deg, #87cefa, #87cefa);
+  background-image: linear-gradient(90deg,#87cefa, #87cefa);
   -webkit-font-smoothing: antialiased;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -96,9 +101,12 @@
   user-select: none;
   margin-top: 6px;
   padding: 0;
-  -webkit-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;
+  /*-webkit-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;
   -moz-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;
-  box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;
+  box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #71AB3A;*/
+  -webkit-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #87cefa;
+  -moz-box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #87cefa;
+  box-shadow: 0 1px 0 #f7f8f7, inset 0 1px 0 #87cefa;
   top: 55px;
   right: 16px;
   text-align: center;
@@ -106,12 +114,18 @@
 
 #changePassButton, #updateButton, .hireOrTerm{
     text-decoration: none;
-    background-color: green;
+    /*background-color: green;
     background-image: -moz-linear-gradient(90deg, #71AB3A, #71AB3A);
     background-image: -ms-linear-gradient(90deg, #71AB3A, #71AB3A);
     background-image: -webkit-linear-gradient(90deg, #71AB3A, #71AB3A);
     background-image: -o-linear-gradient(90deg, #71AB3A, #71AB3A);
-    background-image: linear-gradient(90deg, #71AB3A, #71AB3A);   
+    background-image: linear-gradient(90deg, #71AB3A, #71AB3A);*/
+    background-color: #0c97e8;
+    background-image: -moz-linear-gradient(90deg, #87cefa, #87cefa);
+    background-image: -ms-linear-gradient(90deg, #87cefa, #87cefa);
+    background-image: -webkit-linear-gradient(90deg,#87cefa, #87cefa);
+    background-image: -o-linear-gradient(90deg, #87cefa, #87cefa);
+    background-image: linear-gradient(90deg,#87cefa, #87cefa);   
 }
 
 #editEventButton{
