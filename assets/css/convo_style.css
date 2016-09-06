@@ -189,9 +189,10 @@
 .logo-org {
 overflow: hidden;
 /*background: url(https://s3.amazonaws.com/convoweb/images/logo.svg) no-repeat;*/
-background: url(https://s3.amazonaws.com/convoweb/images/liberty-gs.svg) no-repeat;
-width: 230px;
-height: 48px;
+/*background: url(https://s3.amazonaws.com/convoweb/images/liberty-gs.svg) no-repeat;*/
+background: url(../images/liberty-gs.png) no-repeat;
+width: 363px;
+height: 55px;
 text-indent: -9999px;
 float: left;
 margin: 0;
