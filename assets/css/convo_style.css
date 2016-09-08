@@ -198,9 +198,10 @@ float: left;
 margin: 0;
 }
 
+/*
 .logo-org:hover {
-background-position: 0 -48px;
-}
+background-position: 0 -55px;
+}*/
 
 .logo-org a{
 	display: block;
