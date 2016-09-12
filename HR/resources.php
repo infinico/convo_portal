@@ -12,7 +12,7 @@
                 <!-- Employee Resources -->
                 <h2>Employee Resources</h2>
                 <ul class="resources">
-                    <li><a href="Resources/2016%20payroll%20schedule.pdf" target="_blank">2016 Payroll Schedule</a></li>
+                    <li><a href="Resources/2016.payroll.schedule.pdf" target="_blank">2016 Payroll Schedule</a></li>
                     <li><a href="OptInForMailedPaycheck.php">Check Stub Request</a></li>
                     <li><a href="Resources/PaychexRegistration.pdf" target="_blank">Paychex Registration</a></li>
                 </ul><br/>
