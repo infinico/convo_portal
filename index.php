@@ -12,6 +12,13 @@
     if(logged_in() == true) {
 ?>
     
+    <p style="font-size: smaller; font-style: italic;">September 12, 2016</p>
+    <div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/ZJigIudBe7s?rel=0" frameborder="0" allowfullscreen=""></iframe></div>
+    <p>Folks,<br /><br />
+    Canada VRS is launching on September 29th, 2016 and we are thrilled to be their partner in this endeavor. We will be providing our interpreting service to Canada Administration of VRS and supporting their call centers. This is a historical time for the Canada Deaf community and we are humbled to be a part of this journey.<br /><br />
+    Please watch the video above for remarks from our Interpreting team. Exciting times ahead!</p>
+    <p style="font-weight:bold; text-align:center">--- INTERNAL / DO NOT SHARE ---</span></p>
+    <hr />
 
     <p style="font-size: smaller; font-style: italic;">August 1, 2016</p>
 <div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/uhj8KUU9eAs?rel=0" frameborder="0" allowfullscreen=""></iframe></div>
