@@ -8,7 +8,7 @@
     include("../assets/inc/header.inc.php");
     include("../includes/includes_functions.php");
 
-    $errorId = $errorFirst = $errorLast = $errorPosition = $errorLocation = "";
+    $errorId = $errorName = $errorTitle = $errorLocation = $errorHire = $errorStart = "";
 
     if(isset($_POST["submit"])) {
         if(empty($_POST["employee_id"])) {
@@ -25,21 +25,32 @@
         else if(employee_id_exists($_POST["employee_id"]) == true) {
             $errorId = "<span class='error'>The employee ID exists in the database, please enter different employee ID</span>";   
         }
-        if(empty($_POST["firstname"])) {
+        if(empty($_POST["name"])) {
             $errorFirst = "<span class='error'>Please enter first name</span>";
         }
         
         if(empty($_POST["title"])) {
+            $errorTitle = "<span class='error'>Please enter the title</span>";
+        }
+        
+        if(empty($_POST["location"])) {
+            $errorFirst = "<span class='error'>Please select location</span>";
+        }
+        
+        
+        if(empty($_POST["hire_date"])) {
+            $errorFirst = "<span class='error'>Please enter the title</span>";
+        }
+        
+        if(empty($_POST["start_date"])) {
             $errorFirst = "<span class='error'>Please enter the title</span>";
         }
 
         
-        if($errorId == "" && $errorFirst == "" &&  $errorLast == "" && $errorPosition == ""){
+        if($errorId == "" && $errorName == "" &&  $errorTitle == ""){
             $employee_id = sanitize($_POST["employee_id"]);
-            $firstname = sanitize($_POST["firstname"]);
-            $lastname = sanitize($_POST["title"]);
-            $jobTitle = sanitize($_POST["change_position_name"]);
-            $location = sanitize($_POST["convo_location"]);
+            $name = sanitize($_POST["name"]);
+            $title = sanitize($_POST["title"]);
 
         
             // Convert from MM-DD-YYYY to YYYY-MM-DD to follow the MySQL Date Format
@@ -59,7 +70,7 @@
             }
             else
             {
-                mysqli_query($link, "CALL insert_employee_hire('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address');");
+                //mysqli_query($link, "CALL insert_employee_hire('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address');");
             }
             
             
@@ -70,8 +81,8 @@
     }
 ?>
     
-            <h1 class="headerPages">Add employee</h1>
-            <h3>Please fill out the new employee's information below.</h3>
+            <h1 class="headerPages">Update employee</h1>
+            <h3>Please update employee's checklist below.</h3>
 
             <form id="hire" method="POST">
 
@@ -86,8 +97,7 @@
                         {
                             echo "<option value ='" . 
                                 $row['employee_id'] . "|" . 
-                                $row['firstname'] . "|" . 
-                                $row['lastname'] . "|" . 
+                                $row['name'] . "|" . 
                                 "'";
 
                             echo ">" . $row['lastname'] . ", " . $row["firstname"] . "</option>";   
@@ -99,8 +109,8 @@
                <!-- First Name -->
                 <span class="spanHeader">Name: </span>
                 <input type="text" id="name" name="name" size="10" maxlength="40" placeholder="Name" value=<?php if(isset($_POST["submit"])){echo $_POST['name'];} ?>><?php echo $errorName; ?><br/><br/>
-
-                <!-- Last Name -->
+                
+                <!-- Title -->
                 <span class="spanHeader">Title: </span>
                 <input type="text" id="title" name="title" size="10" maxlength="40" placeholder="Title" value=<?php if(isset($_POST["submit"])){echo $_POST['title'];} ?>><?php echo $errorTitle; ?><br/><br/>
 
@@ -116,14 +126,15 @@
                             echo ">" . $row["location_code"] . " - " . $row['convo_location'] . "</option>";   
                         }
                         echo "</select>";
-                        echo $errorLocation; 
+                        echo $errorLocation;
+                
                     ?><br/><br/>
                 
             <span class="spanHeader">Hire Date:</span>
-                <input type="text" placeholder="MM/DD/YYYY" class="datepicker" name="hire_date" value=<?php if(isset($_POST["submit"])){echo $_POST['hire_date'];} ?>><?php echo $errorDate; ?>
+                <input type="text" placeholder="MM/DD/YYYY" class="datepicker" name="hire_date" value=<?php if(isset($_POST["submit"])){echo $_POST['hire_date'];} ?>><?php echo $errorHire; ?>
                 
                 <span class="spanHeader">Start Date:</span>
-                <input type="text" placeholder="MM/DD/YYYY" class="datepicker" name="start_date" value=<?php if(isset($_POST["submit"])){echo $_POST['start_date'];} ?>><?php echo $errorDate; ?>
+                <input type="text" placeholder="MM/DD/YYYY" class="datepicker" name="start_date" value=<?php if(isset($_POST["submit"])){echo $_POST['start_date'];} ?>><?php echo $errorStart; ?>
                 
                 
                 <br/><br/><br/>
