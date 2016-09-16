@@ -151,7 +151,7 @@
                 <?php
                     echo "<select id='employeeName' name='employeeName'><option value=''>Select an employee</option>";
                     while($row = mysqli_fetch_assoc($resultemployee)) {
-                        echo "<option value = '" . $row['employee_id'] . "|" . $row['job_code'] . "|" . $row['position_name'] . "|" . $row['payroll_status'] . "|" . $row["convo_location"] . "|" . $row["employment_status"] . "|" . $row['firstname'] . "|" . $row["lastname"] . "|" . $row["supervisor_id"] . "|" . $row["street_address"] . "|" . $row["city"] . "|" . $row["res_state"] . "|" . $row["zipcode"] . "|" . $row["hourly_rate"] . "|" . $row["location_code"] . "|" . $row["email"] . "|" . $row["convoNumber"] . "'";
+                        echo '<option value = "' . $row['employee_id'] . '|' . $row['job_code'] . '|' . $row['position_name'] . '|' . $row['payroll_status'] . '|' . $row["convo_location"] . '|' . $row["employment_status"] . '|' . $row['firstname'] . '|' . $row["lastname"] . '|' . $row["supervisor_id"] . '|' . $row["street_address"] . '|' . $row["city"] . '|' . $row["res_state"] . '|' . $row["zipcode"] . '|' . $row["hourly_rate"] . '|' . $row["location_code"] . '|' . $row["email"] . '|' . $row["convoNumber"] . '"';
 
                         if($row["employee_id"] == $url_empID){
                             echo "selected='selected'";   
@@ -282,14 +282,14 @@
              <!-- HOURLY RATE -->    
 
                 <span class="spanHeader">Hourly Rate: </span>
-                <input type="text" name="hourly_rate" class="input-small" maxlength="10">
+                <input type="text" name="hourly_rate" class="input-small">
                 <input type='text' name='current_hourly_rate' class="input-small" style='background:#E9E9E9;' value="<?php if(isset($_POST["submit"])){echo $_POST['hourly_rate'];} ?>" readonly><br/><br/>
                 
                 
              <!-- CONVO NUMBER -->    
                 
                 <span class="spanHeader">Convo Number: </span>
-                <input type="text" name="convoNumber" class="input-medium" placeholder="xxx-xxx-xxxx" maxlength="10" value=<?php if(isset($_POST["submit"])){echo $_POST['convoNumber'];} ?>> 
+                <input type="text" name="convoNumber" class="input-medium" placeholder="xxx-xxx-xxxx" value=<?php if(isset($_POST["submit"])){echo $_POST['convoNumber'];} ?>> 
                 <input type='text' name='current_convoNumber' class="input-medium"  style='background:#E9E9E9;' readonly value=<?php if(isset($_POST["submit"])){echo $_POST['convoNumber'];} ?>> 
                 <?php echo $errorPhone;?>    
             <!--<input type="text" name="current_convoNumber" class="input-medium" style='background:#E9E9E9;' placeholder="xxx-xxx-xxxx"  value="php if(isset($_POST["submit"])){echo $_POST['hourly_rate'];} ?>" readonly>{echo $errorPhone;} ?> -->
@@ -304,27 +304,27 @@
                 
                 <h2>Personal Information</h2>
                 <span class="spanHeader">First Name: </span>
-                <input type='text' name='firstname' class="input-medium" maxlength="40" value=<?php if(isset($_POST["submit"])){echo $_POST['firstname'];} ?>>
+                <input type='text' name='firstname' class="input-medium" value=<?php if(isset($_POST["submit"])){echo $_POST['firstname'];} ?>>
                 <input type='text' name='current_firstname' class="input-medium"  style='background:#E9E9E9;' readonly value=<?php if(isset($_POST["submit"])){echo $_POST['firstname'];} ?>> 
                 <?php echo $errorFirstName;?> <br/><br/>
                
                 
                 
                 <span class="spanHeader">Last Name: </span>
-                <input type='text' name='lastname' class="input-medium" maxlength="40" value=<?php if(isset($_POST["submit"])){echo $_POST['lastname'];} ?>>
+                <input type='text' name='lastname' class="input-medium" value=<?php if(isset($_POST["submit"])){echo $_POST['lastname'];} ?>>
                 <input type='text' name='current_lastname' class="input-medium" style='background:#E9E9E9;' readonly value=<?php if(isset($_POST["submit"])){echo $_POST['lastname'];} ?>>  
                 <?php echo $errorLastName;?> <br/><br/>
               
 
                 <span class="spanHeader"> Street Address: </span>
-                <input type='text' name='street_address' class="input-xlarge" maxlength="255" value=<?php if(isset($_POST["submit"])){echo "\"" . $_POST['street_address'] ."\"";} ?>>
+                <input type='text' name='street_address' class="input-xlarge" value=<?php if(isset($_POST["submit"])){echo "\"" . $_POST['street_address'] ."\"";} ?>>
                 <input type='text' name='current_street_address' class="input-xlarge" style='background:#E9E9E9;' readonly value=<?php if(isset($_POST["submit"])){echo "\"" . $_POST['street_address'] . "\"";} ?>>  
                 <?php echo $errorStreetAddress;?> <br/><br/>
                 
   
              
                 <span class="spanHeader">City: </span>
-                <input type='text' name='city' class="input-xlarge" maxlength="255" value=<?php if(isset($_POST["submit"])){echo $_POST['city'];} ?>>
+                <input type='text' name='city' class="input-xlarge" value=<?php if(isset($_POST["submit"])){echo $_POST['city'];} ?>>
                 <input type='text' name='current_city' class="input-xlarge" style='background:#E9E9E9;' readonly value=<?php if(isset($_POST["submit"])){echo $_POST['city'];} ?>>
                 <?php echo $errorCity;?><br/><br/>
                     
