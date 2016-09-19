@@ -8,11 +8,9 @@
     include("../assets/inc/header.inc.php");
     include("../includes/includes_functions.php");
     $url_empID = $_GET["employee_id"];
-
     $resultemployee = mysqli_query($link, "SELECT * FROM employee_info_vw");
     
     $errorName = $errorPosition = $errorEmpStatus = $errorPayroll = $errorLocation = $errorTerm = $errorFirstName = $errorLastName = $errorStreetAddress = $errorCity = $errorState = $errorZipCode = $errorEmail = $errorPhone =  "";
-
     if(isset($_POST["submit"])) {
         $employeeID = sanitize($_POST["employee_id"]);
         $jobTitle = sanitize($_POST["change_position_name"]);
@@ -31,7 +29,6 @@
         $convoNumber = sanitize($_POST["convoNumber"]);
         
         
-
         /* testing */
         //$convoNumber = str_replace("-","", $convoNumber);
         
@@ -58,7 +55,6 @@
         if(empty($_POST["emp_status"])){
             $errorEmpStatus = "<span class='error'> Please select employment status</span>";   
         }
-
         
         if(empty($_POST["firstname"])){
             $errorFirstName = "<span class='error'> Please enter first name</span>";
@@ -119,17 +115,19 @@
             }
             
             $phoneNumber = clean_up_phone($convoNumber);
-
-           /* else{
-
-            } 
-            */
             
             if($errorName == "" && $errorPhone == "" && $errorPosition == "" && $errorPayroll == "" && $errorLocation == "" && $errorEmpStatus == "" && $errorFirstName == "" && $errorLastName == "" && $errorStreetAddress == "" && $errorCity == "" && $errorState == "" && $errorZipCode == "" && $errorEmail == ""){
                 
-                mysqli_query($link, "CALL update_employee_info('$jobTitle', '$location',  '$payrollStatus', '$hourlyRate', '$employmentStatus', '$supervisor', CURRENT_TIMESTAMP, '$firstname', '$lastname', '$street_address', '$city', '$res_state', '$zipcode', '$employeeID', '$email', '$phoneNumber')");
-
-                echo "<h2 class='headerPages'>The employee's information was updated successfully!</h2>";
+                $sql = "CALL update_employee_info('$jobTitle', '$location',  '$payrollStatus', '$hourlyRate', '$employmentStatus', '$supervisor', CURRENT_TIMESTAMP, '$firstname', '$lastname', '$street_address', '$city', '$res_state', '$zipcode', '$employeeID', '$email', '$phoneNumber')";
+                
+                if (!mysqli_query($link, $sql))
+                {
+                    echo("Error description: " . mysqli_error($link));
+                }
+                else
+                {
+                    echo "<h2 class='headerPages'>The employee's information was updated successfully!</h2>";
+                }
                 die();
             }
         }
@@ -152,7 +150,6 @@
                     echo "<select id='employeeName' name='employeeName'><option value=''>Select an employee</option>";
                     while($row = mysqli_fetch_assoc($resultemployee)) {
                         echo '<option value = "' . $row['employee_id'] . '|' . $row['job_code'] . '|' . $row['position_name'] . '|' . $row['payroll_status'] . '|' . $row["convo_location"] . '|' . $row["employment_status"] . '|' . $row['firstname'] . '|' . $row["lastname"] . '|' . $row["supervisor_id"] . '|' . $row["street_address"] . '|' . $row["city"] . '|' . $row["res_state"] . '|' . $row["zipcode"] . '|' . $row["hourly_rate"] . '|' . $row["location_code"] . '|' . $row["email"] . '|' . $row["convoNumber"] . '"';
-
                         if($row["employee_id"] == $url_empID){
                             echo "selected='selected'";   
                         }
@@ -161,7 +158,6 @@
                                 echo "selected='selected'"; 
                             }
                         }
-
                         echo ">" . $row['lastname'] . ", " . $row["firstname"] . "</option>";   
                     }
                     echo "</select>";
