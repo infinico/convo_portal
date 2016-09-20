@@ -114,7 +114,7 @@
                 <span class="spanHeader">Title: </span>
                 <input type="text" id="title" name="title" size="10" maxlength="40" placeholder="Title" readonly value=<?php if(isset($_POST["submit"])){echo $_POST['title'];} ?>><?php echo $errorTitle; ?><br/><br/>
 
-                <span class="spanHeader">Locationf: </span>
+                <span class="spanHeader">Location: </span>
                 <input type="text" id="title" name="title" size="10" maxlength="40" placeholder="Location" readonly value=<?php if(isset($_POST["submit"])){echo $_POST['location'];} ?>><?php echo $errorTitle; ?><br/><br/>
 <br/><br/>
                 
@@ -129,15 +129,8 @@
                 
                 <h1> On-boarding </h1>
                 
-                <form action="">
-
-                <p> Portal New Employee Onboarding set up </p>    
-                <input type="radio" value="Yes"> Yes  <br/>
-                <input type="radio" value="No"> No  <br/>
-                <input type="radio" value="notapplicable"> Not Applicable <br/><br/>
-                </form>
             
-                <div class = "checklistcenter">
+                <!--<div class = "checklistcenter -->
                     <p> Received DL</p>
                 
                     <form action="">
@@ -146,9 +139,9 @@
                     <input type="radio" value="No"> No  <br/>
                     <input type="radio" value="notapplicable"> Not Applicable <br/><br/>
                     </form>    
-                </div>
+                <!--</div> -->
                 
-                <div class="checklistright">
+               <!-- <div class="checklistright"> -->
                 
                     <p> Received SSN </p>
 
@@ -158,7 +151,7 @@
                     <input type="radio" value="No"> No  <br/>
                     <input type="radio" value="notapplicable"> Not Applicable <br/><br/>        
                     </form>
-                </div>
+                <!--</div> -->
                     
                     
                 <p> Background request received </p>
@@ -171,17 +164,16 @@
                 </form>
                 
                 
-                <div class = "checklistcenter">
+               <div class="checklistcenter">
                     <p> Background cleared? </p>
                     <form action="">    
                     <input type="radio" value="Yes"> Yes  <br/>
                     <input type="radio" value="No"> No  <br/>
                     <input type="radio" value="notapplicable"> Not Applicable <br/><br/>   
                     </form>
-                </div>
+                
     
                 
-                <div class = "checklistright">
                     <p> W-4 received </p>
 
                     <form action="">
@@ -190,8 +182,8 @@
                     <input type="radio" value="notapplicable"> Not Applicable <br/><br/>  
 
                     </form> 
-                </div>
-                    
+                
+                     
         
                 <p> I-9 form received </p>
                  
@@ -201,9 +193,14 @@
                 <input type="radio" value="No"> No  <br/>
                 <input type="radio" value="notapplicable"> Not Applicable <br/><br/>               
                     
-                </form>    
+                   </form>
                     
-                <div class = "checklistcenter">
+                </div>   
+                   
+                
+                <div class="checklistright">
+
+                
                     <p> Direct Deposit received </p>
 
                     <form action="">    
@@ -211,12 +208,8 @@
                     <input type="radio" value="No"> No  <br/>
                     <input type="radio" value="notapplicable"> Not Applicable <br/><br/>                   
                     </form>
-                </div>
-                
-                <br/>
-                
-                <div class= "checklistright">
-
+            
+    
                     <p> Training Email sent out </p>
                     <form action="">   
                     <input type="radio" value="Yes"> Yes  <br/>
@@ -224,36 +217,6 @@
                     <input type="radio" value="notapplicable"> Not Applicable <br/><br/>  
                     </form>
                     
-                </div>
-
-                    
-                <p> HelpDesk access request </p>
-                <form action="">    
-                <input type="radio" value="Yes"> Yes  <br/>
-                <input type="radio" value="No"> No  <br/>
-                <input type="radio" value="notapplicable"> Not Applicable <br/><br/>       
-                  </form>  
-                    
-                
-                <div class ="checklistcenter">
-                    <p> Work email </p>
-
-                    <form action="">
-                    <input type="radio" value="Yes"> Yes  <br/>
-                    <input type="radio" value="No"> No  <br/>
-                    <input type="radio" value="notapplicable"> Not Applicable <br/><br/>   
-                    </form>    
-                </div>
-
-                <div class="checklistright">
-                    <p> Work phone number </p>
-                    <form action="">    
-                    <input type="radio" value="Yes"> Yes  <br/>
-                    <input type="radio" value="No"> No  <br/>
-                    <input type="radio" value="notapplicable"> Not Applicable <br/><br/>                   
-                    </form>
-                    
-                </div>    
                 
                     
                 <p> Employee agreement </p>
@@ -263,21 +226,13 @@
                 <input type="radio" value="No"> No  <br/>
                 <input type="radio" value="notapplicable"> Not Applicable <br/><br/>       
                 </form> 
-                    
-
-                <div class ="checklistcenter">
-
-                    <p> POC signature </p>
-
-                    <form action="">     
-
-                    <input type="radio" value="Yes"> Yes  <br/>
-                    <input type="radio" value="No"> No  <br/>
-                    <input type="radio" value="notapplicable"> Not Applicable <br/><br/>                       
-
-                    </form>
+                
                 </div>
-                        
+
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                     
                 <h1> Video Interpreters </h1>
                 
@@ -286,12 +241,16 @@
                 <input type="checkbox" value="set up"> Signed Confidentiality <br/>
                 <input type="checkbox" value="set up"> Signed Guideline <br/>
                 <input type="checkbox" value="set up"> Signed SCF <br/>
+                <input type="checkbox" value ="set up"> POC signature  <br/>
+                
+                    
+                <br/>
 
 
                 </form>
                 
                 
-                
+                <div id="nonvis">
                 <h1> Non-Video Interpreters </h1>
                 
                 <form action="">
@@ -304,9 +263,9 @@
 
 
                 </form>
+                </div>
                 
-                
-                
+                <div id="paychex">                
                 <h1> PayChex </h1>
                 
                 <form action="">
@@ -317,10 +276,11 @@
     
                 </form>
                     
-                <textarea>
+                <textarea rows="4" cols="15">
                 
                 </textarea>
                 
+                </div>
                 
                 <h1> Benefits Coverage </h1>
                 <p> Effective Date:</p>
@@ -329,21 +289,24 @@
                 
                 <form action="">
                     
-                <p>Enrollment form/waiver and waiver received</p>    
+                <p>Enrollment form received</p>    
                 <input type="radio" value="Yes"> Yes  <br/>
                 <input type="radio" value="No"> No  <br/>
-                <input type="radio" value="notapplicable"> Not Applicable <br/>
+                <input type="radio" value="No"> N/A  <br/>
                 <input type="radio" value="waivered"> Waivered <br/> <br/>
                 
-                        
+                
+            
+            
                 <p>Enrollment Confirmed</p>
                 <input type="radio" value="Yes"> Yes <br/>
                 <input type="radio" value="No"> No  <br/>
                 <input type="radio" value="notapplicable"> Not Applicable <br/>
-
+            
     
                 </form>
-               
+            
+            
             
 
                 <input type="submit" id="updateButton" name="submit" value="Update">
