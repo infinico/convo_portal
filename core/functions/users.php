@@ -797,14 +797,14 @@
                 $subject = 'TESTING - ' . $subjectHeader;
             }
 
-            if($_ENV["HOSTNAME"] == "TESTING"){
-                //$to = 'pxy9548@rit.edu';
-                $subject = $subjectHeader . ' - TESTING'; 
-            }
-            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
-                //$to = 'jja4740@rit.edu';
-                $subject = $subjectHeader . ' - DEVELOPING'; 
-            }
+            //if($_ENV["HOSTNAME"] == "TESTING"){
+            //    //$to = 'pxy9548@rit.edu';
+            //    $subject = $subjectHeader . ' - TESTING'; 
+            //}
+            //else if($_ENV["HOSTNAME"] == "DEVELOPING"){
+            //    //$to = 'jja4740@rit.edu';
+            //    $subject = $subjectHeader . ' - DEVELOPING'; 
+            //}
 
             $message = $bodyMessage . "<br/><br/>If you have any questions or concerns, please email HR@convorelay.com.";
             sendEmail($email, $subject, $message, $bodyMessage);
@@ -1039,20 +1039,20 @@
         
         if($_ENV["HOSTNAME"] == "PRODUCTION")
         {
-            $mail->AddAddress($email);
+            //$mail->AddAddress($email);
             //$mail->AddCC("hr@convorelay.com");
-            $mail->AddBCC($SupervisorCOOPEmail);
+            //$mail->AddBCC($SupervisorCOOPEmail);
         }
           else if($_ENV["HOSTNAME"] == "DEMO")
         {
             //$mail->AddAddress($SupervisorCOOPEmail);
-            $mail->AddCC($COOP2Email, $COOP2Name);
+            //$mail->AddCC($COOP2Email, $COOP2Name);
             $subject = "DEMO - " . $subject;
         }
         else
         {
             //$mail->AddAddress($SupervisorCOOPEmail);
-            $mail->AddCC($COOP2Email, $COOP2Name);
+            //$mail->AddCC($COOP2Email, $COOP2Name);
             $subject = "TESTING - " . $subject;
         }
         
@@ -1088,19 +1088,19 @@ function fileUploaded($firstname, $lastname, $fileDL, $fileSSN) {
         if($_ENV["HOSTNAME"] == "PRODUCTION")
         {
             // WHERE this should go to? HR@convorelay.com
-            $mail->AddAddress($SupervisorCOOPEmail);
-            $mail->AddBCC($SupervisorCOOPEmail);
+            //$mail->AddAddress($SupervisorCOOPEmail);
+            //$mail->AddBCC($SupervisorCOOPEmail);
         }
         else if($_ENV["HOSTNAME"] == "DEMO")
         {
-            $mail->AddAddress($SupervisorCOOPEmail);
-            $mail->AddCC($COOP1Email, $COOP1Name);
+            //$mail->AddAddress($SupervisorCOOPEmail);
+            //$mail->AddCC($COOP1Email, $COOP1Name);
             $subject = "DEMO - " . $subject; 
         }
         else 
         {
-            $mail->AddAddress($SupervisorCOOPEmail);
-            $mail->AddCC($COOP1Email, $COOP1Name);
+            //$mail->AddAddress($SupervisorCOOPEmail);
+            //$mail->AddCC($COOP1Email, $COOP1Name);
             $subject = "TESTING - " . $subject; 
         }
         
