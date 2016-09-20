@@ -3,8 +3,8 @@
     * LOGIN FUNCTIONS
     */
 
-    require_once "../includes/phpmailer/vendor/autoload.php";
-    require("../includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
+    //require_once "../includes/phpmailer/vendor/autoload.php";
+    //require("../includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
     // employee ID from the username will apply to the Login Function below
     function user_id_from_username($username) {
         global $link;
@@ -1021,7 +1021,7 @@
         global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
         
         //$email = sanitize($email);
-        //$url = "https://test.theinfini.com/convo/";
+        $url = "https://test.theinfini.com/convo/";
         
         //$mail = new PHPMailer;
         //$mail->SMTPAuth = true;
@@ -1252,7 +1252,7 @@ function testHere(){
 
 function testSendEmail($mail, $subject, $body, $altBodyMessage=null){
     $mail->Subject = $subject;
-    $mail->Body = $bodyMessage;
+    $mail->Body = $body;
     if($altBodyMessage != null){
         $mail->AltBody = $altBodyMessage;
     }
