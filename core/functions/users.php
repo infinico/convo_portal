@@ -1295,10 +1295,10 @@ function email_exists($email) {
     function breadcrumbs($page_title){
         if(logged_in() == true) {
             $startAtCrumb = 2;
-            $url = '/portal-demo/';
+            $url = '/convo/';
             
             $bread = explode('/', $_SERVER['PHP_SELF']);
-            if($_SERVER["PHP_SELF"] !== "/portal-demo/index.php") {
+            if($_SERVER["PHP_SELF"] !== "/convo/index.php") {
              $returnString = "<br/><br/><br/><span class='bc0'><a href='$url'>Convo Portal</a> &raquo; </span>";   
             }
             for($i=$startAtCrumb;$i<count($bread)-1;$i++){
@@ -1306,10 +1306,10 @@ function email_exists($email) {
                 $returnString .= "<span class='bc$i'><a href='$url'>"
                 .prettify($bread[$i])."</a>";
             }
-            if($_SERVER["PHP_SELF"] == "/portal-demo/employee.php" || $_SERVER["PHP_SELF"] == "/portal-demo/changepassword.php" || $_SERVER["PHP_SELF"] == "/portal-demo/register.php" || $_SERVER["PHP_SELF"] == "/portal-demo/contact.php" || $_SERVER["PHP_SELF"] == "/portal-demo/selectEmployee.php") {
+            if($_SERVER["PHP_SELF"] == "/convo/employee.php" || $_SERVER["PHP_SELF"] == "/convo/changepassword.php" || $_SERVER["PHP_SELF"] == "/convo/register.php" || $_SERVER["PHP_SELF"] == "/convo/contact.php" || $_SERVER["PHP_SELF"] == "/convo/selectEmployee.php") {
                 echo $returnString . "<strong>" . $page_title . "</strong></span>";
             }
-            else if($_SERVER["PHP_SELF"] !== "/portal-demo/index.php" ) {
+            else if($_SERVER["PHP_SELF"] !== "/convo/index.php" ) {
                 echo $returnString . " &raquo; " . $page_title . "</span>";
             }
         }
