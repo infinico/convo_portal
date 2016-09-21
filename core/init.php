@@ -1,8 +1,8 @@
 <?php
     /* Environment Variables */
     $_ENV["HOSTNAME"] = "TESTING";
-    $linkToALL = "https://test.theinfini.com/convo";
-    //$linkToALL = "http://localhost/convo";  
+    $linkToALL = "https://test.theinfini.com/portal-demo";
+    //$linkToALL = "http://localhost/portal-demo";  
     $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 
     /* 
@@ -23,8 +23,8 @@
     require "functions/general.php";
 
     $current_file = explode("/", $_SERVER["SCRIPT_NAME"]);
-    $current_file_password = "/convo/" . end($current_file);
-    $current_file_employment = "/convo/HR/" . end($current_file);
+    $current_file_password = "/portal-demo/" . end($current_file);
+    $current_file_employment = "/portal-demo/HR/" . end($current_file);
 
     if(logged_in() === true) {
         $session_user_id = $_SESSION['emplid'];
@@ -42,7 +42,7 @@
         }
 
         // This one forces the user to change the password when they click "forget the password"
-        if($current_file_password !== "/convo/changepassword.php" && $current_file !== "logout.php" && $user_data["password_recover"] == 1) {
+        if($current_file_password !== "/portal-demo/changepassword.php" && $current_file !== "logout.php" && $user_data["password_recover"] == 1) {
             echo "Location: $linkToALL/changepassword.php?force";
             header("Location: $linkToALL/changepassword.php?force");
             
@@ -50,7 +50,7 @@
         }
         
         // If the employees don't have email, it is being forced to the employment_data.php and fill out the e-mail address
-        if($current_file_employment !== "/convo/HR/employment_data.php" && $current_file !== "logout.php" && $user_data["email"] == NULL) {
+        if($current_file_employment !== "/portal-demo/HR/employment_data.php" && $current_file !== "logout.php" && $user_data["email"] == NULL) {
             header("Location: $linkToALL/HR/employment_data.php?force");
             exit();
         }
