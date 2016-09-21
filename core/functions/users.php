@@ -3,7 +3,8 @@
     * LOGIN FUNCTIONS
     */
 
-
+    //require_once "../includes/phpmailer/vendor/autoload.php";
+    //require("../includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
     // employee ID from the username will apply to the Login Function below
     function user_id_from_username($username) {
         global $link;
@@ -14,6 +15,7 @@
                 return $row["employee_id"];   
             }
             else {
+                sendErrorEmail($link);
                 return false;   
             }
         }
@@ -35,6 +37,7 @@
                 return $user_id;   
             }
             else {
+                sendErrorEmail($link);
                 return false;   
             }
         }
@@ -53,6 +56,7 @@
             return true;   
         }
         else {
+            sendErrorEmail($link);
             return false;   
         }
     }
@@ -64,6 +68,7 @@
             return true;   
         }
         else {
+            sendErrorEmail($link);
             return false;   
         }
     }
@@ -85,6 +90,7 @@
             return true;   
         }
         else {
+            sendErrorEmail($link);
             return false;   
         }
     }
@@ -103,7 +109,8 @@
         
         $fields = "" . implode(", ", array_keys($register_data)) . "";
         $data = "\"" . implode("\" , \"", $register_data) . "\"";
-        mysqli_query($link, "CALL register_user('$username','$password','$ssn','$dob')");
+        mysqli_query($link, "CALL register_user('$username','$password','$ssn','$dob')") or sendErrorEmail($link);
+
 
         /*email($register_data["email"], "Activate your account", "
             Hello " . $register_data["firstname"] . ",\n\nYou need to activiate your account, so use the link below:\n\nhttp://localhost/testing/activiate.php?email=" . $register_data["email"] . " &email_code=" . $register_data["email_code"] . "\n\n-Infini Consulting");*/
@@ -123,15 +130,18 @@
             $update[] = "$data";
         }
         $recover = implode($update);        
-        mysqli_query($link, "CALL update_user($user_id, $recover)") or die(mysqli_error($link));
+        //mysqli_query($link, "CALL update_user($user_id, $recover)") or die(mysqli_error($link));
+        mysqli_query($link, "CALL update_user($user_id, $recover)") or sendErrorEmail($link);
+
+
     }
 
     function change_password($user_id, $password) {
         global $link;
         $user_id = $user_id;
         //setcookie("password", $password, time() + 7200);
-        $password = md5($password); 
-        mysqli_query($link, "CALL update_password($user_id, '$password')");    
+        $password = md5($password);
+        mysqli_query($link, "CALL update_password($user_id, '$password')") or sendErrorEmail($link);    
     }
 
     /*
@@ -149,7 +159,8 @@
             return true;   
         }
         else {
-            return false;   
+            //sendErrorEmail($link);
+            return false;
         }
     }
 
@@ -162,6 +173,7 @@
             return true;   
         }
         else {
+            //sendErrorEmail($link);
             return false;   
         }
     }
@@ -174,6 +186,7 @@
             return true;   
         }
         else {
+            //sendErrorEmail($link); // THIS IS THE PROBLEM
             return false;   
         }
     }
@@ -185,6 +198,7 @@
             return true;   
         }
         else {
+            //sendErrorEmail($link);
             return false;   
         }
     }
@@ -212,7 +226,7 @@
             $fields = "" . implode(", ", $func_get_args) . "";
             
             $sql = "SELECT $fields FROM employee_vw WHERE employee_id = $user_id";
-            $query = mysqli_query($link, $sql);
+            $query = mysqli_query($link, $sql) or sendErrorEmail($link);
             //$result = mysql_result($link, $query);
             $data = mysqli_fetch_assoc($query);
             
@@ -252,7 +266,7 @@
             unset($func_get_args[0]);
             
             $fields = "" . implode(", ", $func_get_args) . "";
-            $query = mysqli_query($link, "SELECT $fields FROM employee_vw WHERE employee_id = $user_id");
+            $query = mysqli_query($link, "SELECT $fields FROM employee_vw WHERE employee_id = $user_id") or sendErrorEmail($link);
             //$result = mysql_result($link, $query);
             $data = mysqli_fetch_assoc($query);
             
@@ -291,7 +305,7 @@
             unset($func_get_args[0]);
             
             $fields = "s." . implode(", s.", $func_get_args) . "";
-            $query = mysqli_query($link, "SELECT $fields FROM employee_vw s INNER JOIN employee_vw e ON s.employee_id = e.supervisor_id WHERE e.employee_id = $user_id");
+            $query = mysqli_query($link, "SELECT $fields FROM employee_vw s INNER JOIN employee_vw e ON s.employee_id = e.supervisor_id WHERE e.employee_id = $user_id") ; //sendErrorEmail($link);
             $data = mysqli_fetch_assoc($query);
             
             return $data;
@@ -311,7 +325,7 @@
             unset($func_get_args[0]);
             
             $fields = "e." . implode(", e.", $func_get_args) . "";
-            $query = mysqli_query($link, "SELECT $fields, p.position_name FROM employee_vw e INNER JOIN position_vw p ON e.job_code = p.job_code WHERE e.employee_id = $user_id");
+            $query = mysqli_query($link, "SELECT $fields, p.position_name FROM employee_vw e INNER JOIN position_vw p ON e.job_code = p.job_code WHERE e.employee_id = $user_id") ; //sendErrorEmail($link);
             $data = mysqli_fetch_assoc($query);
             
             return $data;
@@ -344,8 +358,6 @@
         if(mysqli_num_rows($query) > 0 ) {
             return true;   
         }
-        
-         
         else {
             return false;   
         }
@@ -450,28 +462,28 @@
 
     function newEmail($email, $firstname, $lastname, $subjectHeader, $bodyMessage){
         
-        global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+        //global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
         
             
         // TRAVEL REQUEST FORM
         if(isset($_POST["submit"])){
             
-            $mail = new PHPMailer;
+        //    $mail = new PHPMailer;
         
-            $mail->SMTPAuth = true;
+        //    $mail->SMTPAuth = true;
 
-            $mail->Host = 'smtp.gmail.com';
-            $mail->Username = 'convoportal@gmail.com';
-            $mail->Password = 'ConvoPortal#1!';
-            $mail->STMPSecure = 'ssl';
-            $mail->Port = 465;
+        //    $mail->Host = 'smtp.gmail.com';
+        //    $mail->Username = 'convoportal@gmail.com';
+        //    $mail->Password = 'ConvoPortal#1!';
+        //    $mail->STMPSecure = 'ssl';
+        //    $mail->Port = 465;
 
-            $mail->From = 'alw7097@rit.edu';
-            $mail->FromName = 'Convo Portal';
-            $mail->AddAddress = $email;
-            $mail->AddCC($COOP1Email, $COOP1Name);
-            /*$mail->AddCC($COOP2Email, $COOP2Name);*/
-            $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+        //    $mail->From = 'alw7097@rit.edu';
+        //    $mail->FromName = 'Convo Portal';
+        //    $mail->AddAddress = $email;
+        //    $mail->AddCC($COOP1Email, $COOP1Name);
+        //    /*$mail->AddCC($COOP2Email, $COOP2Name);*/
+        //    $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message = "Hello " . $firstname . ", \n\n";
             $message .= "<p>Thank you for e-mailing CONVO Human Resources.  We will try to do our best to respond to your e-mail as soon as possible.  You can expect a response within two business days.</p>";
@@ -480,80 +492,100 @@
             $message .= "<p>If you have any questions, please contact CONVO Human Resources at HR@convorelay.com.</p>";
             $message .= "<p>CONVO Human Resources</p>";
             $message .= "<p>Email:  HR@convorelay.com</p>";
-            
-            if($_ENV["HOSTNAME"] == "TESTING"){
-                //$to = 'pxy9548@rit.edu';
-                $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . " - TESTING"; 
+
+            if($_ENV["HOSTNAME"] == "PRODUCTION"){
+                $subject = "CONVO Portal - Automatic Response: " . $subjectHeader;
             }
-            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
-                //$to = 'jja4740@rit.edu';
-                $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . ' - DEVELOPING'; 
+            else if($_ENV["HOSTNAME"] == "DEMO"){
+                $subject = "DEMO - CONVO Portal - Automatic Response: " . $subjectHeader;
             }
+            else if($_ENV["HOSTNAME"] == "TESTING"){
+                $subject = "TESTING - CONVO Portal - Automatic Response: " . $subjectHeader;
+            }
+            
+            //if($_ENV["HOSTNAME"] == "TESTING"){
+            //    //$to = 'pxy9548@rit.edu';
+            //    $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . " - TESTING"; 
+            //}
+            //else if($_ENV["HOSTNAME"] == "DEVELOPING"){
+            //    //$to = 'jja4740@rit.edu';
+            //    $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . ' - DEVELOPING'; 
+            //}
 
+        sendEmail($email, $subject, $message, $bodyMessage);
+        //    $mail->Subject = $subject;
+        //    $mail->Body = $message;
+        //    $mail->AltBody = $bodyMessage;
 
-            $mail->Subject = $subject;
-            $mail->Body = $message;
-            $mail->AltBody = $bodyMessage;
-
-            $mail->send();
+        //    $mail->send();
             
             
             
-            $receiver = new PHPMailer;
+        //    $receiver = new PHPMailer;
         
-            $receiver->SMTPAuth = true;
+        //    $receiver->SMTPAuth = true;
 
-            $receiver->Host = 'smtp.gmail.com';
-            $receiver->Username = 'convoportal@gmail.com';
-            $receiver->Password = 'ConvoPortal#1!';
-            $receiver->STMPSecure = 'ssl';
-            $receiver->Port = 465;
+        //    $receiver->Host = 'smtp.gmail.com';
+        //    $receiver->Username = 'convoportal@gmail.com';
+        //    $receiver->Password = 'ConvoPortal#1!';
+        //    $receiver->STMPSecure = 'ssl';
+        //    $receiver->Port = 465;
 
-            $receiver->From = $email;
-            $receiver->FromName = $firstname . " " . $lastname;
-            $receiver->AddAddress = 'alw7097@rit.edu';
-            $receiver->AddCC($COOP1Email, $COOP1Name);
-            /*$receiver->AddCC($COOP2Email, $COOP2Name); */
-            $receiver->AddCC($SupervisorCOOPEmail, $SupervisorName);
+        //    $receiver->From = $email;
+        //    $receiver->FromName = $firstname . " " . $lastname;
+        //    $receiver->AddAddress = 'alw7097@rit.edu';
+        //    $receiver->AddCC($COOP1Email, $COOP1Name);
+        //    /*$receiver->AddCC($COOP2Email, $COOP2Name); */
+        //    $receiver->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message2 = "<p>Hello HR,</p>";
             $message2 .= "<p>" . $bodyMessage . "</p>";
             $message2 .= "<p>" . $firstname . " " . $lastname . "</p>";
+
+            if($_ENV["HOSTNAME"] == "PRODUCTION"){
+                $subject = "Convo - Automatic Response: " . $subjectHeader;
+            }
+            else if($_ENV["HOSTNAME"] == "DEMO"){
+                $subject = "DEMO - Convo - Automatic Response: " . $subjectHeader;
+            }
+            else{
+                $subject = "TESTING - Convo - Automatic Response: " . $subjectHeader;
+            }
             
-            if($_ENV["HOSTNAME"] == "TESTING"){
-                $subject2 = 'Convo - ' . $subjectHeader . ' TESTING'; 
-            }
-            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
-                $subject2 = 'Convo - ' . $subjectHeader . ' DEVELOPING'; 
-            }
+            //if($_ENV["HOSTNAME"] == "TESTING"){
+            //    $subject2 = 'Convo - ' . $subjectHeader . ' TESTING'; 
+            //}
+            //else if($_ENV["HOSTNAME"] == "DEVELOPING"){
+            //    $subject2 = 'Convo - ' . $subjectHeader . ' DEVELOPING'; 
+            //}
 
+        sendEmail($email, $subject2, $message2, $bodyMessage);
+        //    $receiver->Subject = $subject2;
+        //    $receiver->Body = $message2;
+        //    $receiver->AltBody = $bodyMessage;
 
-            $receiver->Subject = $subject2;
-            $receiver->Body = $message2;
-            $receiver->AltBody = $bodyMessage;
-
-            $receiver->send();
+        //    $receiver->send();
         }
         
         // CONTACT FORM
         if(isset($_POST["submitContact"])){
             
-            $mail = new PHPMailer;
+            //$mail = new PHPMailer;
         
-            $mail->SMTPAuth = true;
+            //$mail->SMTPAuth = true;
 
-            $mail->Host = 'smtp.gmail.com';
-            $mail->Username = 'convoportal@gmail.com';
-            $mail->Password = 'ConvoPortal#1!';
-            $mail->STMPSecure = 'ssl';
-            $mail->Port = 465;
+            //$mail->Host = 'smtp.gmail.com';
+            //$mail->Username = 'convoportal@gmail.com';
+            //$mail->Password = 'ConvoPortal#1!';
+            //$mail->STMPSecure = 'ssl';
+            //$mail->Port = 465;
 
-            $mail->From = 'alw7097@rit.edu';
-            $mail->FromName = 'Convo Portal';
-            $mail->AddAddress = $email;
-            $mail->AddCC($COOP1Email, $COOP1Name);
-            /*$mail->AddCC($COOP2Email, $COOP2Name);*/
-            $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+            //$mail->From = 'alw7097@rit.edu';
+            //$mail->FromName = 'Convo Portal';
+            //$mail->AddAddress = $email;
+            //$mail->AddCC($COOP1Email, $COOP1Name);
+            ///*$mail->AddCC($COOP2Email, $COOP2Name);*/
+            //$mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message = "Hello " . $firstname . ", \n\n";
             $message .= "<p>Thank you for e-mailing CONVO Human Resources.  We will try to do our best to respond to your e-mail as soon as possible.  You can expect a response within two business days.</p>";
@@ -562,59 +594,78 @@
             $message .= "<p>If you have any questions, please contact CONVO Human Resources at HR@convorelay.com.</p>";
             $message .= "<p>CONVO Human Resources</p>";
             $message .= "<p>Email:  HR@convorelay.com</p>";
-            
-            if($_ENV["HOSTNAME"] == "TESTING"){
-                //$to = 'pxy9548@rit.edu';
-                $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . " - TESTING"; 
+
+            if($_ENV["HOSTNAME"] == "PRODUCTION"){
+                $subject = "CONVO Portal - Automatic Response: " . $subjectHeader;
             }
-            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
-                //$to = 'jja4740@rit.edu';
-                $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . ' - DEVELOPING'; 
+            else if($_ENV["HOSTNAME"] == "DEMO"){
+                $subject = "DEMO - CONVO Portal - Automatic Response: " . $subjectHeader;
             }
+            else{
+                $subject = "TESTING - CONVO Portal - Automatic Response: " . $subjectHeader;
+            }
+            
+            //if($_ENV["HOSTNAME"] == "TESTING"){
+            //    //$to = 'pxy9548@rit.edu';
+            //    $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . " - TESTING"; 
+            //}
+            //else if($_ENV["HOSTNAME"] == "DEVELOPING"){
+            //    //$to = 'jja4740@rit.edu';
+            //    $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . ' - DEVELOPING'; 
+            //}
 
+            sendEmail($email, $subject, $message, $bodyMessage);
+            //$mail->Subject = $subject;
+            //$mail->Body = $message;
+            //$mail->AltBody = $bodyMessage;
 
-            $mail->Subject = $subject;
-            $mail->Body = $message;
-            $mail->AltBody = $bodyMessage;
-
-            $mail->send();
+            //$mail->send();
             
             
             
-            $receiver = new PHPMailer;
+            //$receiver = new PHPMailer;
         
-            $receiver->SMTPAuth = true;
+            //$receiver->SMTPAuth = true;
 
-            $receiver->Host = 'smtp.gmail.com';
-            $receiver->Username = 'convoportal@gmail.com';
-            $receiver->Password = 'ConvoPortal#1!';
-            $receiver->STMPSecure = 'ssl';
-            $receiver->Port = 465;
+            //$receiver->Host = 'smtp.gmail.com';
+            //$receiver->Username = 'convoportal@gmail.com';
+            //$receiver->Password = 'ConvoPortal#1!';
+            //$receiver->STMPSecure = 'ssl';
+            //$receiver->Port = 465;
 
-            $receiver->From = $email;
-            $receiver->FromName = $firstname . " " . $lastname;
-            $receiver->AddAddress = 'alw7097@rit.edu';
-            $receiver->AddCC($COOP1Email, $COOP1Name);
-            /*$receiver->AddCC($COOP2Email, $COOP2Name); */
-            $receiver->AddCC($SupervisorCOOPEmail, $SupervisorName);
+            //$receiver->From = $email;
+            //$receiver->FromName = $firstname . " " . $lastname;
+            //$receiver->AddAddress = 'alw7097@rit.edu';
+            //$receiver->AddCC($COOP1Email, $COOP1Name);
+            ///*$receiver->AddCC($COOP2Email, $COOP2Name); */
+            //$receiver->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message2 = "<p>Hello HR,</p>";
             $message2 .= "<p>" . $bodyMessage . "</p>";
             $message2 .= "<p>" . $firstname . " " . $lastname . "</p>";
-            
-            if($_ENV["HOSTNAME"] == "TESTING"){
-                $subject2 = 'Convo - ' . $subjectHeader . ' TESTING'; 
+
+            if($_ENV["HOSTNAME"] == "PRODUCTION"){
+                $subject = "CONVO - Automatic Response: " . $subjectHeader;
             }
-            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
-                $subject2 = 'Convo - ' . $subjectHeader . ' DEVELOPING'; 
+            else if($_ENV["HOSTNAME"] == "DEMO"){
+                $subject = "DEMO - CONVO - Automatic Response: " . $subjectHeader;
             }
+            else{
+                $subject = "TESTING - CONVO - Automatic Response: " . $subjectHeader;
+            }
+            //if($_ENV["HOSTNAME"] == "TESTING"){
+            //    $subject2 = 'Convo - ' . $subjectHeader . ' TESTING'; 
+            //}
+            //else if($_ENV["HOSTNAME"] == "DEVELOPING"){
+            //    $subject2 = 'Convo - ' . $subjectHeader . ' DEVELOPING'; 
+            //}
 
+            sendEmail($email, $subject2, $message2, $bodyMessage);
+            //$receiver->Subject = $subject2;
+            //$receiver->Body = $message2;
+            //$receiver->AltBody = $bodyMessage;
 
-            $receiver->Subject = $subject2;
-            $receiver->Body = $message2;
-            $receiver->AltBody = $bodyMessage;
-
-            $receiver->send();
+            //$receiver->send();
         }
         // ONBOARDING
         else if(isset($_POST["submitNewHire"])){
@@ -660,21 +711,21 @@
         // FMLA REQUEST
         else if(isset($_POST["submitRequest"])){
             
-            $mail = new PHPMailer;
+            //$mail = new PHPMailer;
         
-            $mail->SMTPAuth = true;
+            //$mail->SMTPAuth = true;
 
-            $mail->Host = 'smtp.gmail.com';
-            $mail->Username = 'convoportal@gmail.com';
-            $mail->Password = 'ConvoPortal#1!';
-            $mail->STMPSecure = 'ssl';
-            $mail->Port = 465;
+            //$mail->Host = 'smtp.gmail.com';
+            //$mail->Username = 'convoportal@gmail.com';
+            //$mail->Password = 'ConvoPortal#1!';
+            //$mail->STMPSecure = 'ssl';
+            //$mail->Port = 465;
 
-            $mail->From = 'hr@convorelay.com';
-            $mail->FromName = 'Convo HR';
-            $mail->AddAddress = $email;
-            $mail->AddCC($COOP1Email, $COOP1Name);
-            $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+            //$mail->From = 'hr@convorelay.com';
+            //$mail->FromName = 'Convo HR';
+            //$mail->AddAddress = $email;
+            //$mail->AddCC($COOP1Email, $COOP1Name);
+            //$mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
             $message = "<p>Dear " . $firstname . ",</p>";
             $message .= "<p>Thank you for submitting your Family Medical Leave request.  We have the following information: </p>";
@@ -682,70 +733,100 @@
             $message .= "<p>Please contact us or your manager if you have any questions.</p>";
             $message .= "<p>Sincerely,</p>";
             $message .= "<p>Convo HR Team</p>";
-            
-            if($_ENV["HOSTNAME"] == "TESTING"){
-                //$to = 'pxy9548@rit.edu';
-                $subject = $subjectHeader . ' - TESTING'; 
+
+            if($_ENV["HOSTNAME"] == "PRODUCTION")
+            {
+                $subject = $subjectHeader;
             }
-            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
-                //$to = 'jja4740@rit.edu';
-                $subject = $subjectHeader . ' - DEVELOPING'; 
+            else if($_ENV["HOSTNAME"] == "DEMO")
+            {
+                $subject = 'DEMO - ' . $subjectHeader;
+            }
+            else
+            {
+                $subject = 'TESTING - ' . $subjectHeader;
             }
 
+            //if($_ENV["HOSTNAME"] == "TESTING"){
+            //    //$to = 'pxy9548@rit.edu';
+            //    $subject = $subjectHeader . ' - TESTING'; 
+            //}
+            //else if($_ENV["HOSTNAME"] == "DEVELOPING"){
+            //    //$to = 'jja4740@rit.edu';
+            //    $subject = $subjectHeader . ' - DEVELOPING'; 
+            //}
 
-            $mail->Subject = $subject;
-            $mail->Body = $message;
-            $mail->AltBody = $bodyMessage;
+            sendEmail($email, $subject, $message, $bodyMessage);
 
-            $mail->send(); 
+
+            //$mail->Subject = $subject;
+            //$mail->Body = $message;
+            //$mail->AltBody = $bodyMessage;
+
+            //$mail->send(); 
         }
         
         else if(isset($_POST["confirm"]) || isset($_POST["decline"])){
-            $mail = new PHPMailer;
+            //$mail = new PHPMailer;
         
-            $mail->SMTPAuth = true;
+            //$mail->SMTPAuth = true;
 
-            $mail->Host = 'smtp.gmail.com';
-            $mail->Username = 'convoportal@gmail.com';
-            $mail->Password = 'ConvoPortal#1!';
-            $mail->STMPSecure = 'ssl';
-            $mail->Port = 465;
+            //$mail->Host = 'smtp.gmail.com';
+            //$mail->Username = 'convoportal@gmail.com';
+            //$mail->Password = 'ConvoPortal#1!';
+            //$mail->STMPSecure = 'ssl';
+            //$mail->Port = 465;
 
-            $mail->From = 'alw7097@rit.edu';
-            $mail->FromName = 'Allison Wong';
-            $mail->AddAddress = $email;
-            $mail->AddCC($COOP1Email, $COOP1Name);
-            /*$mail->AddCC($COOP2Email, $COOP2Name); */
-            $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
-            
-            if($_ENV["HOSTNAME"] == "TESTING"){
-                //$to = 'pxy9548@rit.edu';
-                $subject = $subjectHeader . ' - TESTING'; 
+            //$mail->From = 'alw7097@rit.edu';
+            //$mail->FromName = 'Allison Wong';
+            //$mail->AddAddress = $email;
+            //$mail->AddCC($COOP1Email, $COOP1Name);
+            ///*$mail->AddCC($COOP2Email, $COOP2Name); */
+            //$mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+
+            if($_ENV["HOSTNAME"] == "PRODUCTION")
+            {
+                $subject = $subjectHeader;
             }
-            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
-                //$to = 'jja4740@rit.edu';
-                $subject = $subjectHeader . ' - DEVELOPING'; 
+            else if($_ENV["HOSTNAME"] == "DEMO")
+            {
+                $subject = 'DEMO - ' . $subjectHeader;
+            }
+            else
+            {
+                $subject = 'TESTING - ' . $subjectHeader;
             }
 
+            //if($_ENV["HOSTNAME"] == "TESTING"){
+            //    //$to = 'pxy9548@rit.edu';
+            //    $subject = $subjectHeader . ' - TESTING'; 
+            //}
+            //else if($_ENV["HOSTNAME"] == "DEVELOPING"){
+            //    //$to = 'jja4740@rit.edu';
+            //    $subject = $subjectHeader . ' - DEVELOPING'; 
+            //}
 
-            $mail->Subject = $subject;
-            $mail->Body = $bodyMessage . "<br/><br/>If you have any questions or concerns, please email HR@convorelay.com.";
-            $mail->AltBody = $bodyMessage;
+            $message = $bodyMessage . "<br/><br/>If you have any questions or concerns, please email HR@convorelay.com.";
+            sendEmail($email, $subject, $message, $bodyMessage);
+            //$mail->Subject = $subject;
+            //$mail->Body = $bodyMessage . "<br/><br/>If you have any questions or concerns, please email HR@convorelay.com.";
+            //$mail->AltBody = $bodyMessage;
 
-            $mail->send();
+            //$mail->send();
         }
     }
 
     function file_attachment($email, $firstname, $lastname, $state, $fileDL, $fileSSN){
         
-        global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+       // global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
         
-        $fileDlAttachment = $fileDL['tmp_name'];
-        $fileSSNAttachment = $fileSSN['tmp_name'];
-        //file_name_new = $convo_user_data["lastname"] . ' ' . $convo_user_data["firstname"]  . '.' . $file_ext;
+        //$fileDlAttachment = $fileDL['tmp_name'];
+        //$fileSSNAttachment = $fileSSN['tmp_name'];
+        
+        ////file_name_new = $convo_user_data["lastname"] . ' ' . $convo_user_data["firstname"]  . '.' . $file_ext;
 
-       // $file_destination = $root . '/convo/Admin/upload_oe/' . $file_name_new;
-       // move_uploaded_file($fileDlAttachment, $fileDL['tmp_name']
+        ////$file_destination = $root . '/convo/Admin/upload_oe/' . $file_name_new;
+        ////move_uploaded_file($fileDlAttachment, $fileDL['tmp_name']
         
         
                /* $uploads_dir = '/uploads';
@@ -758,39 +839,40 @@
         } */
         
         
-        try{
-            $mail = new PHPMailer;
+        //try{
+        //    $mail = new PHPMailer;
 
-            $mail->SMTPAuth = true;
-            //$mail->IsSMTP();
-            $mail->Host = 'stmp.gmail.com';
-            $mail->Username = 'convoportal@gmail.com';
-            $mail->Password = 'ConvoPortal#1!';
-            $mail->STMPSecure = 'ssl';
-            $mail->Port = 465;
+        //    $mail->SMTPAuth = true;
+        //    //$mail->IsSMTP();
+        //    $mail->Host = 'stmp.gmail.com';
+        //    $mail->Username = 'convoportal@gmail.com';
+        //    $mail->Password = 'ConvoPortal#1!';
+        //    $mail->STMPSecure = 'ssl';
+        //    $mail->Port = 465;
 
-            $mail->From = 'noreply@theinfini.com';
-            $mail->FromName = 'Convo Portal';
-            $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
-            $mail->AddCC($COOP1Email, $COOP1Name);
-           /* $mail->AddCC($COOP2Email, $COOP2Name); */
-            $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+        //    $mail->From = 'noreply@theinfini.com';
+        //    $mail->FromName = 'Convo Portal';
+        //    $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+        //    $mail->AddCC($COOP1Email, $COOP1Name);
+        //   /* $mail->AddCC($COOP2Email, $COOP2Name); */
+        //    $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
 
-            $mail->AddAttachment($fileDlAttachment, $lastname . "_" . $fileDL['name']);
-            $mail->AddAttachment($fileSSNAttachment, $lastname . "_" . $fileSSN['name']);
+        //    $mail->AddAttachment($fileDlAttachment, $lastname . "_" . $fileDL['name']);
+        //    $mail->AddAttachment($fileSSNAttachment, $lastname . "_" . $fileSSN['name']);
 
-            $mail->Subject = $firstname . " " . $lastname . " - " . $state;
-            $mail->Body = $firstname . " " . $lastname . " - " . $state;
-            $mail->AltBody = $firstname . " " . $lastname . " - " . $state;
-
-            $mail->send();
-            echo 'Message has been sent.';
+            $subject = $firstname . " " . $lastname . " - " . $state;
+            $message = $firstname . " " . $lastname . " - " . $state;
+            $bodyMessage = $firstname . " " . $lastname . " - " . $state;
+            $attachments = array("lastname"=>$lastname,"DL"=>$fileDL, "SSN"=>$fileSSN);
+        sendEmail($email, $subject, $message, $bodyMessage, $attachments);
+        //    $mail->send();
+        //    echo 'Message has been sent.';
             
-        }
-        catch(phpmailerException $e){
-            echo $e -> errorMessage();
-            //echo $fileDlAttachment;
-        }
+        //}
+        //catch(phpmailerException $e){
+        //    echo $e -> errorMessage();
+        //    //echo $fileDlAttachment;
+        //}
     }
 
 
@@ -812,52 +894,66 @@
     }
     
     function recover($mode, $email) {
-        global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+        //global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
         
         
         
-        $mode = sanitize($mode);
-        $email = sanitize($email);
-        $user_data = user_data(user_id_from_email($email), "employee_id", "firstname", "username");
+        //$mode = sanitize($mode);
+        //$email = sanitize($email);
+        //$user_data = user_data(user_id_from_email($email), "employee_id", "firstname", "username");
         
-        $mail = new PHPMailer;
+        //$mail = new PHPMailer;
 
-        $mail->SMTPAuth = true;
+        //$mail->SMTPAuth = true;
 
-        $mail->Host = 'smtp.gmail.com';
-        $mail->Username = 'convoportal@gmail.com';
-        $mail->Password = 'ConvoPortal#1!';
-        $mail->STMPSecure = 'ssl';
-        $mail->Port = 465;
+        //$mail->Host = 'smtp.gmail.com';
+        //$mail->Username = 'convoportal@gmail.com';
+        //$mail->Password = 'ConvoPortal#1!';
+        //$mail->STMPSecure = 'ssl';
+        //$mail->Port = 465;
 
-        $mail->From = 'noreply@theinfini.com';
-        $mail->FromName = 'Convo Portal';
-        $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
-        $mail->AddAddress($email);
-        $mail->AddCC($COOP1Email, $COOP1Name);
-        $mail->AddCC($COOP2Email, $COOP2Name); 
-        $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+        //$mail->From = 'noreply@theinfini.com';
+        //$mail->FromName = 'Convo Portal';
+        //$mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+        //$mail->AddAddress($email);
+        //$mail->AddCC($COOP1Email, $COOP1Name);
+        //$mail->AddCC($COOP2Email, $COOP2Name); 
+        //$mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
 
         if($mode == "username") {
             // Recover username
             //email($email, "Your username", "Hello " . $user_data["firstname"] . "\n\nYour username is: " . $user_data["username"] . "\n\n -CONVO Portal");
-            
-            if($_ENV["HOSTNAME"] == "TESTING"){
-                //$to = 'pxy9548@rit.edu';
-                $subject = 'Your username - TESTING'; 
+
+            if($_ENV["HOSTNAME"] == "PRODUCTION")
+            {
+                $subject = "Your username";
             }
-            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
-                //$to = 'jja4740@rit.edu';
-                $subject = 'Your username - DEVELOPING'; 
+            else if($_ENV["HOSTNAME"] == "DEMO")
+            {
+                $subject = 'DEMO - Your username';
+            }
+            else
+            {
+                $subject = 'TESTING - Your username';
             }
 
+            //if($_ENV["HOSTNAME"] == "TESTING"){
+            //    //$to = 'pxy9548@rit.edu';
+            //    $subject = 'Your username - TESTING'; 
+            //}
+            //else if($_ENV["HOSTNAME"] == "DEVELOPING"){
+            //    //$to = 'jja4740@rit.edu';
+            //    $subject = 'Your username - DEVELOPING'; 
+            //}
 
-            $mail->Subject = $subject;
-            $mail->Body = "Hello " . $user_data["firstname"] . ",<br/><br/>Your username is: " . $user_data["username"] . "<br/> <br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
-            $mail->AltBody = "Hello " . $user_data["firstname"] . ",<br/><br/>Your username is: " . $user_data["username"] . "<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em> - The Convo Portal Team at Infini Consulting";
-
-            $mail->send(); 
+            $message = "Hello " . $user_data["firstname"] . ",<br/><br/>Your username is: " . $user_data["username"] . "<br/> <br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            $bodyMessage = "Hello " . $user_data["firstname"] . ",<br/><br/>Your username is: " . $user_data["username"] . "<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em> - The Convo Portal Team at Infini Consulting";
+            //$mail->Subject = $subject;
+            //$mail->Body = "Hello " . $user_data["firstname"] . ",<br/><br/>Your username is: " . $user_data["username"] . "<br/> <br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            //$mail->AltBody = "Hello " . $user_data["firstname"] . ",<br/><br/>Your username is: " . $user_data["username"] . "<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em> - The Convo Portal Team at Infini Consulting";
+            sendEmail($email, $subject, $message, $bodyMessage);
+            //$mail->send(); 
         }
         else if($mode == "password") {
             // Recover password
@@ -868,23 +964,37 @@
             update_user($user_data["employee_id"], array("password_recover" => 1));
 
             //email($email, "Your password recovery", "Hello " . $user_data["firstname"] . "\n\nYour temporary password is: " . $generated_password . "\n\nAfter logging in, you will be prompted to change your password.\n\n -CONVO Portal");
-            
-            
-           
-            if($_ENV["HOSTNAME"] == "TESTING"){
-                //$to = 'pxy9548@rit.edu';
-                $subject = 'Your password recovery - TESTING'; 
-            }
-            else if($_ENV["HOSTNAME"] == "DEVELOPING"){
-                //$to = 'jja4740@rit.edu';
-                $subject = 'Your password recovery - DEVELOPING'; 
-            }
 
-            $mail->Subject = $subject;
-            $mail->Body = "Hello " . $user_data["firstname"] . ",<br/><br/> Your username is: " . $username . " Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
-            $mail->AltBody = "Hello " . $user_data["firstname"] . ",<br/><br/>Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            if($_ENV["HOSTNAME"] == "PRODUCTION")
+            {
+                $subject = "Your password recovery";
+            }
+            else if($_ENV["HOSTNAME"] == "DEMO")
+            {
+                $subject = 'DEMO - Your password recovery';
+            }
+            else
+            {
+                $subject = 'TESTING - Your password recovery';
+            }
+            
+            //if($_ENV["HOSTNAME"] == "TESTING"){
+            //    //$to = 'pxy9548@rit.edu';
+            //    $subject = 'Your password recovery - TESTING'; 
+            //}
+            //else if($_ENV["HOSTNAME"] == "DEVELOPING"){
+            //    //$to = 'jja4740@rit.edu';
+            //    $subject = 'Your password recovery - DEVELOPING'; 
+            //}
 
-            $mail->send(); 
+            $message = "Hello " . $user_data["firstname"] . ",<br/><br/> Your username is: " . $username . " Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            $bodyMessage = "Hello " . $user_data["firstname"] . ",<br/><br/>Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+
+            //$mail->Subject = $subject;
+            //$mail->Body = "Hello " . $user_data["firstname"] . ",<br/><br/> Your username is: " . $username . " Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            //$mail->AltBody = "Hello " . $user_data["firstname"] . ",<br/><br/>Your temporary password is: " . $generated_password . "<br/><br/>After logging in, you will be prompted to change your password.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
+            sendEmail($email, $subject, $message, $bodyMessage);
+            //$mail->send(); 
         }
     }
 
@@ -908,91 +1018,93 @@
     } */
     
     function onboarding_reset_password($firstname, $username, $email, $generated_password) {
-        global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+       // global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
         
-        $email = sanitize($email);
+        //$email = sanitize($email);
         $url = "https://test.theinfini.com/convo/";
         
-        $mail = new PHPMailer;
-        $mail->SMTPAuth = true;
-        $mail->Host = 'smtp.gmail.com';
-        $mail->Username = 'convoportal@gmail.com';
-        $mail->Password = 'ConvoPortal#1!';
-        $mail->STMPSecure = 'ssl';
-        $mail->Port = 465;
+        //$mail = new PHPMailer;
+        //$mail->SMTPAuth = true;
+        //$mail->Host = 'smtp.gmail.com';
+        //$mail->Username = 'convoportal@gmail.com';
+        //$mail->Password = 'ConvoPortal#1!';
+        //$mail->STMPSecure = 'ssl';
+        //$mail->Port = 465;
 
-        $mail->From = 'noreply@theinfini.com';
-        $mail->FromName = 'Convo Portal';
-        $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+        //$mail->From = 'noreply@theinfini.com';
+        //$mail->FromName = 'Convo Portal';
+        //$mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
 
         $subject = "Access to Convo Employee Portal";
         
         if($_ENV["HOSTNAME"] == "PRODUCTION")
         {
-            $mail->AddAddress($email);
+            //$mail->AddAddress($email);
             //$mail->AddCC("hr@convorelay.com");
-            $mail->AddBCC("chris@theinfini.com");
+            //$mail->AddBCC($SupervisorCOOPEmail);
         }
-        else if($_ENV["HOSTNAME"] == "TESTING")
+          else if($_ENV["HOSTNAME"] == "DEMO")
         {
-            $mail->AddAddress($SupervisorCOOPEmail);
-            $mail->AddCC($COOP1Email, $COOP1Name);
-            $subject .= " - TESTING"; 
+            //$mail->AddAddress($SupervisorCOOPEmail);
+            //$mail->AddCC($COOP2Email, $COOP2Name);
+            $subject = "DEMO - " . $subject;
         }
-        else 
+        else
         {
-            $mail->AddAddress($SupervisorCOOPEmail);
-            $mail->AddCC($COOP1Email, $COOP1Name);
-            $subject .= " - DEV"; 
+            //$mail->AddAddress($SupervisorCOOPEmail);
+            //$mail->AddCC($COOP2Email, $COOP2Name);
+            $subject = "TESTING - " . $subject;
         }
         
-        $mail->Subject = $subject;
+        //$mail->Subject = $subject;
 
         $body = "Hi " . $firstname . ",<br/><br/>Congratulations and welcome to the Convo family!<br><br>Prior to employment, we need to run your background check. Please be prepared to upload a copy of your state-issued Driver License and a copy of your Social Security card to Convo's employee portal.<br><br>Please click on the link to the portal: " . $url . "<br/><br/>Your username is: " . $username . "<br/><br/>" . "Your temporary password is: " . $generated_password . "<br><br>Once these documents have been received and background check cleared, we will then notify you and your manager to arrange a date and time for training and the official beginning of your employment with Convo.<br/><br/><em><strong>This is an automatically generated email; please do not reply to this message.</strong></em><br/><br/> - The Convo Portal Team at Infini Consulting";
             
-        $mail->Body = $body;
-        $mail->AltBody = $body;
-        $mail->send(); 
+        //$mail->Body = $body;
+        //$mail->AltBody = $body;
+
+        sendEmail($email, $subject, $body, $body);
+        //$mail->send(); 
     } 
 
 function fileUploaded($firstname, $lastname, $fileDL, $fileSSN) {
-        global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+        //global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
 
-        $mail = new PHPMailer;
-        $mail->SMTPAuth = true;
-        $mail->Host = 'smtp.gmail.com';
-        $mail->Username = 'convoportal@gmail.com';
-        $mail->Password = 'ConvoPortal#1!';
-        $mail->STMPSecure = 'ssl';
-        $mail->Port = 465;
+        //$mail = new PHPMailer;
+        //$mail->SMTPAuth = true;
+        //$mail->Host = 'smtp.gmail.com';
+        //$mail->Username = 'convoportal@gmail.com';
+        //$mail->Password = 'ConvoPortal#1!';
+        //$mail->STMPSecure = 'ssl';
+        //$mail->Port = 465;
 
-        $mail->From = 'noreply@theinfini.com';
-        $mail->FromName = 'Convo Portal';
-        $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
-        $mail->AddCC($COOP1Email, $COOP1Name);
-        $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+        //$mail->From = 'noreply@theinfini.com';
+        //$mail->FromName = 'Convo Portal';
+        //$mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+        //$mail->AddCC($COOP1Email, $COOP1Name);
+        //$mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
             
         $subject = "Onboarding Files Received for " . $firstname . " " . $lastname;
         if($_ENV["HOSTNAME"] == "PRODUCTION")
         {
-            //$mail->AddAddress($email);
-            $mail->AddAddress("chris@theinfini.com");
-            $mail->AddBCC("chris@theinfini.com");
+            // WHERE this should go to? HR@convorelay.com
+            //$mail->AddAddress($SupervisorCOOPEmail);
+            //$mail->AddBCC($SupervisorCOOPEmail);
         }
-        else if($_ENV["HOSTNAME"] == "TESTING")
+        else if($_ENV["HOSTNAME"] == "DEMO")
         {
-            $mail->AddAddress($SupervisorCOOPEmail);
-            $mail->AddCC($COOP1Email, $COOP1Name);
-            $subject .= " - TESTING"; 
+            //$mail->AddAddress($SupervisorCOOPEmail);
+            //$mail->AddCC($COOP1Email, $COOP1Name);
+            $subject = "DEMO - " . $subject; 
         }
         else 
         {
-            $mail->AddAddress($SupervisorCOOPEmail);
-            $mail->AddCC($COOP1Email, $COOP1Name);
-            $subject .= " - DEV"; 
+            //$mail->AddAddress($SupervisorCOOPEmail);
+            //$mail->AddCC($COOP1Email, $COOP1Name);
+            $subject = "TESTING - " . $subject; 
         }
         
-        $mail->Subject = $subject;
+        //$mail->Subject = $subject;
         $body = $firstname . " " . $lastname . " has uploaded files necessary for background check.<br/><br/>" .
             "<a href=\"$fileDL\">Driver's License</a>";
     
@@ -1001,50 +1113,170 @@ function fileUploaded($firstname, $lastname, $fileDL, $fileSSN) {
             $body .= "<br><a href=\"$fileSSN\">Social Security Card</a>";
         }
 
-        $mail->Body = $body;
-        $mail->AltBody = $body;
-        $mail->send(); 
+        //$mail->Body = $body;
+        //$mail->AltBody = $body;
+        sendEmail($email, $subject, $body, $body);
+        //$mail->send(); 
     } 
 
 function sendCheckOptInEmail($firstname, $lastname, $email) 
 {
-    global $SupervisorCOOPEmail, $SupervisorName;
-    $requestor = $firstname . " " . $lastname;
+    //global $SupervisorCOOPEmail, $SupervisorName;
+    //$requestor = $firstname . " " . $lastname;
     
+    //$mail = new PHPMailer;
+    //$mail->SMTPAuth = true;
+    //$mail->Host = 'smtp.gmail.com';
+    //$mail->Username = 'convoportal@gmail.com';
+    //$mail->Password = 'ConvoPortal#1!';
+    //$mail->STMPSecure = 'ssl';
+    //$mail->Port = 465;
+
+    //$mail->From = 'noreply@theinfini.com';
+    //$mail->FromName = 'Convo Portal';
+    //$mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+    //$mail->AddAddress('chrisc@convorelay.com');
+    
+    //if ($email != "")
+    //{
+    //    $mail->AddCC($email, $requestor);
+    //}
+            
+    //$subject = "Pay Stub Request for " . $requestor;
+    //$mail->Subject = $subject;
+    
+    //$body = "I would like to continue receiving a hard copy of my bi-weekly check stub.<br/><br/>" . $requestor;
+    //$mail->Body = $body;
+    //$mail->AltBody = $body;
+    
+    //$mail->send(); 
+}
+
+/**
+ * The ability to create and send an email automatically.
+ * @param mixed $email - User's email address
+ * @param mixed $subject - The subject of the email
+ * @param mixed $bodyMessage - The content of the email
+ * @param mixed $altBodyMessage - The alternative content of the email
+ */
+function sendEmail($email, $subject, $bodyMessage, $altBodyMessage, $attachments = null){
+    global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+    $email = sanitize($email);
+    $user_data = user_data(user_id_from_email($email), "employee_id", "firstname", "username");
+
+    $mail = getEmailAccess();
+    $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
+    $mail->AddAddress($email);
+    //$mail->AddCC($COOP1Email, $COOP1Name);
+    $mail->AddCC($COOP2Email, $COOP2Name);
+    $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+
+    if($attachments != null){
+        $lastname = $attachments['lastname'];
+        $fileDL = $attachments['DL'];
+        $fileSSN = $attachments['SSN'];
+        $fileDlAttachment = $fileDL['tmp_name'];
+        $fileSSNAttachment = $fileSSN['tmp_name'];
+        $mail->AddAttachment($fileDlAttachment, $lastname . "_" . $fileDL['name']);
+        $mail->AddAttachment($fileSSNAttachment, $lastname . "_" . $fileSSN['name']);
+    }
+
+    //if($_ENV["HOSTNAME"] == "DEMO"){
+    //    //$to = 'jja4740@rit.edu';
+    //    $subject = "Portal Demo - Automatic Response: Database Error";
+    //}
+    //else if($_ENV["HOSTNAME"] == "PRODUCTION"){
+    //    //$to = 'pxy9548@rit.edu';
+    //    $subject = "CONVO Portal - Automatic Response: Database Error";
+    //}
+    //else{
+    //    //$to = 'jja4740@rit.edu';
+    //    $subject = "Testing CONVO Portal - Automatic Response: Database Error";
+    //}
+
+    //if($_ENV["HOSTNAME"] == "TESTING"){
+    //    //$to = 'pxy9548@rit.edu';
+    //    $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . " - TESTING";
+    //}
+    //else if($_ENV["HOSTNAME"] == "DEVELOPING"){
+    //    //$to = 'jja4740@rit.edu';
+    //    $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . ' - DEVELOPING';
+    //}
+
+    send($mail, $subject, $bodyMessage, $altBodyMessage);
+}
+
+/**
+ * Creating an email to inform the supervisor and intern(s) about the errors
+ * that may occur in the database.
+ * @param mixed $query - A sql query send to the database
+ */
+function sendErrorEmail($query){
+    global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+    $mail = getEmailAccess();
+    //$to = $SupervisorCOOPEmail . "," . $COOP2Email;
+    //$to = $COOP2Email;
+    //email($to, "Database Error", mysqli_error($query));
+
+    $mail->AddAddress($COOP2Email);
+    //$mail->AddCC($COOP1Email, $COOP1Name);
+    //$mail->AddCC($COOP2Email, $COOP2Name);
+    //$mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
+
+    if($_ENV["HOSTNAME"] == "DEMO"){
+        //$to = 'jja4740@rit.edu';
+        $subject = "Portal Demo - Automatic Response: Database Error";
+    }
+    else if($_ENV["HOSTNAME"] == "PRODUCTION"){
+        //$to = 'pxy9548@rit.edu';
+        $subject = "CONVO Portal - Automatic Response: Database Error";
+    }
+    else{
+        //$to = 'jja4740@rit.edu';
+        $subject = "Testing Portal - Automatic Response: Database Error";
+    }
+
+    send($mail, $subject, mysqli_error($query));
+}
+
+/**
+ * Creating the PHPMailer object
+ * @return PHPMailer
+ */
+function getEmailAccess(){
     $mail = new PHPMailer;
+
     $mail->SMTPAuth = true;
+
     $mail->Host = 'smtp.gmail.com';
     $mail->Username = 'convoportal@gmail.com';
     $mail->Password = 'ConvoPortal#1!';
     $mail->STMPSecure = 'ssl';
     $mail->Port = 465;
-
     $mail->From = 'noreply@theinfini.com';
     $mail->FromName = 'Convo Portal';
-    $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
-    $mail->AddAddress('chrisc@convorelay.com');
-    
-    if ($email != "")
-    {
-        $mail->AddCC($email, $requestor);
-    }
-            
-    $subject = "Pay Stub Request for " . $requestor;
+    return $mail;
+}
+
+/**
+ * Sending an email
+ * @param mixed $mail - Email Address
+ * @param mixed $subject - The subject of the email
+ * @param mixed $body - The main content of the email
+ * @param mixed $altBodyMessage - The alternative content of the email
+ */
+function send($mail, $subject, $body, $altBodyMessage=null){
     $mail->Subject = $subject;
-    
-    $body = "I would like to continue receiving a hard copy of my bi-weekly check stub.<br/><br/>" . $requestor;
     $mail->Body = $body;
-    $mail->AltBody = $body;
-    
-    $mail->send(); 
+    if($altBodyMessage != null){
+        $mail->AltBody = $altBodyMessage;
+    }
+    $mail->send();
 }
 
 
 
-
-
-    
-    function email_exists($email) {
+function email_exists($email) {
         global $link;
         $emil= sanitize($email);
         $query = mysqli_query($link, "SELECT employee_id FROM employee_vw WHERE email = '$email'");
@@ -1078,10 +1310,10 @@ function sendCheckOptInEmail($firstname, $lastname, $email)
     function breadcrumbs($page_title){
         if(logged_in() == true) {
             $startAtCrumb = 2;
-            $url = '/convo/';
+            $url = '/portal-demo/';
             
             $bread = explode('/', $_SERVER['PHP_SELF']);
-            if($_SERVER["PHP_SELF"] !== "/convo/index.php") {
+            if($_SERVER["PHP_SELF"] !== "/portal-demo/index.php") {
              $returnString = "<br/><br/><br/><span class='bc0'><a href='$url'>Convo Portal</a> &raquo; </span>";   
             }
             for($i=$startAtCrumb;$i<count($bread)-1;$i++){
@@ -1089,10 +1321,10 @@ function sendCheckOptInEmail($firstname, $lastname, $email)
                 $returnString .= "<span class='bc$i'><a href='$url'>"
                 .prettify($bread[$i])."</a>";
             }
-            if($_SERVER["PHP_SELF"] == "/convo/employee.php" || $_SERVER["PHP_SELF"] == "/convo/changepassword.php" || $_SERVER["PHP_SELF"] == "/convo/register.php" || $_SERVER["PHP_SELF"] == "/convo/contact.php" || $_SERVER["PHP_SELF"] == "/convo/selectEmployee.php") {
+            if($_SERVER["PHP_SELF"] == "/portal-demo/employee.php" || $_SERVER["PHP_SELF"] == "/portal-demo/changepassword.php" || $_SERVER["PHP_SELF"] == "/portal-demo/register.php" || $_SERVER["PHP_SELF"] == "/portal-demo/contact.php" || $_SERVER["PHP_SELF"] == "/portal-demo/selectEmployee.php") {
                 echo $returnString . "<strong>" . $page_title . "</strong></span>";
-            } 
-            else if($_SERVER["PHP_SELF"] !== "/convo/index.php" ) {
+            }
+            else if($_SERVER["PHP_SELF"] !== "/portal-demo/index.php" ) {
                 echo $returnString . " &raquo; " . $page_title . "</span>";
             }
         }
