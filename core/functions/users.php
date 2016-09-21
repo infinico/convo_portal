@@ -1153,23 +1153,21 @@ function sendCheckOptInEmail($firstname, $lastname, $email)
 }
 
 /**
- * The ability to send an email automatically.
- * @param mixed $mode 
- * @param mixed $email 
- * @param mixed $subject 
- * @param mixed $bodyMessage 
- * @param mixed $altBodyMessage 
+ * The ability to create and send an email automatically. 
+ * @param mixed $email - User's email address
+ * @param mixed $subject - The subject of the email
+ * @param mixed $bodyMessage - The content of the email
+ * @param mixed $altBodyMessage - The alternative content of the email
  */
 function sendEmail($email, $subject, $bodyMessage, $altBodyMessage, $attachments = null){
-    global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
+    global $COOP1Email, $SupervisorCOOPEmail, $COOP1Name, $SupervisorName;
     $email = sanitize($email);
     $user_data = user_data(user_id_from_email($email), "employee_id", "firstname", "username");
 
-    $mail = testHere();
+    $mail = getEmailAccess();
     $mail->AddReplyTo($SupervisorCOOPEmail, $SupervisorName);
     $mail->AddAddress($email);
-    //$mail->AddCC($COOP1Email, $COOP1Name);
-    $mail->AddCC($COOP2Email, $COOP2Name);
+    $mail->AddCC($COOP1Email, $COOP1Name);
     $mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
 
     if($attachments != null){
@@ -1204,17 +1202,22 @@ function sendEmail($email, $subject, $bodyMessage, $altBodyMessage, $attachments
     //    $subject = "CONVO Portal - Automatic Response: " . $subjectHeader . ' - DEVELOPING';
     //}
 
-    testSendEmail($mail, $subject, $bodyMessage, $altBodyMessage);
+    send($mail, $subject, $bodyMessage, $altBodyMessage);
 }
 
+/**
+ * Creating an email to inform the supervisor and intern(s) about the errors
+ * that may occur in the database.
+ * @param mixed $query - A sql query send to the database
+ */
 function sendErrorEmail($query){
-    global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
-    $mail = testHere();
+    global $COOP1Email, $SupervisorCOOPEmail, $COOP1Name, $SupervisorName;
+    $mail = getEmailAccess();
     //$to = $SupervisorCOOPEmail . "," . $COOP2Email;
     //$to = $COOP2Email;
     //email($to, "Database Error", mysqli_error($query));
 
-    $mail->AddAddress($COOP2Email);
+    $mail->AddAddress($COOP1Email);
     //$mail->AddCC($COOP1Email, $COOP1Name);
     //$mail->AddCC($COOP2Email, $COOP2Name);
     //$mail->AddCC($SupervisorCOOPEmail, $SupervisorName);
@@ -1232,10 +1235,14 @@ function sendErrorEmail($query){
         $subject = "Testing Portal - Automatic Response: Database Error";
     }
 
-    testSendEmail($mail, $subject, mysqli_error($query));
+    send($mail, $subject, mysqli_error($query));
 }
 
-function testHere(){
+/**
+ * Creating the PHPMailer object
+ * @return PHPMailer
+ */
+function getEmailAccess(){
     $mail = new PHPMailer;
 
     $mail->SMTPAuth = true;
@@ -1250,7 +1257,14 @@ function testHere(){
     return $mail;
 }
 
-function testSendEmail($mail, $subject, $body, $altBodyMessage=null){
+/**
+ * Sending an email
+ * @param mixed $mail - Email Address
+ * @param mixed $subject - The subject of the email
+ * @param mixed $body - The main content of the email
+ * @param mixed $altBodyMessage - The alternative content of the email 
+ */
+function send($mail, $subject, $body, $altBodyMessage=null){
     $mail->Subject = $subject;
     $mail->Body = $body;
     if($altBodyMessage != null){
