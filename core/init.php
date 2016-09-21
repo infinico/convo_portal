@@ -1,7 +1,8 @@
 <?php
     /* Environment Variables */
     $_ENV["HOSTNAME"] = "TESTING";
-    $linkToALL = "https://test.theinfini.com/convo";  
+    $linkToALL = "https://test.theinfini.com/convo";
+    //$linkToALL = "http://localhost/convo";  
     $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 
     /* 
@@ -10,10 +11,8 @@
         The variables are used for email functions (PHPMailer)
         If you have any questions, you can contact Josh at jja4740@rit.edu or Peter at pxy9548@rit.edu
     */
-    $COOP1Email = 'alw7097@rit.edu';
-    $COOP1Name = 'Allison Wong';
-    /*$COOP2Email = 'pxy9548@rit.edu';
-    $COOP2Name = 'Peter Yeung';*/
+    $COOP1Email = 'infini.intern@convorelay.com';
+    $COOP1Name = 'Infini Intern';
     $SupervisorCOOPEmail = 'chris@theinfini.com';
     $SupervisorName = 'Chris Campbell';
     
