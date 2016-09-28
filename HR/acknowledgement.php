@@ -44,6 +44,12 @@
     // What shows up in this page depends on the acknowledgement type
     switch($acknowledgementType)
     {
+        case "CPNI":
+            $acknowledgementText = "By signing here, I acknowledge that I have participated in the Convo CPNI Quiz of 2016.<br><br>
+            I further acknowledge that I understand I am required to contact the Compliance Officer at
+            jeff@convorelay.com or the Compliance Manager at amanda.montgomery@convorelay.com if I
+            have any doubt about whether an action at Convo would be a violation of CPNI Rules.";
+            break;
         case "FIN":
              $acknowledgementText = "I acknowledge that I have read and understand the <a href=\"../Finance/finance.php\" target=\"_blank\"> Convo Travel &amp; Reimbursement Policy</a>, which outlines my expectations prior to and while traveling on Convo business.";
             break;
