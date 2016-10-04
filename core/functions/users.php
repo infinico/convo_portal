@@ -3,8 +3,8 @@
     * LOGIN FUNCTIONS
     */
 
-    //require_once "../includes/phpmailer/vendor/autoload.php";
-    //require("../includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
+    //require_once "includes/phpmailer/vendor/autoload.php";
+    //require("includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
     // employee ID from the username will apply to the Login Function below
     function user_id_from_username($username) {
         global $link;
@@ -1235,7 +1235,7 @@ function sendErrorEmail($query){
         $subject = "Testing Portal - Automatic Response: Database Error";
     }
 
-    send($mail, $subject, mysqli_error($query));
+    send($mail, $subject, mysqli_errno($query). ': ' . mysqli_error($query));
 }
 
 /**
@@ -1387,5 +1387,20 @@ function validatePhoneNumber($phone){
         return false;   
     }
 }
+
+    function getSearchTerms()
+    {
+        return $youtube_terms = array("[youtube]", "[yt]", "[youtube video]", "[yt video]");
+    }
+
+    function getYouTubeCode($youtube_id)
+    {
+        return '<iframe src="https://www.youtube.com/embed/' . $youtube_id . '" width="600" height="337" frameborder="0" allowfullscreen=""></iframe>';
+    }
+
+    function replace($search, $replacements, $subject)
+    {
+        return str_replace($search, $replacements, $subject);
+    }
 
 ?>
