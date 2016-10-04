@@ -11,6 +11,17 @@
     else if($user_data["emp_type"] == "C"){
 ?>
     <li><a href="<?php echo $linkToALL;?>/index.php">Home</a></li>
+    <li>
+        <a href="#">HR</a>
+        <ul class="HR">
+            <li>
+                <a href="<?php echo $linkToALL;?>/HR/employment_data.php">Employee Data</a>
+            </li>
+            <li>
+                <a href="<?php echo $linkToALL;?>/HR/acknowledgements.php">Acknowledgements</a>
+            </li>
+        </ul>
+    </li>
 <?php      
     }   
     else
