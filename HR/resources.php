@@ -15,6 +15,7 @@
                     <li><a href="Resources/2016%20payroll%20schedule.pdf" target="_blank">2016 Payroll Schedule</a></li>
                     <li><a href="OptInForMailedPaycheck.php">Check Stub Request</a></li>
                     <li><a href="Resources/PaychexRegistration.pdf" target="_blank">Paychex Registration</a></li>
+                    <li><a href="<?php echo $linkToALL;?>/HR/fmla.php">Family Medical Leave</a></li>
                 </ul><br/>
                 <?php
                     // INTERPRETER RESOURCES
