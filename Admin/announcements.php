@@ -73,7 +73,7 @@ END
     while($row = mysqli_fetch_assoc($result)){
                    
             //$row = mysqli_fetch_assoc($result);
-            echo replace(getSearchTerms(), getYoutubeCode($row["youtube_id"]), $row["home_page"]);
+            echo replace(getSearchTerms(), getYoutubeCode($row["youtube_id"]), $row["home_page"]) . '<hr/>;
             //echo $row["home_page"];
         }
     //}
