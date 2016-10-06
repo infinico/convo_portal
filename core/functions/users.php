@@ -1395,7 +1395,7 @@ function validatePhoneNumber($phone){
 
     function getYouTubeCode($youtube_id)
     {
-        return '<iframe src="https://www.youtube.com/embed/' . $youtube_id . '" width="600" height="337" frameborder="0" allowfullscreen=""></iframe>';
+        return '<iframe src="https://www.youtube.com/embed/' . $youtube_id . '?rel=0" width="600" height="337" frameborder="0" allowfullscreen=""></iframe>';
     }
 
     function replace($search, $replacements, $subject)
