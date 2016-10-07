@@ -11,20 +11,37 @@
     $errorId = $errorFirst = $errorLast = $errorPosition = $errorLocation = $errorStreet = $errorCity = $errorZip = $errorState = $errorStreetAddress = $errorCity = $errorZipCode = $errorEmailAddress = $errorPayroll = $errorDate = $errorPhoneNumber = $errorLocation = $errorDOB = $errorSSN = $errorGender = "";
 
     if(isset($_POST["submit"])) {
-        if(empty($_POST["employee_id"])) {
-            $errorId = "<span class='error'> Please enter employee ID from Paychex</span>";   
+//        if(empty($_POST["employee_id"])) {
+//            $errorId = "<span class='error'> Please enter employee ID from Paychex</span>";   
+//        }
+//        else if($_POST["employee_id"]{0} == "C"){
+//            if(!(is_numeric($_POST["employee_id"]{1})) || !(is_numeric($_POST["employee_id"]{2})) || !(is_numeric($_POST["employee_id"]{3})) || strlen($_POST["employee_id"]) != 4){
+//                $errorId = "<span class='error'>If it is a contractor, please use \"C###\"</span>"; 
+//            }
+//        }
+        
+//        else if(!(is_numeric($_POST["employee_id"]))){
+//            $errorId = "<span class='error'>Please enter numbers or first character 'C' for contractor</span>";   
+//        }
+        
+        if(!isset($_POST["indep_con"])){
+            $errorId = "<span class='error'> Please enter employee ID from Paychex</span>";
         }
-        else if($_POST["employee_id"]{0} == "C"){
-            if(!(is_numeric($_POST["employee_id"]{1})) || !(is_numeric($_POST["employee_id"]{2})) || !(is_numeric($_POST["employee_id"]{3})) || strlen($_POST["employee_id"]) != 4){
-                $errorId = "<span class='error'>If it is a contractor, please use \"C###\"</span>"; 
+        else if(!empty($_POST["employee_id"])){ 
+            if($_POST["employee_id"]{0} == "C"){
+                if(!(is_numeric($_POST["employee_id"]{1})) || !(is_numeric($_POST["employee_id"]{2})) || !(is_numeric($_POST["employee_id"]{3})) || strlen($_POST["employee_id"]) != 4){
+                    $errorId = "<span class='error'>If it is a contractor, please use \"C###\"</span>"; 
+                }
+            }
+            else if(employee_id_exists($_POST["employee_id"]) == true) {
+                $errorId = "<span class='error'>The employee ID exists in the database, please enter different employee ID</span>";   
             }
         }
-        else if(!(is_numeric($_POST["employee_id"]))){
-            $errorId = "<span class='error'>Please enter numbers or first character 'C' for contractor</span>";   
-        }
-        else if(employee_id_exists($_POST["employee_id"]) == true) {
-            $errorId = "<span class='error'>The employee ID exists in the database, please enter different employee ID</span>";   
-        }
+//        else if(!(is_numeric($_POST["employee_id"]))){
+//            $errorId = "<span class='error'>Please enter numbers or first character 'C' for contractor</span>";   
+//        }
+
+        
         if(empty($_POST["firstname"])) {
             $errorFirst = "<span class='error'>Please enter first name</span>";
         }
@@ -109,6 +126,15 @@
             
             $phoneNumber = clean_up_phone($phone_number);
             
+            $emp_type = "";
+            
+            if(isset($_POST['indep_con'])){
+                $emp_type = "C";
+            }
+            else{
+                $emp_type = "E";   
+            }
+            
             if(strlen($new_hire_id) > 0)
             {
                 $sql = "CALL update_employee_hire('$new_hire_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$emailAddress','$date_of_birth', '$ssn', '$gender', '$phoneNumber','$employee_id');";
@@ -118,7 +144,7 @@
             }
             else
             {
-                mysqli_query($link, "CALL insert_employee_hire('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$emailAddress','$date_of_birth', '$ssn', '$gender', '$phoneNumber');");
+                mysqli_query($link, "CALL insert_employee_hire('$employee_id', '$firstname', '$lastname', '$jobTitle', '$street_address', '$city', '$state', '$zipcode', '$location', '$supervisor', '$payrollStatus', '$hourlyRate', '$hireDate', CURRENT_TIMESTAMP, 'Active', '1', '0', '$emailAddress','$date_of_birth', '$ssn', '$gender', '$phoneNumber', '$emp_type');");
             }
             
             
@@ -289,13 +315,15 @@
                 
                 <!-- Phone Number -->
                 <span class="spanHeader">Convo Number:</span>
-                <input type="text" placeholder="xxx-xxx-xxxx" class="input-large" name="phone_number" maxlength="12" value=<?php
-
-               if(isset($_POST["submit"])){echo $_POST['phone_number'];} ?>><br/><br/>
+                <input type="text" placeholder="xxx-xxx-xxxx" class="input-large" name="phone_number" maxlength="12" value=<?php if(isset($_POST["submit"])){echo $_POST['phone_number'];} ?>><br/><br/>
                 
                 <!-- EmployeeID -->
                 <span class="spanHeader">Paychex Employee ID: </span>
                 <input type="text" id="employee_id" name="employee_id" placeholder="Get from Paychex" maxlength="4" value=<?php if(isset($_POST["submit"])){echo $_POST['employee_id'];} ?>><?php echo $errorId; ?><br/><br/>
+                
+                
+                <span class="spanHeader">Independent Contractor: </span>
+                <input type="checkbox" id="indep_con" name="indep_con" value=<?php if(isset($_POST["submit"])) ?><br/><br/><br/>
             
 
                 <input type="submit" id="addButton" name="submit" value="Add">
