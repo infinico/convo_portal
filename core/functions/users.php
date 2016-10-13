@@ -1086,7 +1086,7 @@
             $subject = "TESTING - " . $subject;
         }
 
-        $body = "Hi HR Team,<br/>" . $name . "will be starting his/her training on " . $startDate . ".<br/>Please add New Hire to PayChex system and add to employee list via Portal.<br/>" .
+        $body = "Hi HR Team,<br/><br/>" . $name . " will be starting his/her training on " . $startDate . ".<br/>Please add New Hire to PayChex system and add to employee list via Portal.<br/><br/><br/>" .
             "-The Convo Portal Team at Infini Consulting";
         sendEmail($mail,  $subject, $body, $body);
     }
