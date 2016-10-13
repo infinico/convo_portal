@@ -1067,6 +1067,30 @@
         //$mail->send(); 
     } 
 
+    function onboarding_start_date_notification($name, $startDate)
+    {
+        $subject = "Access to Convo Employee Portal";
+
+        if($_ENV["HOSTNAME"] == "PRODUCTION")
+        {
+            $mail = "hr@convorelay.com";
+        }
+          else if($_ENV["HOSTNAME"] == "DEMO")
+        {
+            $mail = "tjt9156@rit.edu";
+            $subject = "DEMO - " . $subject;
+        }
+        else
+        {
+            $mail = "tjt9156@rit.edu";
+            $subject = "TESTING - " . $subject;
+        }
+
+        $body = "Hi HR Team,<br/>" . $name . "will be starting his/her training on " . $startDate . ".<br/>Please add New Hire to PayChex system and add to employee list via Portal.<br/>" .
+            "-The Convo Portal Team at Infini Consulting";
+        sendEmail($mail,  $subject, $body, $body);
+    }
+
 function fileUploaded($firstname, $lastname, $fileDL, $fileSSN) {
         global $COOP1Email, $COOP2Email, $SupervisorCOOPEmail, $COOP1Name, $COOP2Name, $SupervisorName;
 
