@@ -21,6 +21,7 @@ if(isset($_POST["submit"]))
                 $key = explode('|', key($employees));
                 $name = $key[0];
                 $id = $key[1];
+                $startDate = $startDate[0];
                 $query = "CALL update_neo_tracking($id, $startDate);";
                 mysqli_query($link, $query) or sendErrorEmail($link);
                 onboarding_start_date_notification($name, $startDate);
