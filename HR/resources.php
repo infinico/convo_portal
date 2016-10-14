@@ -24,6 +24,7 @@
                     <h2>Interpreting Resources</h2>
                     <ul class="resources">
                         <li><a href="Resources/InterpreterGuidelines.pdf" target="_blank">Interpreter Guidelines</a></li>
+                        <li><a href="https://goo.gl/forms/SA81bvPRjfBjbeAZ2" target="_blank">Canada Regional Signs</a></li>
                     </ul><br/>
                 <?php
                     }   
