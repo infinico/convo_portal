@@ -1,6 +1,8 @@
 <?php
 $page_title = "Manager Access";
 $title = "Convo Portal | Manager Access";
+$errorDate = "";
+$identification = "";
 require_once "includes/phpmailer/vendor/autoload.php";
 require("includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
 include("core/init.php");
@@ -11,25 +13,61 @@ define('PATTERN', "(([1-12]|[01-12]){2}/([1-31]|[01-31]){2}/(" . date('Y') . "|"
 if(isset($_POST["submit"]))
 {
     $array = $_POST["start_date"];
+    
     foreach($array as $employees)
     {
         // add loop for checking before send it to the database
         foreach($employees as $startDateInfo){
             preg_match(PATTERN, $startDateInfo, $startDate);
-            if(!empty($startDateInfo) && !empty($startDate))
+            if(!empty($startDateInfo))
             {
-                $key = explode('|', key($employees));
-                $name = $key[0];
-                $id = $key[1];
-                $startDate = $startDate[0];
-                $query = "CALL update_neo_tracking($id, $startDate);";
-                mysqli_query($link, $query) or sendErrorEmail($link);
-                onboarding_start_date_notification($name, $startDate);
+                if(empty($startDate))
+                {
+                    $identification .= key($employees) . ',';
+                    $errorDate = "<span class='error'> Please enter valid start date</span>";
+                }
+                    
             }
         }
     }
-    // echo that it was updated successfully..
-    die();
+
+    if($errorDate == "")
+    {
+        foreach($array as $employees)
+        {
+            // add loop for checking before send it to the database
+            foreach($employees as $startDateInfo){
+                $startDateInfo = sanitize($startDateInfo);
+                preg_match(PATTERN, $startDateInfo, $startDate);
+                if(!empty($startDateInfo) && !empty($startDate))
+                {
+                    $key = explode('|', key($employees));
+                    $name = $key[0];
+                    $id = $key[1];
+                    $startDate = $startDate[0];
+                    $query = "CALL update_neo_tracking($id, '$startDateInfo');";
+                    mysqli_query($link, $query) or sendErrorEmail($link);
+                    onboarding_start_date_notification($name, $startDate);
+                }
+            }  
+        }
+
+        // echo that it was updated successfully..
+        echo "<h2 class='headerPages'>The employee's information was updated successfully!</h2>";
+        die();
+    }
+
+}
+
+function compareIndex($searchIndex, $identification)
+{
+    $array = explode(",", $identification);
+    foreach($array as $index)
+    {
+        if($index === $searchIndex)
+            return true;
+    }
+    return false;
 }
 ?>
 
@@ -54,7 +92,12 @@ if(isset($_POST["submit"]))
             $lastName = $row["lastname"];
             $start_date = $row["start_date"];
             $index  = $firstName . ' ' . $lastName . '|' . $row["employee_id"];
-            echo "<tr><td>" . $firstName . "</td><td>" . $lastName . "</td><td>" .  $row["payroll_status"] . "</td><td>" . $row["hire_date"] . "</td><td>" . ($start_date != null ? $start_date : '<input type="text" name="start_date[][' . $index . ']" maxlength="2000">'). "</td></tr>";
+            echo "<tr><td>" . $firstName . "</td><td>" . $lastName . "</td><td>" .  $row["payroll_status"] . "</td><td>" . $row["hire_date"] . "</td><td>" . ($start_date != null ? $start_date : '<input type="text" name="start_date[][' . $index . ']" maxlength="2000">');
+
+            if(compareIndex($index, $identification))
+               echo $errorDate;
+          
+            echo "</td></tr>";
         }
     }
     echo "</tbody></table>";
