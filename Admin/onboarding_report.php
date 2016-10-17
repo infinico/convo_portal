@@ -20,7 +20,7 @@
     
     if(isset($_POST["submit"])) {
         
-       //$backgroundcheck_query = "SELECT * FROM employee_info_vw WHERE employee_id = '" . $_POST['backgroundChecked$i'] . "'";
+       
        //$supervisor_query= 
         
        // echo "NUM: " . $num_rows;
@@ -29,13 +29,19 @@
            // echo $i . ": " . isset($_POST["backgroundChecked$i"]);
                 
             if(isset($_POST["backgroundChecked$i"])){
-                
-                $name =                     
-                //$supervisor = "SELECT supervisor_id FROM employee_info_vw";
+                $backgroundcheck_query = "select emp1.firstname, emp1.lastname, emp1.email, supervisor, emp2.email from employee_info_vw emp1 join employee_supervisor_vw on emp1.supervisor_id = employee_supervisor_vw.employee_id join employee_info_vw emp2 on employee_supervisor_vw.employee_id = emp2.employee_id  where emp1.employee_id = '" . $_POST["backgroundChecked$i"] . "';";
+                $employee_firstName = $backgroundcheck_query["emp1.firstname"];
+                $employee_lastName = $backgroundcheck_query["emp1.lastname"];
+                $name =  array("firstName"=>$employee_firstName, "lastName"=> $employee_lastName, "fullName"=>$employee_firstName. " " . $employee_lastName, "email" => $backgroundcheck_query["emp1.email"]);
+
+                $supervisor = explode(', ', $backgroundcheck_query["supervisor"]);
+                $supervisor_firstName = $supervisor[1];
+                $supervisor_lastName = $supervisor[0];
+                $supervisor = array("firstName"=>$supervisor_firstName, "lastName"=> $supervisor_lastName, "fullName"=>$supervisor_firstName . " " . $supervisor_lastName, "email" => $backgroundcheck_query["emp2.email"]);
             
                 $employee_id = sanitize($_POST["backgroundChecked$i"]);
 
-                mysqli_query($link, "CALL update_neo_background('$employee_id', 'Y')") or die($link);
+                mysqli_query($link, "CALL update_neo_background('$employee_id', 'Y')") or sendErrorEmail($link);
 
                 onboarding_checklist_notification($name, $supervisor);
 
@@ -67,10 +73,7 @@ $i = 1;
 
 
                    "</tr></thead><tbody>";
-                while ($row = mysqli_fetch_assoc($result)) {
-                    
-                    $i++;
-                    
+                while ($row = mysqli_fetch_assoc($result)) {                    
                     if($row["bkgd_clear"] != "Y"){
                     
                         echo "<tr><td>" . $row["firstname"] . "</td><td>" . $row["lastname"] . "</td><td>" . $row["checklist_status"]  . "</td><td>" . $row["hire_date"] . "</td><td><input type='checkbox' name='backgroundChecked$i' value='" . $row["employee_id"] . "'>";
@@ -79,6 +82,7 @@ $i = 1;
                         echo "<tr><td>" . $row["firstname"] . "</td><td>" . $row["lastname"] . "</td><td>" . $row["checklist_status"]  . "</td><td>" . $row["hire_date"] . "</td><td><input type='checkbox' checked='checked' disabled='disabled' name='backgroundChecked$i' value='" . $row["employee_id"] . "'>";              
                     }
 
+                    $i++;
                 }
             }        
         echo "</tbody></table>";
