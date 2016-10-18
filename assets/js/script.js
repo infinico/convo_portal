@@ -170,7 +170,7 @@ $(document).ready(function() {
     });
     
     
-    // Onboarding Table
+// Onboarding Table
     $("#onboarding_table").dataTable().fnDestroy();
     $('#onboarding_table').dataTable( {
         responsive: true,
@@ -185,16 +185,36 @@ $(document).ready(function() {
             [5, "desc"]
         ],
         "columns": [
-            { "width": "8%" },  // First Name
-            { "width": "8%" }, // Last Name
-            { "width": "10%" }, // City
-            { "width": "5%" }, // State
-            { "width": "10%" }, // Email            
-            { "width": "10%" }, // Updated At
+            { "width": "18%" },  // First Name
+            { "width": "18%" }, // Last Name
             { "width": "10%" }, // Status
+            { "width": "5%" }, // Date Hired
+            { "width": "5%" }, // Background Check Cleared 
         ]
     });       
     
+    // Manage Access Table
+    $("#neo_startdate_table").dataTable().fnDestroy();
+    $('#neo_startdate_table').dataTable({
+        responsive: true,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_ of _PAGES_",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        },
+        "order": [
+            [5, "desc"]
+        ],
+        "columns": [
+            { "width": "8%" },  // First Name
+            { "width": "8%" }, // Last Name
+            { "width": "8%" }, // Status
+            { "width": "8%" }, // Hire at            
+            { "width": "5%" }, // state date
+        ]
+    });
     
     // Termination
     $("#termination").change(function() {
