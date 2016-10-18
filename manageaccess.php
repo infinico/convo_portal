@@ -73,13 +73,13 @@ function compareIndex($searchIndex, $identification)
 
 <h1 class="headerPages">New Employee Onboarding Report</h1>
 
-<form id="test" action="manageaccess.php" method="post">
+<form id="neo_startdate_form" action="manageaccess.php" method="post">
     <?php
     $query = "select employee_id, firstname, lastname, payroll_status, hire_date, start_date from employee join neo_tracking on employee.emplid = neo_tracking.employee_id";
     $result = mysqli_query($link, $query);
 
     $num_rows = mysqli_affected_rows($link);
-    echo "<table id='test_table' class='display' cellspacing='0' width='1010px'>";
+    echo "<table id='neo_startdate_table' class='display' cellspacing='0' width='1010px'>";
     if ($result && $num_rows > 0) {
         echo "<thead><tr><th style='background-color:#71AB3A'>First Name</th>" .
         "<th style='background-color:#71AB3A'>Last Name</th>" .
