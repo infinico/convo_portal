@@ -16,6 +16,7 @@
                     <li><a href="OptInForMailedPaycheck.php">Check Stub Request</a></li>
                     <li><a href="Resources/PaychexRegistration.pdf" target="_blank">Paychex Registration</a></li>
                     <li><a href="<?php echo $linkToALL;?>/HR/fmla.php">Family Medical Leave</a></li>
+                    <li><a href="Resources/ConvoEmployeeHandbook%202016%20Edition.pdf" target="_blank">Convo Employee Handbook</a></li>
                 </ul><br/>
                 <?php
                     // INTERPRETER RESOURCES
