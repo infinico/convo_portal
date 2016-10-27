@@ -53,6 +53,16 @@
         case "FIN":
              $acknowledgementText = "I acknowledge that I have read and understand the <a href=\"../Finance/finance.php\" target=\"_blank\"> Convo Travel &amp; Reimbursement Policy</a>, which outlines my expectations prior to and while traveling on Convo business.";
             break;
+        
+        
+        case "HBK":
+            $acknowledgementText = "I acknowledge that I have been provided electronic access to the <a href=\"Resources/ConvoEmployeeHandbook%202016%20Edition.pdf\" target=\"_blank\">Convo Employee Handbook</a>. I understand that as part of my job I am expected to know and follow these policies and review the handbook on a periodic basis for updated information. I agree that I have read and will comply with this Employee Handbook. I understand that the company retains the right to make decisions involving employment as needed in order to conduct its work in a manner that is beneficial to the employees and the company. I understand that this Employee Handbook supersedes and replaces any and all prior Employee Handbooks and any inconsistent verbal or written policy statements. I understand that this Employee Handbook is not intended to create contractual obligations with respect to any matters it covers and that the Employee Handbook does not create a contract guaranteeing that I will be employed for any specific time period. <br/><br/>
+I further understand that I have an affirmative obligation to report promptly any misconduct in violation of these policies and am obligated to report any conduct in
+violation of the policy against harassment and discrimination to management and the Human Resources. In addition, I understand that Convo policies prohibit any retaliation against those making good faith complaints under this policy.<br/><br/>
+Convo is an at-will employer. This means that regardless of any provision in this
+Employee Handbook, either I or the company may terminate the employment relationship at any time, for any reason, with or without cause or notice. Nothing in this Employee Handbook or in any document or statement, written or oral, shall limit the right to terminate employment at-will. I also understand that if I engage in conduct prohibited by these policies, I will be subject to disciplinary action, up to and including discharge.";
+            break;        
+        
         case "MBW":
          $acknowledgementText = "I acknowledge that I have read and understand the following:<br><br>
             In accordance with the Affordable Care Act (ACA), all Convo employees who elect not to 
@@ -88,6 +98,8 @@
             HR will deactivate and remove from the internal database all terminated employees’ and independent 
             contractor’s Convo work numbers.";
             break;
+        
+        
         default:
             header("Location: acknowledgements.php");
     }
