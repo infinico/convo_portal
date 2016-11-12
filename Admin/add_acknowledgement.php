@@ -9,12 +9,10 @@
     include("../includes/includes_functions.php");
     $url_empID = $_GET["employee_id"];
 
-    $resultemployee = mysqli_query($link, "SELECT employee_id, firstname, lastname FROM convo_employee_vw WHERE employment_status ='Active' ORDER BY lastname, firstname");
+    $resultemployee = mysqli_query($link, "SELECT employee_id, firstname, lastname FROM convo_employee_vw WHERE employment_status IN('Active','Leave') ORDER BY lastname, firstname");
     $ackResult = mysqli_query($link, "SELECT * FROM acknowledgement_type_vw");
-    
-    
 
-$errorEmpName = $errorAckType =  "";
+    $errorEmpName = $errorAckType =  "";
 
     if(isset($_POST["submit"])) {
         if(empty($_POST["employeeName"])){
@@ -23,16 +21,7 @@ $errorEmpName = $errorAckType =  "";
         
         if(empty($_POST["change_ack_type"])){
             $errorAckType = "<span class='error'> Please select an acknowledgement type </span>";
-        }
-        
-            
-        /*if(empty($_POST["employeeName"])) {
-            $errorName = "<span class='error'>Please select the employee name</span>";  
-        }
-        if(empty($_POST["change_position_name"])){
-            $errorPosition = "<span class='error'> Please select a position</span>";
-        } */
-          
+        } 
             
         if($errorEmpName == "" && $errorAckType == "" ){
 
@@ -47,9 +36,7 @@ $errorEmpName = $errorAckType =  "";
             die();
         }
     }
-    
 ?>
-
 
             <h1 class="headerPages">Add Acknowlegement</h1>
             <h3>To make any changes, select an employee from the list.</h3>
