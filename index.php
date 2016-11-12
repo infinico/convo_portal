@@ -19,11 +19,10 @@
 
     <p style="font-size: smaller; font-style: italic;">November 11, 2016</p>
     <p style="text-align: left;">Bye Bye Convo Desktop</p>
-    <div style="text-align: center;"><iframe src="https://www.youtube.com/embed/ELIK4fDVkI0?rel=0" width="600" height="337" frameborder="0" allowfullscreen=""></iframe></div><br/><p>Hello Convo Team,<br><br>
-As you have may noticed that we have a new app at one or two stations* at your call center and we have asked to keep the station hot at all times . Some of you are curious why?  We got answers for you from one of our leaders in Information Technology department.<br><br>
-Please click the video to watch our Vice President of Technology answering the most common questions along with some updates. Enjoy!<br><br>
-If you have further questions, please reach out to your managers, however, I am available, if needed.<br><br>
-Best,<br>Christina McMurry<br><br>
+    <div style="text-align: center;"><iframe src="https://www.youtube.com/embed/ELIK4fDVkI0?rel=0" width="600" height="337" frameborder="0" allowfullscreen=""></iframe></div><br/><p>Hi Convo Managers and VIs,<br><br>
+As you have may noticed that we have a new app at one or two stations* at your call center and we have asked to keep the station hot at all times. Some of you are curious why?<br><br>
+Please click the video to watch our Vice President of Technology answering the most common questions along with some updates.<br><br>
+If you have further questions, please reach out to your managers.<br><br>
 <i>*most CT stations no longer have the CD software.</i></p>
     <hr/>
 
