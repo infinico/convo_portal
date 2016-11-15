@@ -13,7 +13,8 @@
 	position: relative;
 	top: 0;
     margin: 0;
-    margin-left: 132px;
+    /*margin-left: 132px; */
+    margin-left: -5px;
     margin-bottom: -110px;
 	
 }
@@ -69,7 +70,7 @@
   float: left;
 }
 
-#logIn, #linkToReg, #completeReg, #recoverButton, #changePassButton, #updateButton, .hireOrTerm, #addButton, #verify, #editEventButton, #addevent, #deleteEventButton, #submitBtn, #submit, #searchSubmit, #submitPicture, #FMLAButton{
+#logIn, #linkToReg, #completeReg, #recoverButton, #changePassButton, #updateButton, .hireOrTerm, #addButton, #verify, #editEventButton, #addevent, #deleteEventButton, #submitBtn, #submit, #searchSubmit, #submitPicture, #FMLAButton, #backgroundChecked{
   display: inline-block;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
