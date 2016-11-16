@@ -13,15 +13,24 @@ hr {
 }
 
 .checklistcenter{
-    margin-left: 450px;
-    margin-top: -140px;
+    margin-left: 400px;
+    margin-top: -420px;
 }
 
 .checklistright{
     margin-left: 750px;
-    margin-top: -140px;
+    margin-top: -425px;
 }
 
+#nonvis{
+    margin-left: 340px;
+    margin-top: -160px;
+}
+
+#paychex{
+    margin-left: 730px;
+    margin-top: -160px;
+}
 
 
 
@@ -147,7 +156,7 @@ aside {
     width: 260px;
     float: right;
     padding-left: 15px;
-    margin-right: 85px; 
+    margin-right: -50px; 
 }
 
 /* Hire, Register, Termination Form */
@@ -176,6 +185,15 @@ aside {
 .center_img {
     text-align: center;   
 }
+
+
+/* Login Box CSS */
+
+
+
+
+
+
 /* ------------------------------- General CSS //------------------------------- */
 
 /*----------------------------------Dashboard.php------------------------------*/
@@ -239,9 +257,72 @@ nav ul li.children:before {
     z-index: 1;
 	width: 100%;
 	display: block;
-    margin-top: -20px;
+    /*margin-top: -12px;
+     margin-top: -20px; */
+    margin-top: 30px;
     margin-left: -20px;
 }
+
+
+#statusBox {
+    z-index: -1;
+	width: 100%;
+	display: block;
+    /*margin-top: -12px;
+     margin-top: -20px; 
+    margin-left: -20px;*/
+}
+
+
+
+#statusBox ul ul {
+	display: none;
+    z-index: 1;
+	position: absolute;
+	top: 88%;
+    padding: 0 6px 6px 6px;
+    margin-left: -100px;     /* Move the submenu box  to the left or right*/
+    margin-top: 0px;
+    background-color: white;
+    box-shadow: .5px .5px .5px 2.5px #888888;
+}
+
+
+/*#statusBox ul li {
+	position: relative;
+	float: left;
+	margin-top: 10px;
+	padding: 0;
+    color: #0f5390; 
+    
+} */
+
+
+#statusBox ul li:hover > ul {
+	display: inline-block;
+    width: 140px;
+}
+
+/*#statusBox ul ul ul {
+    margin-left: 135px;
+    margin-top: -38px;
+    box-shadow: .5px .5px .5px 2.5px #888888;
+} */
+
+
+/*#statusBox ul ul li {
+	float: none;
+	width: 100%;
+    text-align: left; 
+} */
+
+#statusBox ul li a:hover {
+    color: black;
+}
+
+/*#statusBox ul ul li:hover {
+    background: #71AB3A;
+} */
 
 /* Move navigation to the right side */
 #primaryNav ul {
@@ -249,9 +330,9 @@ nav ul li.children:before {
 	position: absolute;
     display: inline-block;
     margin-left: -5px;  /* Move navigation to the right side */
-    margin-top: 198px;
+    /*margin-top: 198px;*/
+       margin-top: 215px;
     font-weight: normal !important;
-
 }
 
 /* Appearance of the primary nav's a */
@@ -413,6 +494,7 @@ ul li input[type="text"], ul li input[type="password"] {
     margin-top: 5px;
 }
 
+
 /* ------------------------------- LOGIN and REGISTER // ------------------------------- */
 
 /* ------------------------------- Container ------------------------------- */
@@ -428,6 +510,14 @@ ul li input[type="text"], ul li input[type="password"] {
     border-style: solid;
     border-width: 1px;
     overflow: auto;
+    
+    
+    /*
+    
+    margin-top: -36px;
+    margin-right: -273px;
+    
+    */
 }
 
 /* ------------------------------- Container //------------------------------- */
@@ -437,6 +527,13 @@ ul li input[type="text"], ul li input[type="password"] {
     z-index: 2;
     position: relative;
     margin-bottom: 120px;
+    
+    padding-top: 15px;
+    
+    background: -moz-linear-gradient(90deg, #e3e4e3 0%, #f7f8f7 100%) #e8e9e8;
+	background: -webkit-gradient(linear, left bottom, left top, from(#e3e4e3), to(#f7f8f7)) #e8e9e8;
+    border: 1px solid #c9cac9;
+    border-radius: 8px;
 }
 
 .widget h2 {
