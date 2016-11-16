@@ -8,12 +8,13 @@ require("includes/phpmailer/libs/PHPMailer/class.phpmailer.php");
 include("core/init.php");
 manager_protect();
 include("assets/inc/header.inc.php");
-define('PATTERN', "(([1-12]|[01-12]){2}/([1-31]|[01-31]){2}/(" . date('Y') . "|" . (date('Y') + 1) . ")|([1-12]|[01-12]){2}-([1-31]|[01-31]){2}-(" . date('Y') . "|" . (date('Y') + 1) . "))");
+define('PATTERN', "([0-9]{2}/[0-9]{2}/(" . date('Y') . "|" . (date('Y') + 1) . ")|[0-9]{2}-[0-9]{2}-(" . date('Y') . "|" . (date('Y') + 1) . "))");
 
 if(isset($_POST["submit"]))
 {
     $array = $_POST["start_date"];
-    
+    //$identification = "";
+    //$errorDate = "";
     foreach($array as $employees)
     {
         // add loop for checking before send it to the database
@@ -75,12 +76,20 @@ function compareIndex($searchIndex, $identification)
 
 <form id="neo_startdate_form" action="manageaccess.php" method="post">
     <?php
-    $query = "select employee_id, firstname, lastname, payroll_status, hire_date, start_date from employee join neo_tracking on employee.emplid = neo_tracking.employee_id";
+       /*
+    * See every employees
+    */
+    if(has_access($user_data["job_code"]) == true) {
+        $query = "SELECT * FROM employee_vw join neo_tracking_vw on employee_vw.employee_id = neo_tracking_vw.employee_id";
+    }
+    else {
+        $query = "select employee_vw.employee_id, firstname, lastname, payroll_status, hire_date, start_date from employee_vw join neo_tracking_vw on employee_vw.employee_id = neo_tracking_vw.employee_id WHERE supervisor_id = " . $user_data["employee_id"];
+    }
     $result = mysqli_query($link, $query);
 
     $num_rows = mysqli_affected_rows($link);
-    echo "<table id='neo_startdate_table' class='display' cellspacing='0' width='1010px'>";
     if ($result && $num_rows > 0) {
+    echo "<table id='neo_startdate_table' class='display' cellspacing='0' width='1010px'>";
         echo "<thead><tr><th style='background-color:#71AB3A'>First Name</th>" .
         "<th style='background-color:#71AB3A'>Last Name</th>" .
         "<th style='background-color:#71AB3A'>Status</th>" .
@@ -92,15 +101,19 @@ function compareIndex($searchIndex, $identification)
             $lastName = $row["lastname"];
             $start_date = $row["start_date"];
             $index  = $firstName . ' ' . $lastName . '|' . $row["employee_id"];
-            echo "<tr><td>" . $firstName . "</td><td>" . $lastName . "</td><td>" .  $row["payroll_status"] . "</td><td>" . $row["hire_date"] . "</td><td>" . ($start_date != null ? $start_date : '<input type="text" name="start_date[][' . $index . ']" maxlength="2000">');
+            echo "<tr><td>" . $firstName . "</td><td>" . $lastName . "</td><td>" .  $row["payroll_status"] . "</td><td>" . $row["hire_date"] . "</td><td>" . ($start_date != null ? $start_date :  '<input type="text" placeholder="MM/DD/YYYY" class="datepicker_manageraccess" name="start_date[][' . $index . ']" maxlength="2000">');
 
             if(compareIndex($index, $identification))
                echo $errorDate;
           
             echo "</td></tr>";
         }
+        echo "</tbody></table>";
     }
-    echo "</tbody></table>";
+    else
+    {
+        echo "No Onboarding Employees<br/>";
+    }
     ?>
     <input type="submit" id="updateButton" name="submit" value="Update" />
 </form>
