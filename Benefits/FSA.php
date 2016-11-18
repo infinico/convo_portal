@@ -16,7 +16,7 @@ if(logged_in()){
 <table>
     <tr>
         <td width="20%">Eligibility/Plan Entry</td>
-        <td>All full-time and part-time employees are eligible effective March 31, 2016. New hires will be eligible on the first day of the month following 30 days of full-time or part-time employment.</td>
+        <td>All full-time and part-time employees are eligible during Open Enrollment starting on October 1, 2016 until December 31, 2016. New hires will be eligible on the first day of the month following 30 days of full-time or part-time employment.</td>
     </tr>
     <tr>
         <td width="20%">Dependent Care Assistance Expense Limit</td>
@@ -24,15 +24,15 @@ if(logged_in()){
     </tr>
     <tr>
         <td width="20%">Plan Year</td>
-        <td>January 1 - December 1 <em>except</em> 2016 where benefits start March 31, 2016. All previous expenses do not apply.</td>
+        <td>January 1, 2017 - December 1, 2017. All previous expenses do not apply.</td>
     </tr>
     <tr>
         <td width="20%">Grace Period</td>
-        <td>January 1, 2017 - March 15, 2017 to incur expenses against the 2016 Plan Year.</td>
+        <td>January 1, 2018 - March 15, 2018 to incur expenses against the 2017 Plan Year.</td>
     </tr>
     <tr>
         <td width="20%">Closeout Period</td>
-        <td>90 days following the end of the plan year.</td>
+        <td>90 days following the end of the plan year, which falls on March 31, 2018.</td>
     </tr>
 </table>
 <br/>
@@ -42,7 +42,7 @@ if(logged_in()){
 <table>
     <tr>
         <td width="20%">Online</td>
-        <td><a href="https://benefits.paychex.com" target="_blank">https://benefits.paychex.com</a></td>
+        <td><a href="https://benefits.paychex.com" target="_blank">https://benefits.paychex.com</a> <b>Deadline: December 31, 2016</b></td>
     </tr>
     <tr>
         <td width="20%">PBA Employer Web</td>
@@ -54,7 +54,7 @@ if(logged_in()){
     </tr>
     <tr>
         <td width="20%">Paper Election Form</td>
-        <td>Paper forms can be downloaded from Convo Portal. Completed forms must be copied to Convo HR Department and submitted to Paychex before 11:59 p.m. ET on December 29, 2016.</td>
+        <td>Paper forms can be downloaded from Convo Portal. Completed forms must be copied to Convo HR Department and submitted to Paychex before 11:59 p.m. ET on December 5, 2016.</td>
     </tr>
 </table>
 <br/>
@@ -66,9 +66,10 @@ Clients can now assist employees by obtaining enrollment forms, and enrolling th
 <h2>Flexible Spending Account Documents</h2>
 
 <p>
-    <a href="FSA/Section125.pdf" target="_blank">Section 125 Basic Plan Document, Summary Plan Description, and Adoption Agreement</a><br /><br />
+    <a href="FSA/EnrollmentGuide.pdf" target="_blank">Section 125 Basic Plan Document, Summary Plan Description, and Adoption Agreement</a><br /><br />
     <a href="FSA/EnrollmentForm.pdf" target="_blank">FSA Enrollment Form</a><br /><br />
-    <a href="FSA/EligibleExpenseListing.pdf" target="_blank">Dependent Care Account Eligible Expense Listing</a>
+    <a href="FSA/EligibleExpenseListing.pdf" target="_blank">Dependent Care Account Eligible Expense Listing</a><br /><br />
+    <a href="FSA/PBAEmployeeWebGuide.pdf" target="_blank">Paychex Benefit Account - Employee Web Guide</a>
 </p>
 
 <?php
