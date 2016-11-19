@@ -24,7 +24,7 @@ if(logged_in()){
     </tr>
     <tr>
         <td width="20%">Plan Year</td>
-        <td>January 1, 2017 - December 1, 2017. All previous expenses do not apply.</td>
+        <td>January 1, 2017 - December 31, 2017. All previous expenses do not apply.</td>
     </tr>
     <tr>
         <td width="20%">Grace Period</td>
