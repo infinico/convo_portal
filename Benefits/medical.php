@@ -29,7 +29,10 @@ if(logged_in()){
 <a href="UHC%20Enrollment%20Form.pdf" target="_blank">Enrollment Form (for newly eligible employees)</a><br>
 <a href="UHC%20-%20AGZP.pdf" target="_blank">Benefit Summary for Plan AGZP</a><br>
 <a href="UHC%20-%20AGZY.pdf" target="_blank">Benefit Summary for Plan AGZY</a><br>
-<a href="UHC%20-%20AGZZ.pdf" target="_blank">Benefit Summary for Plan AGZZ</a>
+<a href="UHC%20-%20AGZZ.pdf" target="_blank">Benefit Summary for Plan AGZZ</a><br>
+<a href="Medical/AGZP%20Plan%20-%20Prescription%20Drugs.pdf" target="_blank">Information on Prescription Drugs for Plan AGZP</a><br>
+<a href="Medical/AGZY%20Plan%20-%20Prescription%20Drugs.pdf" target="_blank">Information on Prescription Drugs for Plan AGZY</a><br>
+<a href="Medical/AGZZ%20Plan%20-%20Prescription%20Drugs.pdf" target="_blank">Information on Prescription Drugs for Plan AGZZ</a>
 </p>
     
 <h2>Find a Doctor: United Healthcare</h2>
