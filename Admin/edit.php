@@ -10,7 +10,7 @@
     $url_empID = $_GET["employee_id"];
     $resultemployee = mysqli_query($link, "SELECT * FROM employee_info_vw");
     
-    $errorName = $errorPosition = $errorEmpStatus = $errorPayroll = $errorLocation = $errorTerm = $errorFirstName = $errorLastName = $errorStreetAddress = $errorCity = $errorState = $errorZipCode = $errorEmail = $errorPhone =  "";
+    $errorName = $errorPosition = $errorEmpStatus = $errorPayroll = $errorLocation = $errorTerm = $errorFirstName = $errorLastName = $errorStreetAddress = $errorCity = $errorState = $errorZipCode = $errorEmail = $errorPhone = $errorBirthdate = $errorSSN = "";
     if(isset($_POST["submit"])) {
         $employeeID = sanitize($_POST["employee_id"]);
         $jobTitle = sanitize($_POST["change_position_name"]);
@@ -27,15 +27,11 @@
         $hourlyRate = sanitize($_POST["hourly_rate"]);  
         $email = sanitize($_POST["email"]);
         $convoNumber = sanitize($_POST["convoNumber"]);
+        $birthdate = sanitize($_POST["birthdate"]);
+        $ssn = sanitize($_POST["ssn"]);
         
-        
-        /* testing */
-        //$convoNumber = str_replace("-","", $convoNumber);
-        
-        //$convonumber = $convoNumber;
-        //preg_replace('/\d{3}', '$0-', str_replace('.', null, trim($convonumber)), 2);
-        //echo convoNumber;
-        
+        $dobInput = multiexplode(array("-", "/"), $birthdate);
+        $date_of_birth = $dobInput[2] . "-" . $dobInput[0] . "-" . $dobInput[1];
             
         if(empty($_POST["employeeName"])) {
             $errorName = "<span class='error'>Please select the employee name</span>";  
@@ -85,8 +81,13 @@
             $errorEmail= "<span class='error'> Please enter email</span>";
         }         
         
+        if(empty($_POST["birthdate"])){
+            $errorBirthdate = "<span class='error'> Please enter date of birth</span>";
+        } 
         
-        
+        if(empty($_POST["ssn"])){
+            $errorSSN = "<span class='error'> Please enter last 4 digits of SSN</span>";
+        } 
         
         if(isset($_POST["termination"]) == "Yes") {
             if(empty($_POST["termination_reason"])) {
@@ -116,9 +117,11 @@
             
             $phoneNumber = clean_up_phone($convoNumber);
             
-            if($errorName == "" && $errorPhone == "" && $errorPosition == "" && $errorPayroll == "" && $errorLocation == "" && $errorEmpStatus == "" && $errorFirstName == "" && $errorLastName == "" && $errorStreetAddress == "" && $errorCity == "" && $errorState == "" && $errorZipCode == "" && $errorEmail == ""){
+            if($errorName == "" && $errorPhone == "" && $errorPosition == "" && $errorPayroll == "" && $errorLocation == "" && $errorEmpStatus == "" && $errorFirstName == "" && $errorLastName == "" && $errorStreetAddress == "" && $errorCity == "" && $errorState == "" && $errorZipCode == "" && $errorEmail == "" && $errorBirthdate == "" && $errorSSN == ""){
                 
-                $sql = "CALL update_employee_info('$jobTitle', '$location',  '$payrollStatus', '$hourlyRate', '$employmentStatus', '$supervisor', CURRENT_TIMESTAMP, '$firstname', '$lastname', '$street_address', '$city', '$res_state', '$zipcode', '$employeeID', '$email', '$phoneNumber')";
+                $sql = "CALL update_employee_info('$jobTitle', '$location',  '$payrollStatus', '$hourlyRate', 
+                    '$employmentStatus', '$supervisor', CURRENT_TIMESTAMP, '$firstname', '$lastname', '$street_address', '$city', 
+                    '$res_state', '$zipcode', '$employeeID', '$email', '$phoneNumber', '$date_of_birth', '$ssn')";
                 
                 if (!mysqli_query($link, $sql))
                 {
@@ -126,7 +129,7 @@
                 }
                 else
                 {
-                    echo "<h2 class='headerPages'>The employee's information was updated successfully!</h2>";
+                    echo "<h2 class='headerPages'>" . $firstname . " " . $lastname . "'s information was successfully updated in the portal database.</h2>";
                 }
                 die();
             }
@@ -149,7 +152,7 @@
                 <?php
                     echo "<select id='employeeName' name='employeeName'><option value=''>Select an employee</option>";
                     while($row = mysqli_fetch_assoc($resultemployee)) {
-                        echo '<option value = "' . $row['employee_id'] . '|' . $row['job_code'] . '|' . $row['position_name'] . '|' . $row['payroll_status'] . '|' . $row["convo_location"] . '|' . $row["employment_status"] . '|' . $row['firstname'] . '|' . $row["lastname"] . '|' . $row["supervisor_id"] . '|' . $row["street_address"] . '|' . $row["city"] . '|' . $row["res_state"] . '|' . $row["zipcode"] . '|' . $row["hourly_rate"] . '|' . $row["location_code"] . '|' . $row["email"] . '|' . $row["convoNumber"] . '"';
+                        echo '<option value = "' . $row['employee_id'] . '|' . $row['job_code'] . '|' . $row['position_name'] . '|' . $row['payroll_status'] . '|' . $row["convo_location"] . '|' . $row["employment_status"] . '|' . $row['firstname'] . '|' . $row["lastname"] . '|' . $row["supervisor_id"] . '|' . $row["street_address"] . '|' . $row["city"] . '|' . $row["res_state"] . '|' . $row["zipcode"] . '|' . $row["hourly_rate"] . '|' . $row["location_code"] . '|' . $row["email"] . '|' . $row["convoNumber"] . '|' . $row["date_of_birth"] . '|' . $row["ssn"] . '" ';
                         if($row["employee_id"] == $url_empID){
                             echo "selected='selected'";   
                         }
@@ -292,8 +295,21 @@
                 
                 
                 
-                <br/><br/><br/>
+                
 
+                
+                <!-- HEALTH BENEFITS EFFECTIVE DATE -->    
+                
+                <!--<br/><br/><br/><span class="spanHeader">Health Benefit Effective Date: </span>
+                <input type="text" placeholder="MM/DD/YYYY" class="datepicker" name="hire_date" value=<?php if(isset($_POST["submit"])){echo $_POST['convoNumber'];} ?>> 
+                <input type='text' name='current_convoNumber' class="input-medium"  style='background:#E9E9E9;' readonly value=<?php if(isset($_POST["submit"])){echo $_POST['convoNumber'];} ?>> 
+                <?php echo $errorPhone;?>--> 
+                
+                
+                
+                <br/><br/><br/>
+                
+                
             
                 
                 <!-- PERSONAL INFORMATION -->
@@ -342,8 +358,18 @@
                 <span class="spanHeader">Email: </span>
                 <input type='text' name='email' class="input-xlarge" maxlength="50" value=<?php if(isset($_POST["submit"])){echo $_POST['email'];} ?>>
                 <input type='text' name='current_email' class="input-xlarge" style='background:#E9E9E9;' readonly value=<?php if(isset($_POST["submit"])){echo $_POST['email'];} ?>>
-                <?php echo $errorEmail;?><br/><br/>     
+                <?php echo $errorEmail;?><br/><br/> 
                 
+                <span class="spanHeader">Date of Birth: </span>
+                <input type="text" placeholder="MM/DD/YYYY" name="birthdate" value=<?php if(isset($_POST["submit"])){echo $_POST['birthdate'];} ?>> 
+                <input type='text' name='current_birthdate' class="input-medium"  style='background:#E9E9E9;' readonly value=<?php if(isset($_POST["submit"])){echo $_POST['birthdate'];} ?>> 
+                <?php echo $errorBirthdate;?> <br/><br/>
+                
+                <!-- SSN -->
+                <span class="spanHeader">Last 4 Digits SSN:</span>
+                <input type="text" name="ssn" maxlength="4" size="5" placeholder="Enter last four digits" value=<?php if(isset($_POST["submit"])){echo $_POST['ssn'];} ?>>
+                <input type='text' name='current_ssn' class="input-medium"  style='background:#E9E9E9;' readonly value=<?php if(isset($_POST["submit"])){echo $_POST['ssn'];} ?>> 
+                <?php echo $errorSSN; ?><br/><br/>
                 
                 
                 <!-- TERMINATION REASON -->
