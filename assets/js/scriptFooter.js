@@ -61,7 +61,10 @@ $("#employeeName").change(function() {
     var location_code = $(this).val().split("|")[14];    
     var email = $(this).val().split("|")[15];
     var convoNumber = $(this).val().split("|")[16];
-
+    var birthdate = $(this).val().split("|")[17];
+    var ssn = $(this).val().split("|")[18];
+    
+    var birthDateSplit = birthdate.split("-")[1] + "/" + birthdate.split("-")[2] + "/" + birthdate.split("-")[0];
     
     var formattedPhone = ""; 
     
@@ -71,10 +74,6 @@ $("#employeeName").change(function() {
     else{
         formattedPhone = "";
     }
-    
-    //var formattedPhone = convoNumber.substring(0,3) + "-" + convoNumber.substring(3,6) + "-" + convoNumber.substring(6,10); 
-
-
 
     // Employee Information
     $("input[name='employee_id']").val(empID);
@@ -93,7 +92,6 @@ $("#employeeName").change(function() {
     $("input[name='convoNumber']").val(formattedPhone);
     $("input[name='current_convoNumber']").val(formattedPhone);
 
-
     // Personal Information
     $("input[name='current_firstname']").val(firstname);
     $("input[name='firstname']").val(firstname);
@@ -109,7 +107,10 @@ $("#employeeName").change(function() {
     $("input[name='zipCode']").val(zipCode);
     $("input[name='email']").val(email);
     $("input[name='current_email']").val(email);
-
+    $("input[name='birthdate']").val(birthDateSplit); 
+    $("input[name='current_birthdate']").val(birthDateSplit); 
+    $("input[name='ssn']").val(ssn); 
+    $("input[name='current_ssn']").val(ssn); 
 });
 
 /*EDIT DATABASE */

@@ -25,6 +25,10 @@ function onLoad(){
     var location_code = $("#employeeName").val().split("|")[14];
     var email = $("#employeeName").val().split("|")[15];
     var convoNumber = $("#employeeName").val().split("|")[16];
+    var birthdate = $("#employeeName").val().split("|")[17];
+    var ssn = $("#employeeName").val().split("|")[18];
+    
+    var birthDateSplit = birthdate.split("-")[1] + "/" + birthdate.split("-")[2] + "/" + birthdate.split("-")[0];
     
     var formattedPhone = ""; 
     
@@ -50,7 +54,6 @@ function onLoad(){
     $("select[name='emp_status']").val(emp_status);
     $("input[name='current_supervisor']").val(supervisor);
     $("select[name='supervisor']").val(supervisor);
-    
     $("input[name='convoNumber']").val(formattedPhone); 
     $("input[name='current_convoNumber']").val(formattedPhone); 
     
@@ -70,8 +73,10 @@ function onLoad(){
     $("input[name='zipCode']").val(zipCode);
     $("input[name='email']").val(email);
     $("input[name='current_email']").val(email);    
-
-
+    $("input[name='birthdate']").val(birthDateSplit); 
+    $("input[name='current_birthdate']").val(birthDateSplit); 
+    $("input[name='ssn']").val(ssn); 
+    $("input[name='current_ssn']").val(ssn); 
 }
 
 
@@ -87,7 +92,6 @@ $(document).ready(function() {
     $('input[name="announcement_time"]').timepicker();
     $('#active_leave_checkbox input:checkbox').prop('checked', 'checked');
 
-    
     // Employee Table
     $("#employee_table").dataTable().fnDestroy();
     $('#employee_table').dataTable( {
@@ -117,31 +121,6 @@ $(document).ready(function() {
         ]
     });
     
-    //Acknowledgement Waivers Tabe
-    $("#acknowledgement_waivers_table").dataTable().fnDestroy();
-    $('#acknowledgement_waivers_table').dataTable( {
-        responsive: true,
-        "language": {
-            "lengthMenu": "Display _MENU_ records per page",
-            "zeroRecords": "Nothing found - sorry",
-            "info": "Showing page _PAGE_ of _PAGES_",
-            "infoEmpty": "No records available",
-            "infoFiltered": "(filtered from _MAX_ total records)"
-        },
-        "order": [
-            [2, "asc" ],
-            [1, "asc" ]
-        ],
-        "columns": [
-            { "width": "1%" },  // Acknowledgement
-            { "width": "0.25%" }, // Version
-            { "width": "0.25%" }, // Date
-            { "width": "0.25%" }, // IP Address
-
-        ]
-    });
-    
-    
     // Acknowledgement Table
     $("#acknowledgement_table").dataTable().fnDestroy();
     $('#acknowledgement_table').dataTable( {
@@ -170,7 +149,7 @@ $(document).ready(function() {
     });
     
     
-// Onboarding Table
+    // Onboarding Table
     $("#onboarding_table").dataTable().fnDestroy();
     $('#onboarding_table').dataTable( {
         responsive: true,
@@ -185,36 +164,16 @@ $(document).ready(function() {
             [5, "desc"]
         ],
         "columns": [
-            { "width": "18%" },  // First Name
-            { "width": "18%" }, // Last Name
+            { "width": "8%" },  // First Name
+            { "width": "8%" }, // Last Name
+            { "width": "10%" }, // City
+            { "width": "5%" }, // State
+            { "width": "10%" }, // Email            
+            { "width": "10%" }, // Updated At
             { "width": "10%" }, // Status
-            { "width": "5%" }, // Date Hired
-            { "width": "5%" }, // Background Check Cleared 
         ]
     });       
     
-    // Manage Access Table
-    $("#neo_startdate_table").dataTable().fnDestroy();
-    $('#neo_startdate_table').dataTable({
-        responsive: true,
-        "language": {
-            "lengthMenu": "Display _MENU_ records per page",
-            "zeroRecords": "Nothing found - sorry",
-            "info": "Showing page _PAGE_ of _PAGES_",
-            "infoEmpty": "No records available",
-            "infoFiltered": "(filtered from _MAX_ total records)"
-        },
-        "order": [
-            [5, "desc"]
-        ],
-        "columns": [
-            { "width": "8%" },  // First Name
-            { "width": "8%" }, // Last Name
-            { "width": "8%" }, // Status
-            { "width": "8%" }, // Hire at            
-            { "width": "5%" }, // state date
-        ]
-    });
     
     // Termination
     $("#termination").change(function() {
