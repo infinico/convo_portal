@@ -11,6 +11,13 @@
 <?php
     if(logged_in() == true) {
 ?>
+    <p style="font-size: smaller; font-style: italic;">December 22, 2016</p>
+    <div style="text-align: center;"><iframe width="600" height="337" src="https://www.youtube.com/embed/ZrdzRp3o5NY?rel=0" frameborder="0" allowfullscreen=""></iframe></div>
+    <p>Folks,<br /><br />
+    Exciting news! We have been granted full certification as a VRS provider from the FCC. We’re currently the only VRS provider to go from conditional certification to full certification. Please watch the video above by our General Counsel, Jeff Rosen, for more information.<br /><br />
+    What a way to end the year! Have a safe and wonderful holiday, everyone.</p>
+    <p style="font-weight:bold; text-align:center">--- INTERNAL / DO NOT SHARE ---</span></p>
+    <hr />
 
     <p style="font-size: smaller; font-style: italic;">November 11, 2016</p>
     <p style="text-align: left;">Message from CEO in Response to Presidential Election</p>
