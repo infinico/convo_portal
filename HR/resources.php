@@ -13,6 +13,7 @@
                 <h2>Employee Resources</h2>
                 <ul class="resources">
                     <li><a href="Resources/2016%20payroll%20schedule.pdf" target="_blank">2016 Payroll Schedule</a></li>
+                    <li><a href="Resources/2017%20Payroll%20Schedule.pdf" target="_blank">2017 Payroll Schedule</a></li>
                     <li><a href="OptInForMailedPaycheck.php">Check Stub Request</a></li>
                     <li><a href="Resources/PaychexRegistration.pdf" target="_blank">Paychex Registration</a></li>
                     <li><a href="<?php echo $linkToALL;?>/HR/fmla.php">Family Medical Leave</a></li>
@@ -26,6 +27,7 @@
                     <ul class="resources">
                         <li><a href="Resources/InterpreterGuidelines.pdf" target="_blank">Interpreter Guidelines</a></li>
                         <li><a href="https://goo.gl/forms/SA81bvPRjfBjbeAZ2" target="_blank">Canada Regional Signs</a></li>
+                        <li><a href="Resources/2017%20Holidays.pdf" target="_blank">2017 Holidays Calendar</a></li>
                     </ul><br/>
                 <?php
                     }   
